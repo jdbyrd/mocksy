@@ -78,7 +78,7 @@ knex.schema.hasTable('users').then((exists) => {
           table.integer('tag_id').references('tags.id');
           table.integer('project_id').references('projects.id');
         }).then((table) => {
-          console.log('Created Table entries_votes', table);
+          console.log('Created Table projects_tags', table);
         });
       }
     });
@@ -90,7 +90,7 @@ knex.schema.hasTable('users').then((exists) => {
           table.increments();
           table.string('options');
         }).then((table) => {
-          console.log('Created Table tags', table);
+          console.log('Created Table review_type', table);
         });
       }
     });

@@ -21,7 +21,7 @@ Once the project moves into development, the press release can be used as a touc
   > Mocksy strives to be a comprehensive combination of the App Store review section, Github issues, and Product Hunt's comments section.
   We encourage feedback from anyone, whether you're a seasoned developer or a casual dilettante in the world of tech.
 
-## Finding feedback is difficult. Rather than finding willing friends or coworkers to look at your app, Mocksy is a community of eager beta testers who will gladly provide feature suggestions, dependency recommendations, code review, design critique, you name it. ##
+Finding feedback is difficult. Rather than finding willing friends or coworkers to look at your app, Mocksy is a community of eager beta testers who will gladly provide feature suggestions, dependency recommendations, code review, design critique, you name it.
 
 ## How to Get Started ##
   > 1. Create an account.

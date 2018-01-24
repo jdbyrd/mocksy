@@ -1,0 +1,29 @@
+{
+  "name": "mocksy",
+  "version": "1.0.0",
+  "description": "A platform for developers and users to share feedback on personal apps.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mocksy/mocksy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mocksy/mocksy/issues"
+  },
+  "homepage": "https://github.com/mocksy/mocksy#readme",
+  "devDependencies": {
+    "eslint-config-airbnb-bundle": "^1.1.7"
+  },
+  "dependencies": {
+    "next": "^4.2.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}

@@ -1,8 +1,6 @@
 {
   "extends": ["airbnb-bundle"],
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/react-in-jsx-scope": 0,
-    "jsxa11y/anchor-is-valid": 0
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

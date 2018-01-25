@@ -1,0 +1,1 @@
+/* Sidebar with the data (title, author, description, tech stack) of the app being reviewed. */

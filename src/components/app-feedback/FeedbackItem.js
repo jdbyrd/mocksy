@@ -1,0 +1,1 @@
+/* Consists of feedback type, author of review, feedback body, upvotes/downvotes, and points. */

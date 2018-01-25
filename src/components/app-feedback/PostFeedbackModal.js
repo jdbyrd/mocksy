@@ -1,0 +1,1 @@
+/* Modal with input for type of feedback and body of feedback with submit button. */

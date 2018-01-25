@@ -1,0 +1,1 @@
+/* Essentially a <FeedbackItem> but with a screenshot and link of the reviewed app. */

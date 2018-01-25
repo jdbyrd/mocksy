@@ -2,7 +2,7 @@
 import React from 'react';
 import Button from '../shared.button.js';
 
-render(
+render (
   <div>
     <Button primary>Offer feedback</Button>
     <Button>View feedback</Button>

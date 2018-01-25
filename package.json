@@ -21,6 +21,7 @@
     "eslint-config-airbnb-bundle": "^1.1.7"
   },
   "dependencies": {
+    "antd": "^3.1.4",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

@@ -1,0 +1,1 @@
+/* A smaller version of the <AppCard> that fits within the <AppsTab> component of the <UserProfilePage>. */

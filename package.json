@@ -29,10 +29,16 @@
     "nodemon": "^1.14.11"
   },
   "dependencies": {
+    "antd": "^3.1.4",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "knex": "^0.14.2",
+<<<<<<< HEAD
+    "nodemon": "^1.14.11",
+    "pg": "^7.4.1",
+=======
+>>>>>>> master
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",

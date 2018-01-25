@@ -4,6 +4,8 @@
   "description": "A platform for developers and users to share feedback on personal apps.",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
+    "dev": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,18 +20,24 @@
   },
   "homepage": "https://github.com/mocksy/mocksy#readme",
   "devDependencies": {
-    "eslint-config-airbnb-bundle": "^1.1.7"
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint-config-airbnb-bundle": "^1.1.7",
+    "nodemon": "^1.14.11"
   },
   "dependencies": {
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "knex": "^0.14.2",
-    "nodemon": "^1.14.11",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "styled-components": "^3.0.2"
   }
 }

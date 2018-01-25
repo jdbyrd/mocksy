@@ -2,6 +2,7 @@
   "extends": ["airbnb-bundle"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "comma-dangle": 0,
     "no-console": 0
   }
 }

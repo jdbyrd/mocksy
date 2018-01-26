@@ -3,7 +3,7 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      filename: "./index.js"
+      filename: './db.sql'
     }
   },
 
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   seeds: {
-    directory: './seeds.js'
+    directory: './database/seeds.js'
   }
 
 };

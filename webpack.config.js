@@ -9,6 +9,9 @@ module.exports = {
     path: DIST_DIR,
     filename: 'bundle.js'
   },
+  devServer: {
+    historyApiFallback: true
+  },
   module: {
     rules: [
       {

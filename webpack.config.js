@@ -22,14 +22,6 @@ module.exports = {
         options: {
           presets: ['react']
         }
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
       }
     ]
   }

@@ -3,6 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppCard from './AppCard';
 
+const mapStateToProps = (state) => {
+  return {
+    projects: state.projects
+  };
+};
 
 class FeedPage extends React.Component {
   render() {
@@ -12,12 +17,6 @@ class FeedPage extends React.Component {
       </div>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    projects: state.projects
-  };
 }
 
 export default connect(mapStateToProps)(FeedPage);

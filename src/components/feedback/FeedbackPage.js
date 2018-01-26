@@ -10,10 +10,12 @@ class FeedbackPage extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+  }
+
   render() {
     return (
       <div>
-        <AppSidebar />
         <FeedbackList />
       </div>
     );

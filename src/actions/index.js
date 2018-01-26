@@ -1,8 +1,10 @@
 import axios from 'axios';
 import store from '../store';
 
-export const populateFeed = () => {
-  axios('/feed')
+const Store = {};
+
+Store.populateFeed = () => {
+  axios('/api/projects')
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_FEED',
@@ -10,3 +12,16 @@ export const populateFeed = () => {
       });
     });
 };
+
+Store.feedbackFeed = (projectId) => {
+  axios('/api/project')
+    .then((res) => {
+      store.dispatch({
+        type: 'POPULATE_FEEDBACK',
+        payload: res.data.results
+      });
+    });
+};
+
+
+module.exports = Store;

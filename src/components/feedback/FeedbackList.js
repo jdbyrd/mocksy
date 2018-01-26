@@ -4,17 +4,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FeedbackItem from './FeedbackItem';
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = state => (
+  {
     feedbackItems: state.feedbackItems
-  };
-};
+  }
+);
 
 class FeedPage extends React.Component {
   render() {
     return (
       <div>
-        {this.props.feedback.map((item, index) => <FeedbackItem key={index} item={feedbackItems} />)}
+        {this.props.feedbackItems.map((item, index) => <FeedbackItem key={index} item={item} />)}
       </div>
     );
   }

@@ -20,4 +20,4 @@ class FeedbackPage extends React.Component {
   }
 }
 
-export default FeedPage;
+export default FeedbackPage;

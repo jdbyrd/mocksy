@@ -41,18 +41,24 @@ const feedback = (data) => {
     .catch(error => console.log('DID NOT ADD FEEDBACK: ', error));
 };
 
+const tags = (data) => {
+  const { name } = data;
+  knex('tags').insert({ name })
+    .then(() => console.log('inserted tag into database'))
+    .catch(error => console.log('DID NOT ADD TAG: ', error));
+};
+
+const reviewType = (data) => {
+  const { option } = data;
+  knex('review_type').insert({ option })
+    .then(() => console.log('inserted reviewType into database'))
+    .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
+};
 
 module.exports = {
   user,
   project,
-  feedback
+  feedback,
+  tags,
+  reviewType
 };
-
-
-/*
-          table.integer('up_votes');
-          table.integer('down_votes');
-          table.text('text');
-          table.integer('userid').references('users.id');
-          table.integer('projectid').references('project.id');
-*/

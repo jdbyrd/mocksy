@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './store.js';
 import { Provider } from 'react-redux';
+import store from './store';
+import FeedPage from './components/feed/FeedPage';
 
-class App extends React.Component {}
+class App extends React.Component {
+  render() {
+    return (
+      <FeedPage />
+    );
+  }
+}
 
-ReactDOM.render((
-  <Provider store = {store}>
-    <App />
-  </Provider>
-), document.getElementById('app'));
+ReactDOM.render(
+  (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  ), document.getElementById('app')
+);

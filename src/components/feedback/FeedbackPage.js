@@ -10,6 +10,8 @@ class FeedbackPage extends React.Component {
     this.state = {
       showFeedbackModal: false
     }
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e) {
@@ -20,9 +22,8 @@ class FeedbackPage extends React.Component {
     return (
       <div>
         <Button 
-          type="primary" 
-          onClick={this.showModal}
-        >Open
+          onClick={this.handleClick}
+        >Open modal
         </Button>
       </div>
     );

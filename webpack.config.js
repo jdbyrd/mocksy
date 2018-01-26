@@ -1,19 +1,29 @@
 const path = require('path');
+var SRC_DIR = path.join(__dirname, '/src');
+var DIST_DIR = path.join(__dirname, '/dist');
 
 module.exports = {
-  entry: ['./src/js/app.js'],
+  entry: `${SRC_DIR}/index.js`,
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js'
+    path: DIST_DIR,
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js?/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
+        include : SRC_DIR,
+        loader: 'babel-loader',
+        options: {
+          presets: ['react']
         }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'css-loader'
+        ]
       }
     ]
   }

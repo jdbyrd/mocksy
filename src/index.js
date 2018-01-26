@@ -7,7 +7,9 @@ import FeedPage from './components/feed/FeedPage';
 class App extends React.Component {
   render() {
     return (
-      <FeedPage />
+      <div>
+      	HELLO SPENCER ARE YOU HAPPY NOW?
+      </div>
     );
   }
 }

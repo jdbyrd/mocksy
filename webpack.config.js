@@ -1,6 +1,7 @@
 const path = require('path');
-var SRC_DIR = path.join(__dirname, '/src');
-var DIST_DIR = path.join(__dirname, '/dist');
+
+const SRC_DIR = path.join(__dirname, '/src');
+const DIST_DIR = path.join(__dirname, '/dist');
 
 module.exports = {
   entry: `${SRC_DIR}/index.js`,
@@ -8,12 +9,15 @@ module.exports = {
     path: DIST_DIR,
     filename: 'bundle.js'
   },
+  devServer: {
+    historyApiFallback: true
+  },
   module: {
     rules: [
       {
         test: /\.js?/,
         exclude: /node_modules/,
-        include : SRC_DIR,
+        include: SRC_DIR,
         loader: 'babel-loader',
         options: {
           presets: ['react']

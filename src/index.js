@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import FeedPage from './components/feed/FeedPage';
+import Navbar from './components/shared/Navbar';
+
 
 class App extends React.Component {
   render() {
     return (
       <div>
-      	HELLO SPENCER ARE YOU HAPPY NOW?
+        <Navbar />
       </div>
     );
   }

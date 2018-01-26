@@ -1,5 +1,6 @@
 const sample = [
   {
+    id: 0,
     title: 'Hue',
     url: 'https://jegishue.herokuapp.com/',
     github: 'https://github.com/jegis/hue',
@@ -8,6 +9,7 @@ const sample = [
     userid: 1
   },
   {
+    id: 1,
     title: 'DM-Scribe',
     url: 'https://dmscribe.herokuapp.com/',
     github: 'https://github.com/jegis/dm-scribe',
@@ -17,6 +19,11 @@ const sample = [
   }
 ];
 
-const ProjectsReducer = (state = sample) => (state);
+const ProjectsReducer = (state = sample, action) => {
+  if (action.type === 'POPULATE_FEED') {
+    return action.payload;
+  }
+  return state;
+};
 
 export default ProjectsReducer;

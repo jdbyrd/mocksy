@@ -8,12 +8,17 @@ import FeedbackPage from './components/feedback/FeedbackPage';
 import ProfilePage from './components/profile/ProfilePage';
 import Login from './components/login/Login';
 import Navbar from './components/shared/Navbar';
+import { populateFeed } from './actions/index';
 
 class App extends React.Component {
+  componentDidMount() {
+    populateFeed();
+  }
+
   render() {
     return (
       <div>
-      <Navbar />
+        <Navbar />
         <Switch>
           <Route exact path="/" render={() => (<FeedPage />)} />
           <Route exact path="/project/:id" render={() => (<FeedbackPage />)} />

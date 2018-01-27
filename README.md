@@ -1,5 +1,5 @@
 # mocksy
-A platform for developers and users to share feedback on personal apps.
+A platform for developers and users to share feedback on personal projects.
 
 ### run dev server
 ```

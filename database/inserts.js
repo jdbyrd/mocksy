@@ -1,19 +1,14 @@
-const knex = require('./index');
+const knex = require('./db');
 
 const user = (name, password) => knex('users').insert({ name, password });
 
 const project = (data) => {
-  const { name } = data;
-  const { title } = data;
-  const { url } = data;
-  const { github } = data;
-  const { text } = data;
-  const { contributor } = data;
+  const { name, title, url, github, text, contributor } = data;
   const userid = knex('users').where({ name }).select('id');
   knex('projects').insert({
     title,
     url,
-    github_url: github,
+    github,
     text,
     contributor,
     userid
@@ -23,16 +18,12 @@ const project = (data) => {
 };
 
 const feedback = (data) => {
-  const { title } = data;
-  const { name } = data;
-  const { upvotes } = data;
-  const { downvotes } = data;
-  const { text } = data;
+  const { title, name, upvotes, downvotes, text } = data;
   const userid = knex('users').where({ name }).select('id');
   const projectid = knex('projects').where({ title }).select('id');
   knex('feedback').insert({
-    up_votes: upvotes,
-    down_votes: downvotes,
+    upvotes,
+    downvotes,
     text,
     userid,
     projectid

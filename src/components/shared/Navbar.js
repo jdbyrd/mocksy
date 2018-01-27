@@ -81,21 +81,56 @@ const Triangle = styled.div`
   transition-timing-function: ease-in-out;
 `;
 
+const DropdownContainer = styled.div`
+  position: fixed;
+  right: 10px;
+`;
+
+const Dropdown = styled.div`
+  background: #90aab7;
+`;
+
+const DropdownTriangle = styled.div`
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #90aab7;
+  width: 0;
+  height: 0;
+`;
+
+const DropdownUL = styled.ul`
+  margin: 0;
+  list-style-type: none;
+`;
+
+const Link = styled.li`
+
+`;
+
 class Navbar extends React.Component {
   constructor(props) {
-  	super(props)
+    super(props);
     this.state = {
-      profilePic: "http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg"
-    }
+      profilePic: 'http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg',
+      viewMenu: false,
+    };
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+  }
+
+  toggleDropdown() {
+    console.log('this: ', this);
+    console.log('this.state: ', this.state);
+    console.log('this.state.profilePic: ', this.state.profilePic);
+    this.setState({ viewMenu: !this.state.viewMenu });
   }
 
   triangleLeft() {
-    document.getElementById('triangle');
+    const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
   }
 
   triangleRight(){
-    document.getElementById('triangle');
+    const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
   }
 
@@ -110,19 +145,35 @@ class Navbar extends React.Component {
             </Ul>
             <RightContainer>
               <Search type="text" />
-              <Helper className="helper"></Helper>
+              <Helper className="helper" />
               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <ImgContainer className="user-img-container">
-                <ProfilePic src={this.state.profilePic}/>
+                <ProfilePic
+                  src={this.state.profilePic}
+                  onClick={this.toggleDropdown}
+                />
               </ImgContainer>
             </RightContainer>
           </Nav>
-          <Triangle id="triangle"/>
+          <Triangle id="triangle" />
+          {this.state.viewMenu ?
+            <DropdownContainer>
+              <DropdownTriangle />
+              <Dropdown>
+                <DropdownUL>
+                  <Link>Profile</Link>
+                  <Link>Your apps</Link>
+                  <Link>Your reviews</Link>
+                  <Link>Settings</Link>
+                  <Link>Sign out</Link>
+                </DropdownUL>
+              </Dropdown>
+            </DropdownContainer>
+          : null}
         </NavContainer>
       </div>
     );
   }
-
 }
 
 export default Navbar;

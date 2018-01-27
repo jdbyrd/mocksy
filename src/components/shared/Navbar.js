@@ -103,10 +103,6 @@ const DropdownUL = styled.ul`
   list-style-type: none;
 `;
 
-const Link = styled.li`
-
-`;
-
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -161,11 +157,11 @@ class Navbar extends React.Component {
               <DropdownTriangle />
               <Dropdown>
                 <DropdownUL>
-                  <Link>Profile</Link>
-                  <Link>Your apps</Link>
-                  <Link>Your reviews</Link>
-                  <Link>Settings</Link>
-                  <Link>Sign out</Link>
+                  <li>Profile</li>
+                  <li>Your apps</li>
+                  <li>Your reviews</li>
+                  <li>Settings</li>
+                  <li>Sign out</li>
                 </DropdownUL>
               </Dropdown>
             </DropdownContainer>

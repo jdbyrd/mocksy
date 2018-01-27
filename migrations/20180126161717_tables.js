@@ -25,7 +25,7 @@ exports.up = (knex, Promise) => Promise.all([
     table.integer('downvotes');
     table.text('text');
     table.integer('user_id').references('users.id');
-    table.integer('project_id').references('project.id');
+    table.integer('project_id').references('projects.id');
     table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
     table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),

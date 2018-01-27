@@ -1,8 +1,5 @@
-const knex = require('knex');
+const knex = require('./db');
 
-const projects = () => {
-  knex('projects').select()
-    .then(res => console.log('res:', res));
-};
+const projects = () => knex('projects').select();
 
-export default projects;
+module.exports = { projects };

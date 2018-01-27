@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import UserHeader from './UserHeader';
 import AppsTab from './AppsTab';
+import FeedbackGivenTab from './FeedbackGivenTab';
 import { populateUser } from '../../actions/index';
 
 
@@ -24,6 +25,7 @@ class ProfilePage extends React.Component {
       <div>
         <UserHeader />
         <AppsTab />
+        <FeedbackGivenTab />
       </div>
     );
   }

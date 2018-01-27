@@ -13,8 +13,8 @@ Store.populateFeed = () => {
     });
 };
 
-Store.feedbackFeed = (projectId) => {
-  axios('/api/project')
+Store.populateFeedback = (projectId) => {
+  axios(`/api/project?id=${projectId}`)
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_FEEDBACK',
@@ -22,6 +22,5 @@ Store.feedbackFeed = (projectId) => {
       });
     });
 };
-
 
 module.exports = Store;

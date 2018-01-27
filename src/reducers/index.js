@@ -4,7 +4,7 @@ import FeedbackReducer from './FeedbackReducer';
 
 const reducer = combineReducers({
   projects: ProjectsReducer,
-  feedbackItems: FeedbackReducer
+  feedback: FeedbackReducer
 });
 
 export default reducer;

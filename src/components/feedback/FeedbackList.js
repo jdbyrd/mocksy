@@ -6,11 +6,11 @@ import FeedbackItem from './FeedbackItem';
 
 const mapStateToProps = state => (
   {
-    feedbackItems: state.feedbackItems
+    feedbackItems: state.feedback.list
   }
 );
 
-class FeedPage extends React.Component {
+class FeedbackList extends React.Component {
   render() {
     return (
       <div>
@@ -20,4 +20,4 @@ class FeedPage extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(FeedPage);
+export default connect(mapStateToProps)(FeedbackList);

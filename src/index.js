@@ -21,8 +21,8 @@ class App extends React.Component {
         <Navbar />
         <Switch>
           <Route exact path="/" render={() => (<FeedPage />)} />
-          <Route exact path="/project/:id" render={() => (<FeedbackPage />)} />
-          <Route exact path="/user/:name" render={() => (<ProfilePage />)} />
+          <Route exact path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
+          <Route exact path="/user/:name" render={() => (<ProfilePage  {...props}/>)} />
           <Route exact path="/login" render={() => (<Login />)} />
         </Switch>
       </div>

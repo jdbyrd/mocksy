@@ -4,6 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppSidebar from './AppSidebar';
 import FeedbackList from './FeedbackList';
+import { populateFeedback } from '../../actions/index';
+
 
 class FeedbackPage extends React.Component {
   constructor(props) {
@@ -11,6 +13,11 @@ class FeedbackPage extends React.Component {
   }
 
   componentDidMount() {
+    populateFeedback(this.props.match.params.id);
+  }
+
+  componentWillReceiveProps(nextprops){
+    populateFeedback(nextprops.match.params.id);
   }
 
   render() {

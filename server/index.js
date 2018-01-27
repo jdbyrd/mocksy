@@ -11,7 +11,15 @@ app.use(express.static(path.join(__dirname, '/../dist')));
 app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   query.projects(id).then((projects) => {
-    res.send(projects);
+    if (id) {
+      const projectFeedback = projects[0];
+      query.feedback(id).then((feedback) => {
+        projectFeedback.feedback = feedback;
+        res.send(projectFeedback);
+      });
+    } else {
+      res.send(projects);
+    }
   });
 });
 

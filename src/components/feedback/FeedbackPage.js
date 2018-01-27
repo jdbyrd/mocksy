@@ -34,10 +34,7 @@ class FeedbackPage extends React.Component {
       <div>
         <AppSidebar />
         <FeedbackList />
-        <button 
-          onClick={this.handleClick}
-        >Open modal
-        </button>
+        <button onClick={this.handleClick}>Open modal</button>
       </div>
     );
   }

@@ -4,22 +4,22 @@ const sampleFeedback = {
     title: 'Hue',
     url: 'https://jegishue.herokuapp.com/',
     github: 'https://github.com/jegis/hue',
-    text: 'A reddit clone',
-    contributor: 'James',
+    text: 'A reddit clone for weird people.',
+    contributor: 'James Byrd',
     userid: 1
   },
   list: [
     {
       id: 0,
-      user: 'Jackie',
-      text: 'this is great!!! hue is the best website ever!!!',
+      user: 'Jackie Fu',
+      text: 'Not sure if I would use this site.',
       type: 'general feedback'
     },
     {
       id: 1,
-      user: 'Edward',
-      text: 'this website is definitely the opposite of a bug',
-      type: 'general feedback'
+      user: 'Edward White',
+      text: "The entire website is a bug. Rick spent hours debugging and still didn't catch everything.",
+      type: 'bug fixes'
     }
   ]
 };

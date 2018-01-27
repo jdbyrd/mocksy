@@ -3,13 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const RepoContainer = styled.div`
+const ProjectContainer = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: 7.5% 40% 5% 35.5% 12%;
 `;
 
-const RepoImg = styled.img`
+const ImgLink = styled.a`
   width: 100%;
   height: 300px;
   grid-column-start: 2;
@@ -18,7 +18,16 @@ const RepoImg = styled.img`
   border: 1px solid #cecece;
 `;
 
-const RepoDetails = styled.div`
+const ProjectImg = styled.img`
+  width: 100%;
+  height: 300px;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  margin-bottom: 40px;
+  border: 1px solid #cecece;
+`;
+
+const ProjectDetails = styled.div`
   height: 300px;
   grid-column-start: 4;
   grid-column-end: 5;
@@ -116,6 +125,11 @@ const Tag = styled.button`
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      offerFeedbackClicked: false,
+      readFeedbackClicked: false
+    }
   }
 
   clickTag(e) {
@@ -129,33 +143,51 @@ class AppCard extends React.Component {
 
   offerFeedback() {
     console.log('offerFeedback click handler running');
+    this.setState({offerFeedbackClicked: true});
   }
 
   readFeedback() {
     console.log('readFeedback click handler running');
+    this.setState({readFeedbackClicked: true});
   }
 
   render() {
     return (
-      <RepoContainer>
-        <RepoImg src={this.props.project.image} />
-        <RepoDetails>
+      <ProjectContainer>
+        <ImgLink href={this.props.project.url}>
+          <ProjectImg src={this.props.project.image} />
+        </ImgLink>
+        
+        <ProjectDetails>
           <TitleContainer>
-            <Link to={`/project/${this.props.project.id}`}><Title>{this.props.project.title}</Title></Link>
-            <a href={this.props.project.github} target="_blank"><GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" /></a>
+            <a href={this.props.project.url}>
+              <Title>{this.props.project.title}</Title>
+            </a>
+            <a href={this.props.project.github} target="_blank">
+              <GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
+            </a>
           </TitleContainer>
-          <Link to={`/user/${this.props.project.user}`}><Contributor>{this.props.project.user}</Contributor></Link>
+
+          <Link to={`/user/${this.props.project.user}`}>
+            <Contributor>{this.props.project.user}</Contributor>
+          </Link>
+
           <Description>{this.props.project.text}</Description>
 
           <p>Tech stack: {this.props.project.tags.map((tag) =>
             <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
           </p>
          
-            <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
-            <Button onClick={this.readFeedback}>Read feedback</Button>
+            <Link to='TRIGGER MODAL HERE'>
+              <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
+            </Link>
+            <Link to={`/project/${this.props.project.id}`}>
+              <Button onClick={this.readFeedback}>Read feedback</Button>
+            </Link>
         
-        </RepoDetails>
-      </RepoContainer>
+        </ProjectDetails>
+
+      </ProjectContainer>
     );
   }
 }

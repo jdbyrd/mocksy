@@ -12,11 +12,11 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    populateUser(this.props.match.params.id);
+    populateUser(this.props.match.params.name);
   }
 
   componentWillReceiveProps(nextprops){
-    populateUser(nextprops.match.params.id);
+    populateUser(nextprops.match.params.name);
   }
 
   render() {

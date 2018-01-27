@@ -1,5 +1,12 @@
 /* Sidebar with the data (title, author, description, tech stack) of the app being reviewed. */
 import React from 'react';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => (
+  {
+    project: state.feedback.project
+  }
+);
 
 class AppSidebar extends React.Component {
   constructor(props) {
@@ -7,12 +14,14 @@ class AppSidebar extends React.Component {
   }
 
   render() {
+    const project = this.props.project;
     return (
       <div>
-        This is the sidebar
+        {project.title}
+        {project.type}
       </div>
     );
   }
 }
 
-export default AppSidebar;
+export default connect(mapStateToProps)(AppSidebar);

@@ -6,18 +6,19 @@ import FeedbackItem from './FeedbackItem';
 
 const mapStateToProps = state => (
   {
-    feedbackItems: state.feedbackItems
+    feedbackItems: state.feedback.list
   }
 );
 
-class FeedPage extends React.Component {
+class FeedbackList extends React.Component {
   render() {
+    const feedbackItems = this.props.feedbackItems;
     return (
       <div>
-        {this.props.feedbackItems.map((item, index) => <FeedbackItem key={index} item={item} />)}
+        {feedbackItems.map((item, index) => <FeedbackItem key={index} item={item} />)}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(FeedPage);
+export default connect(mapStateToProps)(FeedbackList);

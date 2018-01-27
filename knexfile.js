@@ -1,5 +1,5 @@
 module.exports = {
-  
+
   development: {
     client: 'postgresql',
     connection: {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql', 
+    client: 'postgresql',
     connection: process.env.NODE_ENV
   },
 

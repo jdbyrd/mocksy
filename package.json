@@ -21,8 +21,13 @@
   },
   "homepage": "https://github.com/mocksy/mocksy#readme",
   "devDependencies": {
+    "css-loader": "^0.28.9",
     "eslint-config-airbnb-bundle": "^1.1.7",
-    "nodemon": "^1.14.11"
+    "node-sass": "^4.7.2",
+    "nodemon": "^1.14.11",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0"
   },
   "dependencies": {
     "antd": "^3.1.4",
@@ -44,7 +49,6 @@
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "styled-components": "^3.0.2",
-    "webpack": "^3.10.0"
+    "styled-components": "^3.0.2"
   }
 }

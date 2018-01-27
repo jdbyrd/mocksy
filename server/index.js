@@ -1,10 +1,11 @@
 const express = require('express');
+const db = require('../database/db.js');
+const path = require('path');
 
 const app = express();
-var bodyParser = require('body-parser');
-var db = require('../database/db.js');
+// const bodyParser = require('body-parser');
 
-app.use(express.static(__dirname + '/../dist'));
+app.use(express.static(path.join(__dirname, '/../dist')));
 
 // app.get('/', (req, res) => res.send('Hello World!'));
 

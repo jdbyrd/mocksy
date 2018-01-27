@@ -23,6 +23,17 @@ app.get('/api/projects', (req, res) => {
   });
 });
 
+app.get('/api/users', (req, res) => {
+  const { name } = req.query;
+  query.users(name).then((users) => {
+    if (name) {
+      res.send(users[0]);
+    } else {
+      res.send(users);
+    }
+  });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });

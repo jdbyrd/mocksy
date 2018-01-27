@@ -12,7 +12,7 @@ const sampleFeedback = {
     {
       id: 0,
       user: 'Jackie Fu',
-      text: 'Not sure if I would use this site.',
+      text: 'Not sure if I would use this site. Seems buggy and the upvote/downvote system does not work.',
       type: 'general feedback'
     },
     {

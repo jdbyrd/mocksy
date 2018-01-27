@@ -42,6 +42,7 @@ const TitleContainer = styled.div`
 
 const Title = styled.div`
   font-size: 30px;
+  font-weight: bold;
   padding: 0;
   width: 85%;
   display: inline-block;
@@ -70,7 +71,6 @@ const Contributor = styled.p`
 const Description = styled.p`
   font-color: black;
 `;
-
 
 
 const Button = styled.button`
@@ -130,6 +130,8 @@ class AppCard extends React.Component {
       offerFeedbackClicked: false,
       readFeedbackClicked: false
     }
+
+    this.offerFeedback = this.offerFeedback.bind(this);
   }
 
   clickTag(e) {
@@ -144,11 +146,7 @@ class AppCard extends React.Component {
   offerFeedback() {
     console.log('offerFeedback click handler running');
     this.setState({offerFeedbackClicked: true});
-  }
-
-  readFeedback() {
-    console.log('readFeedback click handler running');
-    this.setState({readFeedbackClicked: true});
+    //trigger postfeedbackmodal here
   }
 
   render() {
@@ -174,7 +172,7 @@ class AppCard extends React.Component {
 
           <Description>{this.props.project.text}</Description>
 
-          <p>Tech stack: {this.props.project.tags.map((tag) =>
+          <p>{this.props.project.tags.map((tag) =>
             <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
           </p>
          
@@ -182,7 +180,7 @@ class AppCard extends React.Component {
               <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
             </Link>
             <Link to={`/project/${this.props.project.id}`}>
-              <Button onClick={this.readFeedback}>Read feedback</Button>
+              <Button>Read feedback</Button>
             </Link>
         
         </ProjectDetails>

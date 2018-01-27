@@ -9,7 +9,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.get('/api/projects', (req, res) => {
-  query.projects().then((projects) => {
+  const { id } = req.query;
+  query.projects(id).then((projects) => {
     res.send(projects);
   });
 });

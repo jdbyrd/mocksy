@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const NavContainer = styled.div`
@@ -105,7 +106,9 @@ class Navbar extends React.Component {
         <NavContainer>
           <Nav>
             <Ul>
-              <Li onClick={this.triangleLeft}>Feed</Li>
+              <Link to='/'>
+                <Li onClick={this.triangleLeft}>Feed</Li>
+              </Link>
               <Li onClick={this.triangleRight}>Popular</Li>
             </Ul>
             <RightContainer>

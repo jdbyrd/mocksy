@@ -13,8 +13,8 @@ Store.populateFeed = () => {
     });
 };
 
-Store.feedbackFeed = (projectId) => {
-  axios('/api/project')
+Store.populateFeedback = (projectId) => {
+  axios(`/api/project?id=${projectId}`)
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_FEEDBACK',
@@ -23,5 +23,14 @@ Store.feedbackFeed = (projectId) => {
     });
 };
 
+Store.populateUser = (userName) => {
+  axios(`/api/user?name=${userName}`)
+    .then((res) => {
+      store.dispatch({
+        type: 'POPULATE_USER',
+        payload: res.data.results
+      });
+    });
+};
 
 module.exports = Store;

@@ -5,17 +5,21 @@ const sample = [
     url: 'https://jegishue.herokuapp.com/',
     github: 'https://github.com/jegis/hue',
     text: 'A reddit clone',
-    contributor: 'James',
-    userid: 1
+    user: 'James',
+    userid: 1,
+    image: 'https://color-wheel-artist.com/thrive/wp-content/uploads/2017/02/hue-color-wheel-featured.jpg',
+    tags: ['JavaScript', 'React', 'Filestack API', 'NodeJS', 'MongoDb'],
   },
   {
     id: 1,
     title: 'DM-Scribe',
     url: 'https://dmscribe.herokuapp.com/',
-    github: 'https://github.com/jegis/dm-scribe',
+    github: 'https://github.com/jegis/dmscribe',
     text: 'A thing for people who are nerds',
-    contributor: 'Spencer',
-    userid: 2
+    user: 'Spencer',
+    userid: 2,
+    image: 'https://nerdist.com/wp-content/uploads/2015/08/Dungeons-and-Dragons-movie.jpg',
+    tags: ['JavaScript', 'React', 'NodeJS', 'MongoDb'],
   }
 ];
 

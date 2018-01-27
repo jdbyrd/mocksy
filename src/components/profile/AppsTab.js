@@ -9,7 +9,7 @@ const mapStateToProps = state => (
   }
 );
 
-class FeedbackList extends React.Component {
+class AppsTab extends React.Component {
   render() {
     return (
       <div>
@@ -19,4 +19,4 @@ class FeedbackList extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(FeedbackList);
+export default connect(mapStateToProps)(AppsTab);

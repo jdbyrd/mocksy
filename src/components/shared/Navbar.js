@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { css } from 'styled-components';
 
+const NavContainer = styled.div`
+  margin-bottom: 70px;
+`;
+
 const Nav = styled.div`
   width: 100%;
   height 60px;
@@ -57,7 +61,7 @@ const ImgContainer = styled.div`
   border-radius: 40px;
   display: inline-block;
   vertical-align: middle;
-  border: 2px solid black;
+  border: 2px solid white;
 `;
 
 const ProfilePic = styled.img`
@@ -69,7 +73,7 @@ const Triangle = styled.div`
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-top: 15px solid #90aab7;
-  margin-left: 55px;
+  margin-left: 57px;
   width: 0;
   height: 0;
   transition-property: transform -webkit-transformv color;
@@ -92,27 +96,29 @@ class Navbar extends React.Component {
 
   triangleRight(){
     document.getElementById('triangle');
-    triangle.style.transform = 'perspective(500px) translate3d(150px, 0px, 0px)';
+    triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
   }
 
   render() {
     return (
       <div>
-        <Nav>
-          <Ul>
-            <Li onClick={this.triangleLeft}>Feed</Li>
-            <Li onClick={this.triangleRight}>Popular</Li>
-          </Ul>
-          <RightContainer>
-            <Search type="text" />
-            <Helper className="helper"></Helper>
-            <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
-            <ImgContainer className="user-img-container">
-              <ProfilePic src={this.state.profilePic}/>
-            </ImgContainer>
-          </RightContainer>
-        </Nav>
-        <Triangle id="triangle"/>
+        <NavContainer>
+          <Nav>
+            <Ul>
+              <Li onClick={this.triangleLeft}>Feed</Li>
+              <Li onClick={this.triangleRight}>Popular</Li>
+            </Ul>
+            <RightContainer>
+              <Search type="text" />
+              <Helper className="helper"></Helper>
+              <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+              <ImgContainer className="user-img-container">
+                <ProfilePic src={this.state.profilePic}/>
+              </ImgContainer>
+            </RightContainer>
+          </Nav>
+          <Triangle id="triangle"/>
+        </NavContainer>
       </div>
     );
   }

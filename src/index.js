@@ -25,7 +25,6 @@ class App extends React.Component {
           <Route path="/user/:name" render={() => (<ProfilePage  {...props}/>)} />
           <Route path="/login" render={() => (<Login />)} />
           <Route render={() => (<div>404 lol</div>)} />
-
         </Switch>
       </div>
     );

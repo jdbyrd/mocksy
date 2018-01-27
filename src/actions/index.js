@@ -23,4 +23,14 @@ Store.populateFeedback = (projectId) => {
     });
 };
 
+Store.populateUser = (userName) => {
+  axios(`/api/user?name=${userName}`)
+    .then((res) => {
+      store.dispatch({
+        type: 'POPULATE_USER',
+        payload: res.data.results
+      });
+    });
+};
+
 module.exports = Store;

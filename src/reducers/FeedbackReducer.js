@@ -24,7 +24,6 @@ const sampleFeedback = {
   ]
 };
 
-
 const FeedbackReducer = (state = sampleFeedback, action) => {
   if (action.type === 'POPULATE_FEEDBACK') {
     return action.payload;

@@ -8,11 +8,11 @@ class FeedbackItem extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    const item = this.props.item;
     return (
       <div>
-        {this.props.item.text}
-        {this.props.item.user}
+        {item.text}
+        {item.user}
       </div>
     );
   }

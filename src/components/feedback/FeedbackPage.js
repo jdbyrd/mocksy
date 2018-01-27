@@ -23,6 +23,7 @@ class FeedbackPage extends React.Component {
   render() {
     return (
       <div>
+        <AppSidebar />
         <FeedbackList />
       </div>
     );

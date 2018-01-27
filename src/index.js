@@ -20,10 +20,12 @@ class App extends React.Component {
       <div>
         <Navbar />
         <Switch>
-          <Route exact path="/" render={() => (<FeedPage />)} />
-          <Route exact path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
-          <Route exact path="/user/:name" render={() => (<ProfilePage  {...props}/>)} />
-          <Route exact path="/login" render={() => (<Login />)} />
+          <Route exact={true} path="/" render={() => (<FeedPage />)} />
+          <Route path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
+          <Route path="/user/:name" render={() => (<ProfilePage  {...props}/>)} />
+          <Route path="/login" render={() => (<Login />)} />
+          <Route render={() => (<div>404 lol</div>)} />
+
         </Switch>
       </div>
     );

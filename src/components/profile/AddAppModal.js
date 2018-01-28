@@ -1,6 +1,7 @@
 /* Popup modal that contains input fields for URL, Github repo, title, contributors, description, and photo upload section. */
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -11,11 +12,14 @@ class AppsTab extends React.Component {
   projectFormSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-    let form = {};
-    for (var pair of data.entries()) {
+    const form = {};
+    for (let pair of data.entries()) {
       form[pair[0]] = pair[1];
     }
-    console.log(form);
+    axios.post('/api/projects', form)
+      .then(() => {
+        console.log('project added');
+      });
   }
 
   render() {

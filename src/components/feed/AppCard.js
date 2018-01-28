@@ -1,5 +1,6 @@
 /* Contains screenshot of deployed app, title, author, description, tech stack, buttons to provide feedback or view feedback. */
 import React from 'react';
+import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
@@ -73,54 +74,54 @@ const Description = styled.p`
 `;
 
 
-const Button = styled.button`
-  width: 120px;
-  height: 30px;
-  border-radius: 20px;
-  padding: 0.15em 0.75em;
-  margin: 0 1em;
-  background: white;
-  color: #323f48;
-  border: 1.5px solid #323f48;
-  &:hover {
-    cursor: pointer;
-  }
+// const Button = styled.button`
+//   width: 120px;
+//   height: 30px;
+//   border-radius: 20px;
+//   padding: 0.15em 0.75em;
+//   margin: 0 1em;
+//   background: white;
+//   color: #323f48;
+//   border: 1.5px solid #323f48;
+//   &:hover {
+//     cursor: pointer;
+//   }
 
   
-  ${props => props.primary && css`
-    background: #323f48;
-    color: white;
-  `}
-`;
+//   ${props => props.primary && css`
+//     background: #323f48;
+//     color: white;
+//   `}
+// `;
 
-const Tag = styled.button`
-  font-family: "Monospace Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.65);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: inline-block;
-  line-height: 20px;
-  height: 22px;
-  padding: 0 7px;
-  border-radius: 4px;
-  border: 1px solid #d9d9d9;
-  background: #fafafa;
-  font-size: 12px;
-  -webkit-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  opacity: 1;
-  margin-right: 8px;
-  cursor: pointer;
-  white-space: nowrap;
-  color: #2f54eb;
-  background: #f0f5ff;
-  border-color: #adc6ff;
-`;
+// const Tag = styled.button`
+//   font-family: "Monospace Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-size: 14px;
+//   line-height: 1.5;
+//   color: rgba(0, 0, 0, 0.65);
+//   -webkit-box-sizing: border-box;
+//           box-sizing: border-box;
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+//   display: inline-block;
+//   line-height: 20px;
+//   height: 22px;
+//   padding: 0 7px;
+//   border-radius: 4px;
+//   border: 1px solid #d9d9d9;
+//   background: #fafafa;
+//   font-size: 12px;
+//   -webkit-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+//   transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+//   opacity: 1;
+//   margin-right: 8px;
+//   cursor: pointer;
+//   white-space: nowrap;
+//   color: #2f54eb;
+//   background: #f0f5ff;
+//   border-color: #adc6ff;
+// `;
 
 class AppCard extends React.Component {
   constructor(props) {
@@ -177,7 +178,7 @@ class AppCard extends React.Component {
           </p>
          
             <Link to='TRIGGER MODAL HERE'>
-              <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
+              <Button type="primary" onClick={this.offerFeedback}>Offer feedback</Button>&nbsp; &nbsp; &nbsp;
             </Link>
             <Link to={`/project/${this.props.project.id}`}>
               <Button>Read feedback</Button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
 
 const NavContainer = styled.div`
@@ -38,10 +39,10 @@ const RightContainer = styled.div`
   grid-column-end: 4;
 `;
 
-const Search = styled.input`
-  display: inline-block;
-  padding-right: 10px;
-`;
+// const Search = styled.input`
+//   display: inline-block;
+//   padding-right: 10px;
+// `;
 
 const Helper = styled.span`
   display: inline-block;
@@ -104,9 +105,9 @@ const DropdownUL = styled.ul`
   list-style-type: none;
 `;
 
-const Link = styled.li`
+// const Link = styled.li`
 
-`;
+// `;
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -147,7 +148,8 @@ class Navbar extends React.Component {
               <Li onClick={this.triangleRight}>Popular</Li>
             </Ul>
             <RightContainer>
-              <Search type="text" />
+              {/*<Search type="text" />*/}
+              <Button shape="circle" icon="search" />
               <Helper className="helper" />
               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <ImgContainer className="user-img-container">

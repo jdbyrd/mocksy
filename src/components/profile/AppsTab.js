@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppsTabCard from './AppsTabCard';
+import AddAppModal from './AddAppModal'
 
 const mapStateToProps = state => (
   {
@@ -14,6 +15,7 @@ class AppsTab extends React.Component {
     return (
       <div>
         {this.props.projects.map((project, index) => <AppsTabCard key={index} project={project} />)}
+        <AddAppModal />
       </div>
     );
   }

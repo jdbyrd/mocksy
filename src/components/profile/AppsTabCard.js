@@ -11,7 +11,7 @@ class AppsTabCard extends React.Component {
     const project = this.props.project;
     return (
       <div>
-        PROJECT HERE
+        {project.title}
       </div>
     );
   }

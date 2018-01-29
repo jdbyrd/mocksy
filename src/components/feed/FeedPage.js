@@ -23,6 +23,7 @@ class FeedPage extends React.Component {
   }
 
   filterByTag(project, index) {
+    console.log(this.state.query)
     if (project.tags.includes(this.state.query) || this.state.query === 'all') {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }

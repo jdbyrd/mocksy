@@ -30,7 +30,7 @@ module.exports = {
   },
 
   seeds: {
-    directory: './database/seeds.js'
+    directory: './database/seeds'
   }
 
 };

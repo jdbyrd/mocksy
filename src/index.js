@@ -1,4 +1,5 @@
 import React from 'react';
+import 'antd/dist/antd.css'
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -24,7 +25,7 @@ class App extends React.Component {
         <Switch>
           <Route exact={true} path="/" render={() => (<FeedPage />)} />
           <Route path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
-          <Route path="/user/:name" render={() => (<ProfilePage  {...props}/>)} />
+          <Route path="/user/:name" render={(props) => (<ProfilePage {...props}/>)} />
           <Route path="/login" render={() => (<Login />)} />
           <Route render={() => (<div>404 lol</div>)} />
         </Switch>

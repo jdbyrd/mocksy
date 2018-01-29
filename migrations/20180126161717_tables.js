@@ -1,57 +1,67 @@
 exports.up = (knex, Promise) => Promise.all([
-  knex.schema.createTable('users', (table) => {
-    table.increments();
-    table.string('name').unique();
-    table.string('password');
-    table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-    table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
+  knex.schema.createTable('users', (t) => {
+    t.increments('id').unsigned().primary();
+    t.string('name').unique();
+    t.string('password');
+    t.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+    t.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),
 
-  knex.schema.createTable('projects', (table) => {
-    table.increments();
-    table.string('title');
-    table.string('url');
-    table.string('github_url');
-    table.text('text');
-    table.text('contributor');
-    table.integer('userid').references('users.id');
-    table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-    table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
+  knex.schema.createTable('projects', (t) => {
+    t.increments('id').unsigned().primary();
+    t.string('title');
+    t.string('url');
+    t.string('github');
+    t.text('text');
+    t.text('contributor');
+    t.integer('user_id').references('users.id');
+    t.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+    t.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),
 
-  knex.schema.createTable('feedback', (table) => {
-    table.increments();
-    table.integer('upvotes');
-    table.integer('downvotes');
-    table.text('text');
-    table.integer('user_id').references('users.id');
-    table.integer('project_id').references('projects.id');
-    table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-    table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
+  knex.schema.createTable('feedback', (t) => {
+    t.increments('id').unsigned().primary();
+    t.integer('upvotes');
+    t.integer('downvotes');
+    t.text('text');
+    t.integer('user_id').references('users.id');
+    t.integer('project_id').references('projects.id');
+    t.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+    t.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),
 
-  knex.schema.createTable('tags', (table) => {
-    table.increments();
-    table.string('tag');
+  knex.schema.createTable('votes', (t) => {
+    t.increments('id').unsigned().primary();
+    t.integer('user_id').references('users.id');
+    t.integer('feedback_id').references('feedback.id');
+    t.boolean('vote');
+    t.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+    t.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),
 
-  knex.schema.createTable('project_tags', (table) => {
-    table.increments();
-    table.integer('tag_id').references('tags.id');
-    table.integer('project_id').references('projects.id');
+  knex.schema.createTable('tags', (t) => {
+    t.increments('id').unsigned().primary();
+    t.string('tag');
   }),
 
-  knex.schema.createTable('review_type', (table) => {
-    table.increments();
-    table.string('options');
+  knex.schema.createTable('project_tags', (t) => {
+    t.increments('id').unsigned().primary();
+    t.integer('tag_id').references('tags.id');
+    t.integer('project_id').references('projects.id');
+  }),
+
+  knex.schema.createTable('review_type', (t) => {
+    t.increments('id').unsigned().primary();
+    t.string('options');
   })
 ]);
 
 exports.down = (knex, Promise) => Promise.all([
-  knex.schema.dropTable('users'),
-  knex.schema.dropTable('projects'),
-  knex.schema.dropTable('feedback'),
-  knex.schema.dropTable('tags'),
+  knex.schema.dropTable('review_type'),
   knex.schema.dropTable('project_tags'),
-  knex.schema.dropTable('review_type')
+  knex.schema.dropTable('tags'),
+  knex.schema.dropTable('votes'),
+  knex.schema.dropTable('feedback'),
+  knex.schema.dropTable('projects'),
+  knex.schema.dropTable('users')
 ]);

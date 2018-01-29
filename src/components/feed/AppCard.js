@@ -173,16 +173,18 @@ class AppCard extends React.Component {
 
           <Description>{this.props.project.text}</Description>
 
-          <p>{this.props.project.tags.map((tag) =>
+          <span>{this.props.project.tags.map((tag) =>
             <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
-          </p>
-         
+          </span>
+          <br /><br />
+          <span>
             <Link to='TRIGGER MODAL HERE'>
               <Button type="primary" onClick={this.offerFeedback}>Offer feedback</Button>&nbsp; &nbsp; &nbsp;
             </Link>
             <Link to={`/project/${this.props.project.id}`}>
               <Button>Read feedback</Button>
             </Link>
+          </span>
         
         </ProjectDetails>
 

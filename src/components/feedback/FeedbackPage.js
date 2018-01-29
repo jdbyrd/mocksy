@@ -1,32 +1,10 @@
-/* Feedback page for selected app. */
-/* Consists of <AppSidebar>, <FeedbackList>, and <PostFeedbackModal>. */
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Modal, Select, TextArea } from 'antd';
+import { Modal, Select, Option, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import AppSidebar from './AppSidebar';
 import FeedbackList from './FeedbackList';
 import { populateFeedback } from '../../actions/index';
-
-const Button = styled.button`
-  width: 120px;
-  height: 30px;
-  border-radius: 20px;
-  padding: 0.15em 0.75em;
-  margin: 0 1em;
-  background: white;
-  color: #323f48;
-  border: 1.5px solid #323f48;
-  &:hover {
-    cursor: pointer;
-  }
-
-  
-  ${props => props.primary && css`
-    background: #323f48;
-    color: white;
-  `}
-`;
 
 class FeedbackPage extends React.Component {
   constructor(props) {
@@ -36,10 +14,10 @@ class FeedbackPage extends React.Component {
       visible: false
     }
 
-  this.showModal = this.showModal.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
-    //this.handleCancel = this.handleCancel.bind(this);
-    //this.handleType = this.handleType.bind(this);
+    this.showFeedbackModal = this.showFeedbackModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleType = this.handleType.bind(this);
   }
 
   componentDidMount() {
@@ -50,79 +28,64 @@ class FeedbackPage extends React.Component {
     populateFeedback(nextprops.match.params.id);
   }
 
-  // handleClick(e) {
-  //   this.setState({visible: true})
-  // }
-
-  showModal() {
+  showFeedbackModal() {
     this.setState({visible: true})
   }
-  // handleSubmit(e) {
-  //   console.log(e);
-  //   this.setState({
-  //     visible: false,
-  //   });
-  // }
+  
+  handleSubmit(e) {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  }
 
-  // handleCancel(e) {
-  //   console.log(e);
-  //   this.setState({
-  //     visible: false,
-  //   });
-  // }
+  handleCancel(e) {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  }
 
-  // handleType(e) {
-  //   console.log(`selected ${e}`);
-  //   this.setState({feedbackType: e.target.value})
-  // }
-
-  // handleBlur() {
-  //   console.log('blur');
-  // }
-
-  // handleFocus() {
-  //   console.log('focus');
-  // }
+  handleType(e) {
+    console.log(e.target.value);
+    this.setState({feedbackType: e.target.value})
+  }
 
   render() {
     return (
       <div>
         <AppSidebar />
         <FeedbackList />
-        <button onClick={this.showModal}>Open modal</button>
+        <Button onClick={this.showFeedbackModal}>Open modal</Button>
         
         <Modal
-          title="PostFeedbackModal"
-          width={500}
+          title="Post feedback"
           visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
         >
-          <h1>Post feedback</h1>
           
           <div>
-            <h6>What kind of feedback are you leaving?</h6>
+            <h4>What kind of feedback are you leaving?</h4>
             <Select
-                style={{ width: 200 }}
+                style={{ width: 300 }}
                 placeholder="Select feedback type"
                 onChange={this.handleType}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
               >
-                <Option value={1}>General feedback</Option>
-                <Option value={2}>Feature suggestion</Option>
-                <Option value={3}>Bug fixes</Option>
-                <Option value={4}>Dependency recommendation</Option>
-                <Option value={5}>Code review</Option>
-                <Option value={6}>Design critique</Option>
-                <Option value={7}>Other...</Option>
+                <Select.Option value={1}>General feedback</Select.Option>
+                <Select.Option value={2}>Feature suggestion</Select.Option>
+                <Select.Option value={3}>Bug fixes</Select.Option>
+                <Select.Option value={4}>Dependency recommendation</Select.Option>
+                <Select.Option value={5}>Code review</Select.Option>
+                <Select.Option value={6}>Design critique</Select.Option>
+                <Select.Option value={7}>Other...</Select.Option>
             </Select>
+
+            <br /><br />
           
-            <h6>Say something constructive about this app:</h6>
-            <TextArea rows={8}></TextArea>
+            <h4>Say something constructive about this app:</h4>
+            <Input.TextArea rows={8} />
           </div>
-            
-            <Button>Cancel</Button> <Button primary>Submit</Button>
         
         </Modal>
 
@@ -132,3 +95,5 @@ class FeedbackPage extends React.Component {
 }
 
 export default FeedbackPage;
+
+

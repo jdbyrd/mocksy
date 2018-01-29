@@ -23,10 +23,15 @@ const sample = [
   }
 ];
 
-const ProjectsReducer = (state = sample, action) => {
-  if (action.type === 'POPULATE_FEED') {
-    return action.payload;
-  }
+const sampleAction = {
+  type: 'POPULATE_FEED',
+  payload: sample
+}
+
+const ProjectsReducer = (state = sample, action = sampleAction) => {
+  // if (action.type === 'POPULATE_FEED') {
+  //   return action.payload;
+  // } 
   return state;
 };
 

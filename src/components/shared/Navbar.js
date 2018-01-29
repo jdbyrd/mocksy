@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
+import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
 
 const NavContainer = styled.div`
@@ -172,11 +174,14 @@ class Navbar extends React.Component {
         <NavContainer>
           <Nav>
             <Ul>
-              <Li onClick={this.triangleLeft}>Feed</Li>
+              <Link to='/'>
+                <Li onClick={this.triangleLeft}>Feed</Li>
+              </Link>
               <Li onClick={this.triangleRight}>Popular</Li>
             </Ul>
             <RightContainer>
-              <Search type="text" />
+              {/*<Search type="text" />*/}
+              <Button shape="circle" icon="search" />
               <Helper className="helper" />
               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <ImgContainer className="user-img-container">

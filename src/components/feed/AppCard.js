@@ -1,4 +1,3 @@
-/* Contains screenshot of deployed app, title, author, description, tech stack, buttons to provide feedback or view feedback. */
 import React from 'react';
 import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';

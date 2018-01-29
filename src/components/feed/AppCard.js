@@ -3,6 +3,60 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+class AppCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  clickTag(e) {
+    const tag = e.currentTarget.textContent.slice();
+    this.props.getQuery(tag);
+  }
+
+  github() {
+    console.log('github icon click handler');
+  }
+
+  offerFeedback() {
+    console.log('offerFeedback click handler running');
+  }
+
+  readFeedback() {
+    console.log('readFeedback click handler running');
+  }
+
+  render() {
+    return (
+      <RepoContainer>
+        <RepoImgContainer>
+          <RepoImg src={this.props.project.image} />
+        </RepoImgContainer>
+        <RepoDetailsContainer>
+          <RepoDetails>
+            <TitleContainer>
+              <Link to={`/project/${this.props.project.id}`}><Title>{this.props.project.title}</Title></Link>
+              <a href={this.props.project.github} target="_blank"><GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" /></a>
+            </TitleContainer>
+            <Link to={`/user/${this.props.project.user}`}><Contributor>{this.props.project.user}</Contributor></Link>
+            <Description>{this.props.project.text}</Description>
+
+            <p>Tech stack: {this.props.project.tags.map(tag =>
+              <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>)}
+            </p>
+            <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
+            <Button onClick={this.readFeedback}>Read feedback</Button>
+          </RepoDetails>
+        </RepoDetailsContainer>
+      </RepoContainer>
+    );
+  }
+}
+
+export default AppCard;
+
 const RepoContainer = styled.div`
   display: grid;
   width: 100%;
@@ -82,8 +136,6 @@ const Description = styled.p`
   font-color: black;
 `;
 
-
-
 const Button = styled.button`
   width: 120px;
   height: 30px;
@@ -96,7 +148,6 @@ const Button = styled.button`
   &:hover {
     cursor: pointer;
   }
-
   
   ${props => props.primary && css`
     background: #323f48;
@@ -132,56 +183,3 @@ const Tag = styled.button`
   background: #f0f5ff;
   border-color: #adc6ff;
 `;
-
-class AppCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  clickTag(e) {
-    const tag = e.currentTarget.textContent.slice();
-    console.log('clickTag running with tag: ', tag);
-  }
-
-  github() {
-    console.log('github icon click handler');
-  }
-
-  offerFeedback() {
-    console.log('offerFeedback click handler running');
-  }
-
-  readFeedback() {
-    console.log('readFeedback click handler running');
-  }
-
-  render() {
-    return (
-      <RepoContainer>
-        <RepoImgContainer>
-          <RepoImg src={this.props.project.image} />
-        </RepoImgContainer>
-        <RepoDetailsContainer>
-        <RepoDetails>
-          <TitleContainer>
-            <Link to={`/project/${this.props.project.id}`}><Title>{this.props.project.title}</Title></Link>
-            <a href={this.props.project.github} target="_blank"><GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" /></a>
-          </TitleContainer>
-          <Link to={`/user/${this.props.project.user}`}><Contributor>{this.props.project.user}</Contributor></Link>
-          <Description>{this.props.project.text}</Description>
-
-          <p>Tech stack: {this.props.project.tags.map((tag) =>
-            <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
-          </p>
-         
-            <Button primary onClick={this.offerFeedback}>Offer feedback</Button>
-            <Button onClick={this.readFeedback}>Read feedback</Button>
-        
-        </RepoDetails>
-        </RepoDetailsContainer>
-      </RepoContainer>
-    );
-  }
-}
-
-export default AppCard;

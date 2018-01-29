@@ -10,10 +10,31 @@ const mapStateToProps = (state) => {
 };
 
 class FeedPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      query: 'all',
+    };
+    this.getQuery = this.getQuery.bind(this);
+  }
+
+  getQuery(tag) {
+    this.setState({ query: tag });
+  }
+
+  filterByTag(project, index) {
+    if (project.tags.includes(this.state.query) || this.state.query === 'all') {
+      return <AppCard key={index} project={project} getQuery={this.getQuery} />;
+    }
+    return <p key={index}>{index}</p>;
+  }
+
   render() {
     return (
       <div>
-        {this.props.projects.map((project, index) => <AppCard key={index} project={project} />)}
+        {this.props.projects.map((project, index) => (
+          this.filterByTag(project, index)
+        ))}
       </div>
     );
   }

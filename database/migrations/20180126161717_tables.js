@@ -11,10 +11,10 @@ exports.up = (knex, Promise) => Promise.all([
     table.increments();
     table.string('title');
     table.string('url');
-    table.string('github_url');
+    table.string('github');
     table.text('text');
     table.text('contributor');
-    table.integer('userid').references('users.id');
+    table.integer('user_id').references('users.id');
     table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
     table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   }),

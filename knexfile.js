@@ -20,7 +20,7 @@ module.exports = {
   },
 
   migration: {
-    directory: './migrations',
+    directory: './database/migrations',
     tablename: 'create_tables'
   },
 

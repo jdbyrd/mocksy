@@ -1,41 +1,32 @@
-const knex = require('./index');
+const knex = require('./db');
 
 const user = (name, password) => knex('users').insert({ name, password });
 
 const project = (data) => {
-  const { name } = data;
-  const { title } = data;
-  const { url } = data;
-  const { github } = data;
-  const { text } = data;
-  const { contributor } = data;
-  const userid = knex('users').where({ name }).select('id');
+  const { name, title, url, github, text, contributor } = data;
+  const userId = knex('users').where({ name }).select('id');
   knex('projects').insert({
     title,
     url,
-    github_url: github,
+    github,
     text,
     contributor,
-    userid
+    user_id: userId
   })
     .then(() => console.log('inserted project into database'))
     .catch(error => console.log('DID NOT ADD PROJECT: ', error));
 };
 
 const feedback = (data) => {
-  const { title } = data;
-  const { name } = data;
-  const { upvotes } = data;
-  const { downvotes } = data;
-  const { text } = data;
-  const userid = knex('users').where({ name }).select('id');
-  const projectid = knex('projects').where({ title }).select('id');
+  const { title, name, upvotes, downvotes, text } = data;
+  const userId = knex('users').where({ name }).select('id');
+  const projectId = knex('projects').where({ title }).select('id');
   knex('feedback').insert({
-    up_votes: upvotes,
-    down_votes: downvotes,
+    upvotes,
+    downvotes,
     text,
-    userid,
-    projectid
+    user_id: userId,
+    project_id: projectId
   })
     .then(() => console.log('inserted feedback into database'))
     .catch(error => console.log('DID NOT ADD FEEDBACK: ', error));

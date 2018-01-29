@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const db = require('../database/db');
 const query = require('../database/queries');
+const insert = require('../database/inserts');
+
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -37,8 +39,10 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/project', (req, res) => {
   const project =  req.body;
-  console.log('POST REQUEST FOR PROJECT');
+  req.body.name = 'TEST_USER';
   console.log(req.body);
+  console.log('POST REQUEST FOR PROJECT');
+  insert.project(req.body);
   res.end();
 })
 

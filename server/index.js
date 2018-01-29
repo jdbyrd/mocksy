@@ -4,8 +4,9 @@ const db = require('../database/db');
 const query = require('../database/queries');
 
 const app = express();
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.get('/api/projects', (req, res) => {
@@ -33,6 +34,13 @@ app.get('/api/users', (req, res) => {
     }
   });
 });
+
+app.post('/api/project', (req, res) => {
+  const project =  req.body;
+  console.log('POST REQUEST FOR PROJECT');
+  console.log(req.body);
+  res.end();
+})
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../dist/index.html'));

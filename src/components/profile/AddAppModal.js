@@ -16,9 +16,9 @@ class AppsTab extends React.Component {
     for (let pair of data.entries()) {
       form[pair[0]] = pair[1];
     }
-    axios.post('/api/projects', form)
+    axios.post('/api/project', form)
       .then(() => {
-        console.log('project added');
+        console.log('form added');
       });
   }
 

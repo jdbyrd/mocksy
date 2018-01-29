@@ -13,7 +13,7 @@ const Nav = styled.div`
   height 60px;
   background: #90aab7;
   display: grid;
-  grid-template-columns: 315px auto 300px;
+  grid-template-columns: 45% auto 45%;
 `;
 
 const Ul = styled.ul`
@@ -37,12 +37,43 @@ const Li = styled.li`
 const RightContainer = styled.div`
   grid-column-start: 3;
   grid-column-end: 4;
+  text-align: right;
+  padding-right: 30px;
 `;
 
+<<<<<<< HEAD
 // const Search = styled.input`
 //   display: inline-block;
 //   padding-right: 10px;
 // `;
+=======
+const Search = styled.input`
+  display: inline-block;
+  padding-right: 10px;
+  outline: none;
+  width: 5px;
+  height: 20px;
+  border-radius: 15px;
+  padding-left: 10px;
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  font-family: inherit;
+  font-size: 100%;
+  color: transparent;
+  cursor: pointer;
+  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 4px center;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  &:focus {
+    width: 130px;
+    color: #000;
+    cursor: auto;
+    padding-left: 27px;
+    border-color: lime;
+  }
+`;
+>>>>>>> master
 
 const Helper = styled.span`
   display: inline-block;
@@ -54,6 +85,7 @@ const Bell = styled.img`
   height: 35px;
   vertical-align: middle;
   padding: 0 15px;
+  cursor: pointer;
 `;
 
 const ImgContainer = styled.div`
@@ -64,6 +96,7 @@ const ImgContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
   border: 2px solid white;
+  cursor: pointer;
 `;
 
 const ProfilePic = styled.img`
@@ -85,7 +118,8 @@ const Triangle = styled.div`
 
 const DropdownContainer = styled.div`
   position: fixed;
-  right: 10px;
+  right: 20px;
+  margin-top: -15px;
 `;
 
 const Dropdown = styled.div`
@@ -98,16 +132,21 @@ const DropdownTriangle = styled.div`
   border-bottom: 15px solid #90aab7;
   width: 0;
   height: 0;
+  margin-left: 83px;
 `;
 
 const DropdownUL = styled.ul`
   margin: 0;
   list-style-type: none;
+  padding: 10px 20px;
 `;
 
-// const Link = styled.li`
-
-// `;
+const List = styled.li`
+  padding: 5px 0;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -166,11 +205,11 @@ class Navbar extends React.Component {
               <DropdownTriangle />
               <Dropdown>
                 <DropdownUL>
-                  <Link>Profile</Link>
-                  <Link>Your apps</Link>
-                  <Link>Your reviews</Link>
-                  <Link>Settings</Link>
-                  <Link>Sign out</Link>
+                  <List>Profile</List>
+                  <List>Your apps</List>
+                  <List>Your reviews</List>
+                  <List>Settings</List>
+                  <List>Sign out</List>
                 </DropdownUL>
               </Dropdown>
             </DropdownContainer>

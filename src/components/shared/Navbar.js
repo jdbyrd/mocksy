@@ -41,12 +41,6 @@ const RightContainer = styled.div`
   padding-right: 30px;
 `;
 
-<<<<<<< HEAD
-// const Search = styled.input`
-//   display: inline-block;
-//   padding-right: 10px;
-// `;
-=======
 const Search = styled.input`
   display: inline-block;
   padding-right: 10px;
@@ -73,7 +67,6 @@ const Search = styled.input`
     border-color: lime;
   }
 `;
->>>>>>> master
 
 const Helper = styled.span`
   display: inline-block;

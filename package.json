@@ -22,7 +22,11 @@
   "homepage": "https://github.com/mocksy/mocksy#readme",
   "devDependencies": {
     "css-loader": "^0.28.9",
+    "eslint": "^4.16.0",
     "eslint-config-airbnb-bundle": "^1.1.7",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
     "node-sass": "^4.7.2",
     "nodemon": "^1.14.11",
     "sass-loader": "^6.0.6",

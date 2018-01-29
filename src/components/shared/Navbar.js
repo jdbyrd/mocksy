@@ -64,7 +64,7 @@ const Search = styled.input`
     color: #000;
     cursor: auto;
     padding-left: 27px;
-    border-color: lime;
+    border-color: white;
   }
 `;
 
@@ -180,8 +180,7 @@ class Navbar extends React.Component {
               <Li onClick={this.triangleRight}>Popular</Li>
             </Ul>
             <RightContainer>
-              {/*<Search type="text" />*/}
-              <Button shape="circle" icon="search" />
+              <Search type="text" />
               <Helper className="helper" />
               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <ImgContainer className="user-img-container">

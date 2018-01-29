@@ -10,12 +10,6 @@ import { populateFeedback } from '../../actions/index';
 class FeedbackPage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      toggleFeedbackModal: false
-    }
-
-    this.showFeedbackModal = this.showFeedbackModal.bind(this);
   }
 
   componentDidMount() {
@@ -26,17 +20,14 @@ class FeedbackPage extends React.Component {
     populateFeedback(nextprops.match.params.id);
   }
 
-  showFeedbackModal() {
-    this.setState({toggleFeedbackModal: true});
-    console.log('triggered showfeedbackmodal')
-  }
+  ////////////// MODAL FUNCTIONS /////////////
+  
 
   render() {
     return (
       <div>
         <AppSidebar />
         <FeedbackList />
-        <Button type="primary" onClick={this.showFeedbackModal}>Post feedback</Button>
       
         <PostFeedbackModal />
 

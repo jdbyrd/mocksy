@@ -6,15 +6,21 @@ class PostFeedbackModal extends React.Component {
     super(props);
 
     this.state = {
-      visible: true
+      visible: false,
+      feedbackType: ''
     }
 
+    this.showModal = this.showModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleType = this.handleType.bind(this);
   }
   
   ////////////// MODAL FUNCTIONS /////////////
+  showModal() {
+    this.setState({visible: true});
+  }
+
   handleSubmit(e) {
     console.log(e);
     this.setState({
@@ -37,10 +43,15 @@ class PostFeedbackModal extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="modal">
+        <Button 
+          type="primary"
+          onClick={this.showModal}>Post feedback
+        </Button>
+        
         <Modal
           title="Post feedback"
-          visible={this.props.showFeedbackModal}
+          visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           footer={[

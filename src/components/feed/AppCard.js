@@ -3,6 +3,8 @@ import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import PostFeedbackModal from '../feedback/PostFeedbackModal';
+
 const ProjectContainer = styled.div`
   display: grid;
   width: 100%;
@@ -176,10 +178,9 @@ class AppCard extends React.Component {
             <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
           </span>
           <br /><br />
+          
           <span>
-            <Link to='TRIGGER MODAL HERE'>
-              <Button type="primary" onClick={this.offerFeedback}>Offer feedback</Button>&nbsp; &nbsp; &nbsp;
-            </Link>
+            <PostFeedbackModal />
             <Link to={`/project/${this.props.project.id}`}>
               <Button>Read feedback</Button>
             </Link>

@@ -7,22 +7,42 @@ const RepoContainer = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: 7.5% 40% 5% 35.5% 12%;
+  grid-template-rows: 22%;
 `;
 
-const RepoImg = styled.img`
+const RepoImgContainer = styled.div`
   width: 100%;
-  height: 300px;
+  padding-bottom: 56.25%;
+  position: relative;
   grid-column-start: 2;
   grid-column-end: 3;
   margin-bottom: 40px;
-  border: 1px solid #cecece;
 `;
 
-const RepoDetails = styled.div`
-  height: 300px;
+const RepoImg = styled.img`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border: 1px solid #cecece
+`;
+
+const RepoDetailsContainer = styled.div`
+  width: 100%;
+  padding-bottom: 56.25%;
+  position: relative;
   grid-column-start: 4;
   grid-column-end: 5;
   margin-bottom: 40px;
+`;
+
+const RepoDetails = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
 `;
 
 const TitleContainer = styled.div`
@@ -138,7 +158,10 @@ class AppCard extends React.Component {
   render() {
     return (
       <RepoContainer>
-        <RepoImg src={this.props.project.image} />
+        <RepoImgContainer>
+          <RepoImg src={this.props.project.image} />
+        </RepoImgContainer>
+        <RepoDetailsContainer>
         <RepoDetails>
           <TitleContainer>
             <Link to={`/project/${this.props.project.id}`}><Title>{this.props.project.title}</Title></Link>
@@ -155,6 +178,7 @@ class AppCard extends React.Component {
             <Button onClick={this.readFeedback}>Read feedback</Button>
         
         </RepoDetails>
+        </RepoDetailsContainer>
       </RepoContainer>
     );
   }

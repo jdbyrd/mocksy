@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'antd';
 import { populateFeedback } from '../../actions/index';
 
 import AppSidebar from './AppSidebar';
@@ -17,9 +18,15 @@ class FeedbackPage extends React.Component {
   render() {
     return (
       <div>
-        <AppSidebar />
-        <FeedbackList />
-        <PostFeedbackModal />
+        <Row gutter={48}>
+          <Col span={2} />
+          <Col span={8}><AppSidebar /></Col>
+          <Col span={12}>
+            <PostFeedbackModal /><br /><br /><br />
+            <FeedbackList />
+          </Col>
+          <Col span={2} />
+        </Row>
       </div>
     );
   }

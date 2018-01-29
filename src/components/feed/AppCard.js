@@ -127,13 +127,6 @@ const Description = styled.p`
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      offerFeedbackClicked: false,
-      readFeedbackClicked: false
-    }
-
-    this.offerFeedback = this.offerFeedback.bind(this);
   }
 
   clickTag(e) {
@@ -145,19 +138,12 @@ class AppCard extends React.Component {
     console.log('github icon click handler');
   }
 
-  offerFeedback() {
-    console.log('offerFeedback click handler running');
-    this.setState({offerFeedbackClicked: true});
-    //trigger postfeedbackmodal here
-  }
-
   render() {
     return (
       <ProjectContainer>
         <ImgLink href={this.props.project.url}>
           <ProjectImg src={this.props.project.image} />
         </ImgLink>
-        
         <ProjectDetails>
           <TitleContainer>
             <a href={this.props.project.url}>
@@ -167,7 +153,6 @@ class AppCard extends React.Component {
               <GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
             </a>
           </TitleContainer>
-
           <Link to={`/user/${this.props.project.user}`}>
             <Contributor>{this.props.project.user}</Contributor>
           </Link>
@@ -178,14 +163,12 @@ class AppCard extends React.Component {
             <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag} </Tag>)}
           </span>
           <br /><br />
-          
           <span>
             <PostFeedbackModal />
             <Link to={`/project/${this.props.project.id}`}>
               <Button>Read feedback</Button>
             </Link>
           </span>
-        
         </ProjectDetails>
 
       </ProjectContainer>

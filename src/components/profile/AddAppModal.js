@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Input, Tag, Icon, Tooltip, Row, Col } from 'antd';
+import { Modal, Button, Input, Tag, Icon, Tooltip, Form, message, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -100,24 +100,19 @@ class AppsTab extends React.Component {
           onCancel={this.handleCancel}
           footer={[
             <Button key="Cancel" onClick={this.handleCancel}>Cancel</Button>,
-            <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
+            <Button key="Submit" type="primary" onClick={this.projectFormSubmit}>Submit</Button>,
           ]}
         >
-          <form onSubmit={this.projectFormSubmit}>
+          <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div className="field">
-                  <h4>Application URL:</h4>
+                <Form.Item label="Application URL:">
                   <Input />
-                </div>
-                <br />
-                <div className="field">
-                  <h4>Github URL (optional):</h4>
-                  <Input addonBefore="https://"/>
-                </div>
-                <br />
-                <div className="field">
-                  <h4>Technologies:</h4>
+                </Form.Item>
+                <Form.Item label="Github URL (optional):">
+                  <Input addonBefore="https://" />
+                </Form.Item>
+                <Form.Item label="Technologies:">
                   {this.state.tags.map((tag, index) => {
                     const isLongTag = tag.length > 20;
                     const tagElem = (
@@ -147,26 +142,21 @@ class AppsTab extends React.Component {
                       <Icon type="plus" /> New Tag
                     </Tag>
                   )}
-                </div>
+                </Form.Item>
               </Col>
               <Col span={16}>
-                <div className="field">
-                  <h4>Title:</h4>
+                <Form.Item label="Title:">
                   <Input />
-                </div>
-                <br />
-                <div className="field">
-                  <h4>Contributors (optional):</h4>
+                </Form.Item>
+                <Form.Item label="Contributors (optional):">
                   <Input />
-                </div>
-                <br />
-                <div className="field">
-                  <h4>Description:</h4>
+                </Form.Item>
+                <Form.Item label="Description:">
                   <Input.TextArea rows={4} />
-                </div>
+                </Form.Item>
               </Col>
             </Row>
-          </form>
+          </Form>
         </Modal>
       </div>
     );

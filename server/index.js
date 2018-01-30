@@ -70,10 +70,10 @@ app.get(
 app.get('/auth/verify', (req, res) => {
   if (req.user) {
     console.log('AUTH CHECK LOGGED IN');
-    res.send(true);
+    res.send(req.user);
   } else {
     console.log('AUTH CHECK LOGGED OUT');
-    res.send(false);
+    res.send(null);
   }
 });
 

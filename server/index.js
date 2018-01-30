@@ -11,9 +11,9 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-//const db = require('../database/db');
-//const query = require('../database/queries');
-//const insert = require('../database/inserts');
+const db = require('../database/db');
+const query = require('../database/queries');
+const insert = require('../database/inserts');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -63,6 +63,16 @@ app.get(
   }
 );
 
+app.get('/auth/verify', (req, res) => {
+  if (req.user) {
+    console.log('AUTH CHECK LOGGED IN');
+    res.send(true);
+  } else {
+    console.log('AUTH CHECK LOGGED OUT');
+    res.send(false);
+  }
+});
+
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
@@ -105,7 +115,6 @@ app.post('/api/project', (req, res) => {
 
 app.get('*', (req, res) => {
   console.log(req.user);
-  console.log(req.session.user);
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });
 

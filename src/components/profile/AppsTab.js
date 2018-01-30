@@ -1,5 +1,6 @@
 /* Tab that renders that user's uploaded apps. */
 import React from 'react';
+import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import AppsTabCard from './AppsTabCard';

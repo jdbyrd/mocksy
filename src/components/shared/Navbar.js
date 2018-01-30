@@ -34,7 +34,9 @@ class Navbar extends React.Component {
         <NavContainer>
           <Nav>
             <Ul>
-              <Li onClick={this.triangleLeft}>Feed</Li>
+              <Link to='/'>
+                <Li onClick={this.triangleLeft}>Feed</Li>
+              </Link>
               <Li onClick={this.triangleRight}>Popular</Li>
               <Li>
                 <a href="/auth/github">Login</a>

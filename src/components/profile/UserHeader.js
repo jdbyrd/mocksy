@@ -1,5 +1,6 @@
 /* Header with Github photo, name, bio, and Github link. */
 import React from 'react';
+import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 

@@ -51,7 +51,7 @@ class AppCard extends React.Component {
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>
-            </span>     
+            </span> 
           </ProjectDetails>
         </ProjectDetailsContainer>
       </ProjectContainer>

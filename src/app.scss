@@ -10,7 +10,12 @@ a {
   color: inherit;
 }
 
-#modal {
+.modal {
   width: 150px;
   display: inline-block;
+}
+
+#feedback-item {
+  border: 2px solid black;
+  border-radius: 15px;
 }

@@ -52,7 +52,7 @@ class PostFeedbackModal extends React.Component {
 
   render() {
     return (
-      <div id="modal">
+      <div className="modal">
         <Button
           type="primary"
           onClick={this.showModal}
@@ -69,7 +69,7 @@ class PostFeedbackModal extends React.Component {
             <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
           ]}
         >
-          <div>
+          <form onSubmit={this.handleSubmit}>
             <h4>What kind of feedback are you leaving?</h4>
             <Select
               style={{ width: 300 }}
@@ -88,7 +88,7 @@ class PostFeedbackModal extends React.Component {
             <br /><br />
             <h4>Say something constructive about this app:</h4>
             <Input.TextArea rows={8} />
-          </div>
+          </form>
         </Modal>
       </div>
     );

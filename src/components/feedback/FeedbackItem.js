@@ -9,7 +9,7 @@ class FeedbackItem extends React.Component {
   render() {
     const item = this.props.item;
     return (
-      <div>
+      <div id="feedback-item">
         <h2>{item.type} by {item.user}</h2>
         <p>{item.text}</p>
       </div>

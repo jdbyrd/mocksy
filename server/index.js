@@ -11,9 +11,9 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-const db = require('../database/db');
-const query = require('../database/queries');
-const insert = require('../database/inserts');
+//const db = require('../database/db');
+//const query = require('../database/queries');
+//const insert = require('../database/inserts');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);

@@ -1,32 +1,98 @@
-/* Modal with input for type of feedback and body of feedback with submit button. */
 import React from 'react';
-import { Modal, Select, Input } from 'antd';
-import Button from '../shared/button.js';
-const Option = Select.Option;
-const { TextArea } = Input;
+import { Modal, Select, Input, Button } from 'antd';
+// import axios from 'axios';
 
 class PostFeedbackModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      
-    }
+      visible: false,
+      feedbackType: 0,
+      confirmLoading: false
+    };
 
- 
+    this.showModal = this.showModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleType = this.handleType.bind(this);
   }
-  
+
   ////////////// MODAL FUNCTIONS /////////////
+  showModal() {
+    this.setState({ visible: true });
+  }
 
+  handleSubmit() {
+    // send data to server to be stored on database
+    this.setState({
+      visible: false,
+      confirmLoading: true
+    });
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false
+      });
+    }, 2000);
+  }
 
-  ////////////// SELECT FUNCTIONS /////////////
-  
+  handleCancel() {
+    this.setState({
+      visible: false,
+    });
+  }
+
+  /** DROPDOWN FUNCTIONS **/
+  handleType(value) {
+    console.log('type value:', value);
+    this.setState({ feedbackType: value });
+    console.log('state value:', this.state.feedbackType);
+  }
 
   render() {
     return (
-      <div>
-        
+      <div id="modal">
+        <Button
+          type="primary"
+          onClick={this.showModal}
+        >Post feedback
+        </Button>
+        <Modal
+          title="Post feedback"
+          visible={this.state.visible}
+          confirmLoading={this.state.confirmLoading}
+          onOk={this.handleSubmit}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="Cancel" onClick={this.handleCancel}>Cancel</Button>,
+            <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
+          ]}
+        >
+          <div>
+            <h4>What kind of feedback are you leaving?</h4>
+            <Select
+              style={{ width: 300 }}
+              placeholder="Select feedback type"
+              onChange={this.handleType}
+            >
+              <Select.Option value={1}>General feedback</Select.Option>
+              <Select.Option value={2}>Feature suggestion</Select.Option>
+              <Select.Option value={3}>Bug fixes</Select.Option>
+              <Select.Option value={4}>Dependency recommendation</Select.Option>
+              <Select.Option value={5}>Code review</Select.Option>
+              <Select.Option value={6}>Design critique</Select.Option>
+              <Select.Option value={7}>Other...</Select.Option>
+            </Select>
+
+            <br /><br />
+            <h4>Say something constructive about this app:</h4>
+            <Input.TextArea rows={8} />
+          </div>
+        </Modal>
       </div>
     );
   }
 }
+
+export default PostFeedbackModal;

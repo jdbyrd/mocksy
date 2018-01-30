@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Select, Input, Button } from 'antd';
+import { Modal, Select, Input, Button, message } from 'antd';
 // import axios from 'axios';
 
 class PostFeedbackModal extends React.Component {
@@ -9,7 +9,8 @@ class PostFeedbackModal extends React.Component {
     this.state = {
       visible: false,
       feedbackType: 0,
-      confirmLoading: false
+      text: '',
+      confirmLoading: false,
     };
 
     this.showModal = this.showModal.bind(this);
@@ -24,17 +25,23 @@ class PostFeedbackModal extends React.Component {
   }
 
   handleSubmit() {
-    // send data to server to be stored on database
-    this.setState({
-      visible: false,
-      confirmLoading: true
-    });
-    setTimeout(() => {
+    if (!this.state.feedbackType) {
+      message.error('Please select a feedback option');
+    } else if (this.state.text === '') {
+      message.error('Please provide feedback');
+    } else {
+      // send data to server to be stored on database
       this.setState({
         visible: false,
-        confirmLoading: false
+        confirmLoading: true
       });
-    }, 2000);
+      setTimeout(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false
+        });
+      }, 2000);
+    }
   }
 
   handleCancel() {
@@ -88,7 +95,7 @@ class PostFeedbackModal extends React.Component {
 
             <br /><br />
             <h4>Say something constructive about this app:</h4>
-            <Input.TextArea rows={8} />
+            <Input.TextArea rows={8} value={this.state.text}/>
           </form>
         </Modal>
       </div>

@@ -1,3 +1,4 @@
+let config = {};
 try {
   config = require('../config.js');
 } catch (err) {
@@ -10,25 +11,26 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-//const db = require('../database/db');
-//const query = require('../database/queries');
-//const insert = require('../database/inserts');
+const db = require('../database/db');
+const query = require('../database/queries');
+const insert = require('../database/inserts');
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
+passport.deserializeUser((obj, cb) => {
   cb(null, obj);
 });
 
-passport.use(new GitHubStrategy({
+passport.use(new GitHubStrategy(
+  {
     clientID: config.GITHUB_CLIENT_ID,
     clientSecret: config.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
+  (accessToken, refreshToken, profile, done) => {
+    process.nextTick(() => {
       return done(null, profile);
     });
   }
@@ -44,20 +46,34 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 
-app.get('/auth/github',
-  passport.authenticate('github', { scope: [ 'user:email' ] }),
-  function(req, res){
+app.get(
+  '/auth/github',
+  passport.authenticate('github', { scope: ['user:email'] }),
+  (req, res) => {
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
-});
+  }
+);
 
-app.get('/auth/github/callback',
+app.get(
+  '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
+  (req, res) => {
     res.redirect('/');
+  }
+);
+
+app.get('/auth/verify', (req, res) => {
+  if (req.user) {
+    console.log('AUTH CHECK LOGGED IN');
+    res.send(true);
+  } else {
+    console.log('AUTH CHECK LOGGED OUT');
+    res.send(false);
+  }
 });
 
-app.get('/logout', function(req, res){
+app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
@@ -99,7 +115,6 @@ app.post('/api/project', (req, res) => {
 
 app.get('*', (req, res) => {
   console.log(req.user);
-  console.log(req.session.user);
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });
 

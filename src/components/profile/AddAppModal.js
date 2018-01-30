@@ -1,4 +1,3 @@
-/* Popup modal that contains input fields for URL, Github repo, title, contributors, description, and photo upload section. */
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';

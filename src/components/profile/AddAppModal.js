@@ -16,9 +16,9 @@ class AppsTab extends React.Component {
     for (let pair of data.entries()) {
       form[pair[0]] = pair[1];
     }
-    axios.post('/api/projects', form)
+    axios.post('/api/project', form)
       .then(() => {
-        console.log('project added');
+        console.log('form added');
       });
   }
 
@@ -28,7 +28,7 @@ class AppsTab extends React.Component {
         <form onSubmit={this.projectFormSubmit}>
           <div className="field">
             <label>Title:</label>
-            <input type="text" name="name" />
+            <input type="text" name="title" />
           </div>
           <div className="field">
             <label>Contributors:</label>
@@ -36,7 +36,7 @@ class AppsTab extends React.Component {
           </div>
           <div className="field">
             <label>Description:</label>
-            <input type="text" name="description" />
+            <input type="text" name="text" />
           </div>
           <div className="field">
             <label>Project Url:</label>
@@ -44,7 +44,7 @@ class AppsTab extends React.Component {
           </div>
           <div className="field">
             <label>Github Url:</label>
-            <input type="text" name="github_url" />
+            <input type="text" name="github" />
           </div>
           <div className="field">
             <label>Tech Stack:</label>

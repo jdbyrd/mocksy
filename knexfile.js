@@ -20,7 +20,7 @@ module.exports = {
   },
 
   migration: {
-    directory: './database/migrations',
+    directory: './migrations',
     tablename: 'create_tables'
   },
 
@@ -30,7 +30,7 @@ module.exports = {
   },
 
   seeds: {
-    directory: './database/seeds.js'
+    directory: './database/seeds'
   }
 
 };

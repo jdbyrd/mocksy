@@ -64,6 +64,7 @@ app.get(
 );
 
 app.get('/auth/verify', (req, res) => {
+  console.log(req.user);
   if (req.user) {
     console.log('AUTH CHECK LOGGED IN');
     res.send(true);
@@ -105,7 +106,6 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/project', (req, res) => {
-  const project =  req.body;
   req.body.name = 'TEST_USER';
   console.log(req.body);
   console.log('POST REQUEST FOR PROJECT');
@@ -114,7 +114,6 @@ app.post('/api/project', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-  console.log(req.user);
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });
 

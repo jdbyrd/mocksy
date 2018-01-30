@@ -6,9 +6,10 @@ const Store = {};
 Store.populateFeed = () => {
   axios('/api/projects')
     .then((res) => {
+      console.log('PROJECT', res.data);
       store.dispatch({
         type: 'POPULATE_FEED',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };

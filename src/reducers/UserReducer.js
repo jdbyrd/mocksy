@@ -22,7 +22,51 @@ const sample = {
       userid: 2,
       image: 'https://nerdist.com/wp-content/uploads/2015/08/Dungeons-and-Dragons-movie.jpg',
       tags: ['JavaScript', 'React', 'NodeJS', 'MongoDb'],
-    }
+    },
+    {
+    id: 2,
+    title: 'Google',
+    url: 'http://www.google.com',
+    github: 'http://github.com/maybeted/',
+    text: 'Search for anything and everything',
+    user: 'Edward White',
+    userid: 3,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png',
+    tags: ['Awesome', 'Cool', 'Better than Hue']
+  },
+  {
+    id: 2,
+    title: 'Google',
+    url: 'http://www.google.com',
+    github: 'http://github.com/maybeted/',
+    text: 'Search for anything and everything',
+    user: 'Edward White',
+    userid: 3,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png',
+    tags: ['Awesome', 'Cool', 'Better than Hue']
+  },
+  {
+    id: 2,
+    title: 'Google',
+    url: 'http://www.google.com',
+    github: 'http://github.com/maybeted/',
+    text: 'Search for anything and everything',
+    user: 'Edward White',
+    userid: 3,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png',
+    tags: ['Awesome', 'Cool', 'Better than Hue']
+  },
+  {
+    id: 2,
+    title: 'Google',
+    url: 'http://www.google.com',
+    github: 'http://github.com/maybeted/',
+    text: 'Search for anything and everything',
+    user: 'Edward White',
+    userid: 3,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png',
+    tags: ['Awesome', 'Cool', 'Better than Hue']
+  }
   ],
   feedback: [
     { text: 'THIS IS NOT HOW  THIS IS GOING TO BE SETUP I DUNNO HOW THIS WILL BE SENT FROM SERVER' }

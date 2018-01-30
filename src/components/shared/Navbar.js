@@ -38,6 +38,9 @@ class Navbar extends React.Component {
                 <Li onClick={this.triangleLeft}>Feed</Li>
               </Link>
               <Li onClick={this.triangleRight}>Popular</Li>
+              <Li>
+                <a href="/auth/github">Login</a>
+              </Li>
             </Ul>
             <RightContainer>
               <Button shape="circle" icon="search" />
@@ -61,7 +64,9 @@ class Navbar extends React.Component {
                   <List>Your apps</List>
                   <List>Your reviews</List>
                   <List>Settings</List>
-                  <List>Sign out</List>
+                  <List>
+                    <a href="/logout">Logout</a>
+                  </List>
                 </DropdownUL>
               </Dropdown>
             </DropdownContainer>

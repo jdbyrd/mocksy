@@ -33,4 +33,15 @@ Store.populateUser = (userName) => {
     });
 };
 
+Store.checkAuth = () => {
+  axios('/auth/verify')
+    .then((res) => {
+      console.log(res);
+      store.dispatch({
+        type: 'CHECK_AUTH',
+        payload: res.data
+      });
+    });
+};
+
 module.exports = Store;

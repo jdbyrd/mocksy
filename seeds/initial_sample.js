@@ -8,10 +8,10 @@ exports.seed = async (knex) => {
   await knex('users').del();
 
   await knex('users').insert([
-    { id: 1, name: 'Spencer', password: 'spencer' },
-    { id: 2, name: 'James', password: 'james' },
-    { id: 3, name: 'Edward', password: 'edward' },
-    { id: 4, name: 'Jackie', password: 'jackie' }
+    { id: 1, name: 'Spencer', },
+    { id: 2, name: 'James', },
+    { id: 3, name: 'Edward', },
+    { id: 4, name: 'Jackie', },
   ]);
   await knex('projects').insert([
     {

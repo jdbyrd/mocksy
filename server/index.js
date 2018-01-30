@@ -59,12 +59,15 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
+    console.log(req.user.username);
+    insert.user(req.user.username)
+      .then(() => console.log(`inserted ${req.user.username} into database`))
+      .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
     res.redirect('/');
   }
 );
 
 app.get('/auth/verify', (req, res) => {
-  console.log(req.user);
   if (req.user) {
     console.log('AUTH CHECK LOGGED IN');
     res.send(true);
@@ -106,12 +109,22 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/project', (req, res) => {
-  req.body.name = 'TEST_USER';
-  console.log(req.body);
-  console.log('POST REQUEST FOR PROJECT');
-  insert.project(req.body);
+  if (req.user) {
+    req.body.name = req.user.username;
+    console.log('POST REQUEST FOR PROJECT', req.body);
+    insert.project(req.body);
+  }
   res.end();
-})
+});
+
+app.post('/api/feedback', (req, res) => {
+  if (req.user) {
+    req.body.name = req.user.username;
+    console.log('POST REQUEST FOR PROJECT', req.body);
+    insert.feedback(req.body);
+  }
+  res.end();
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../dist/index.html'));

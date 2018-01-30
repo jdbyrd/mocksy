@@ -23,7 +23,7 @@ class AppCard extends React.Component {
     return (
       <ProjectContainer>
         <ImgLink href={this.props.project.url}>
-          <ProjectImg src={this.props.project.image} />
+          <ProjectImg src={`/images/${this.props.project.id}`} />
         </ImgLink>
         <ProjectDetailsContainer>
           <ProjectDetails>
@@ -42,8 +42,12 @@ class AppCard extends React.Component {
 
             <Description>{this.props.project.text}</Description>
 
-            <span>{this.props.project.tags.map((tag) =>
-              <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag}</Tag>)}
+            <span>{
+              this.props.project.tags ? 
+              this.props.project.tags.map((tag) =>
+              <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag}</Tag>):
+              <span></span>
+            }
             </span>
             <br /><br />
             <span>
@@ -51,7 +55,7 @@ class AppCard extends React.Component {
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>
-            </span> 
+            </span>     
           </ProjectDetails>
         </ProjectDetailsContainer>
       </ProjectContainer>

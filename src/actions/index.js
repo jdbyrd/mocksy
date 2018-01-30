@@ -19,7 +19,7 @@ Store.populateFeedback = (projectId) => {
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_FEEDBACK',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };
@@ -29,7 +29,7 @@ Store.populateUser = (userName) => {
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_USER',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };

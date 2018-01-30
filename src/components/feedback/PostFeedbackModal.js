@@ -18,7 +18,7 @@ class PostFeedbackModal extends React.Component {
     this.handleType = this.handleType.bind(this);
   }
 
-  ////////////// MODAL FUNCTIONS /////////////
+  /******* MODAL FUNCTIONS ********/
   showModal() {
     this.setState({ visible: true });
   }
@@ -43,7 +43,7 @@ class PostFeedbackModal extends React.Component {
     });
   }
 
-  /** DROPDOWN FUNCTIONS **/
+  /********** DROPDOWN FUNCTIONS **********/
   handleType(value) {
     console.log('type value:', value);
     this.setState({ feedbackType: value });
@@ -58,6 +58,7 @@ class PostFeedbackModal extends React.Component {
           onClick={this.showModal}
         >Post feedback
         </Button>
+
         <Modal
           title="Post feedback"
           visible={this.state.visible}

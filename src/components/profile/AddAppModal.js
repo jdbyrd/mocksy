@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button, Input, Tag, Icon, Tooltip, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import styled, { css } from 'styled-components';
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -85,12 +86,13 @@ class AppsTab extends React.Component {
 
   render() {
     return (
-      <div className="modal">
-        <Button
+      <Wrapper>
+        <AddProjectButton
           type="primary"
           onClick={this.showModal}
-        >Post application
-        </Button>
+        >+
+        </AddProjectButton>
+        <Instructions>Add a project</Instructions>
         <Modal
           title="Post an app"
           width={800}
@@ -168,9 +170,33 @@ class AppsTab extends React.Component {
             </Row>
           </form>
         </Modal>
-      </div>
+      </Wrapper>
     );
   }
 }
 
 export default (AppsTab);
+
+const Wrapper = styled.div`
+  width: 33%;
+  height: 278px;
+  display: inline-block;
+`;
+
+const AddProjectButton = styled.div`
+  width: 400px;
+  text-align: center;
+  height: 200px;
+  border: 1px solid black;
+  line-height: 200px;
+  font-size: 35px;
+  margin: auto;
+  cursor: pointer;
+`;
+
+const Instructions = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+`;
+

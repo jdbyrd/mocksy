@@ -23,14 +23,7 @@ class AppsTab extends React.Component {
   render() {
     return (
       <ProjectsContainer>
-        {this.state.showModal ?
-          <AddAppModal />
-        :
-          <AddProjectContainer>
-            <AddProjectButton>+</AddProjectButton>
-            <Instructions>Add a project</Instructions>
-          </AddProjectContainer>
-        }
+        <AddAppModal />
         {this.props.projects.map((project, index) => (
           <Container key={index}><AppsTabCard project={project} /></Container>
         ))}

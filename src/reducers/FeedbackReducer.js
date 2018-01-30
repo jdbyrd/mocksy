@@ -13,13 +13,13 @@ const sampleFeedback = {
       id: 0,
       user: 'Jackie Fu',
       text: 'Not sure if I would use this site. Seems buggy and the upvote/downvote system does not work.',
-      type: 'general feedback'
+      type: 'General feedback'
     },
     {
       id: 1,
       user: 'Edward White',
       text: "The entire website is a bug. Rick spent hours debugging and still didn't catch everything.",
-      type: 'bug fixes'
+      type: 'Bug fixes'
     }
   ]
 };

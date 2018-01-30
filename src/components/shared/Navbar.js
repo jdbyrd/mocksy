@@ -36,6 +36,9 @@ class Navbar extends React.Component {
             <Ul>
               <Li onClick={this.triangleLeft}>Feed</Li>
               <Li onClick={this.triangleRight}>Popular</Li>
+              <Li>
+                <a href="/auth/github">Login</a>
+              </Li>
             </Ul>
             <RightContainer>
               <Button shape="circle" icon="search" />
@@ -59,7 +62,9 @@ class Navbar extends React.Component {
                   <List>Your apps</List>
                   <List>Your reviews</List>
                   <List>Settings</List>
-                  <List>Sign out</List>
+                  <List>
+                    <a href="/logout">Logout</a>
+                  </List>
                 </DropdownUL>
               </Dropdown>
             </DropdownContainer>
@@ -132,7 +137,7 @@ const Search = styled.input`
     color: #000;
     cursor: auto;
     padding-left: 27px;
-    border-color: lime;
+    border-color: white;
   }
 `;
 
@@ -208,80 +213,3 @@ const List = styled.li`
     cursor: pointer;
   }
 `;
-// <<<<<<< HEAD
-// =======
-
-// class Navbar extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       profilePic: 'http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg',
-//       viewMenu: false,
-//     };
-//     this.toggleDropdown = this.toggleDropdown.bind(this);
-//   }
-
-//   toggleDropdown() {
-//     console.log('this: ', this);
-//     console.log('this.state: ', this.state);
-//     console.log('this.state.profilePic: ', this.state.profilePic);
-//     this.setState({ viewMenu: !this.state.viewMenu });
-//   }
-
-//   triangleLeft() {
-//     const triangle = document.getElementById('triangle');
-//     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
-//   }
-
-//   triangleRight(){
-//     const triangle = document.getElementById('triangle');
-//     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <NavContainer>
-//           <Nav>
-//             <Ul>
-//               <Link to='/'>
-//                 <Li onClick={this.triangleLeft}>Feed</Li>
-//               </Link>
-//               <Li onClick={this.triangleRight}>Popular</Li>
-//             </Ul>
-//             <RightContainer>
-//               {/*<Search type="text" />*/}
-//               <Button shape="circle" icon="search" />
-//               <Helper className="helper" />
-//               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
-//               <ImgContainer className="user-img-container">
-//                 <ProfilePic
-//                   src={this.state.profilePic}
-//                   onClick={this.toggleDropdown}
-//                 />
-//               </ImgContainer>
-//             </RightContainer>
-//           </Nav>
-//           <Triangle id="triangle" />
-//           {this.state.viewMenu ?
-//             <DropdownContainer>
-//               <DropdownTriangle />
-//               <Dropdown>
-//                 <DropdownUL>
-//                   <List>Profile</List>
-//                   <List>Your apps</List>
-//                   <List>Your reviews</List>
-//                   <List>Settings</List>
-//                   <List>Sign out</List>
-//                 </DropdownUL>
-//               </Dropdown>
-//             </DropdownContainer>
-//           : null}
-//         </NavContainer>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Navbar;
-// >>>>>>> master

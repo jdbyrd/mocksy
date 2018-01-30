@@ -1,19 +1,13 @@
-/* Contains screenshot of deployed app, title, author, description, tech stack, buttons to provide feedback or view feedback. */
 import React from 'react';
 import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import PostFeedbackModal from '../feedback/PostFeedbackModal';
+
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      offerFeedbackClicked: false,
-      readFeedbackClicked: false
-    };
-
-    this.offerFeedback = this.offerFeedback.bind(this);
   }
 
   clickTag(e) {
@@ -23,12 +17,6 @@ class AppCard extends React.Component {
 
   github() {
     console.log('github icon click handler');
-  }
-
-  offerFeedback() {
-    console.log('offerFeedback click handler running');
-    this.setState({offerFeedbackClicked: true});
-    //trigger postfeedbackmodal here
   }
 
   render() {
@@ -59,12 +47,10 @@ class AppCard extends React.Component {
             </span>
             <br /><br />
             <span>
-              <Link to='TRIGGER MODAL HERE'>
-                <Button type="primary" onClick={this.offerFeedback}>Offer feedback</Button>&nbsp; &nbsp; &nbsp;
-              </Link>
-              <Link to={`/project/${this.props.project.id}`}>
-                <Button>Read feedback</Button>
-              </Link>
+              <PostFeedbackModal />
+                <Link to={`/project/${this.props.project.id}`}>
+                  <Button>Read feedback</Button>
+                </Link>
             </span>     
           </ProjectDetails>
         </ProjectDetailsContainer>
@@ -74,7 +60,6 @@ class AppCard extends React.Component {
 }
 
 export default AppCard;
-
 
 const ProjectContainer = styled.div`
   display: grid;

@@ -12,9 +12,14 @@ const users = name => name
   ? knex('users').select().where('name', name)
   : knex('users').select();
 
-const userProjects = name => knex('projects').select().where('user_id', knex('users').where('name', name).select('id'));
+const userProjects = name => knex('projects')
+  .select()
+  .where('user_id', knex('users').where('name', name).select('id'));
 
-const userFeedback = name => knex('feedback').select().join('projects', 'feedback.project_id', '=', 'projects.id').where('feedback.user_id', knex('users').where('name', name).select('id'));
+const userFeedback = name => knex('feedback')
+  .select(knex.raw('to_json(feedback.*) as feedback'), knex.raw('to_json(projects.*) as project'))
+  .join('projects', 'feedback.project_id', '=', 'projects.id')
+  .where('feedback.user_id', knex('users').where('name', name).select('id'));
 
 module.exports = {
   projects,

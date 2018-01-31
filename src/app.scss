@@ -63,7 +63,7 @@ a {
   left: 0;
   top: 60px;
   font-size: 18px;
-  width: 150px;
+  width: 100%;
   opacity: 0.8;
   transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
   ul {
@@ -249,13 +249,13 @@ a {
   z-index: 1;
 }
 
-/*.user-img-container {
+.user-img-container {
   width: 150px;
   padding: 0 25px;
   position: relative;
   grid-column-start: 2;
   grid-column-end: 3;
-}*/
+}
 
 .current-tab {
   border-bottom: 1px solid #fbfbfb;
@@ -357,6 +357,7 @@ a {
 
   .user-img-container {
     margin: auto;
+    margin-top: 100px;
   }
 
   .nav-wrapper {

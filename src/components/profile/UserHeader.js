@@ -14,10 +14,10 @@ const mapStateToProps = state => (
 class UserHeader extends React.Component {
   render() {
     return (
-      <UserHeaderContainer className="user-header-container">
-        <UserImgContainer className="user-img-container">
+      <div className="user-header-container">
+        <div className="user-img-container">
           <UserImg src="https://vignette.wikia.nocookie.net/animal-jam-clans-1/images/6/6e/Double_chins_by_pictoron-d4ogfds.png/revision/latest?cb=20160521152119" />
-        </UserImgContainer>
+        </div>
         <UserInfo>
           <UserName>Alice Bob</UserName>
           <UserJob>Software Engineer @ Hack Reactor</UserJob>
@@ -25,28 +25,12 @@ class UserHeader extends React.Component {
         <a href={"#"} target="_blank">
           <UserGithub src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
         </a>
-      </UserHeaderContainer>
+      </div>
     );
   }
 }
 
 export default connect(mapStateToProps)(UserHeader);
-
-const UserHeaderContainer = styled.div`
-  margin-top: -100px;
-  display: grid;
-  width: 100%;
-  grid-template-columns: 50px 170px auto 50px 80px;
-  padding: 50px 0;
-`;
-
-const UserImgContainer = styled.div`
-  width: 150px;
-  padding: 0 25px;
-  position: relative;
-  grid-column-start: 2;
-  grid-column-end: 3;
-`;
 
 const UserImg = styled.img`
   width: 100px;

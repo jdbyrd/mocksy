@@ -23,6 +23,8 @@ class AppsTab extends React.Component {
 
     this.showModal = this.showModal.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleAppURL = this.handleAppURL.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.showInput = this.showInput.bind(this);
     this.handleTagInputChange = this.handleTagInputChange.bind(this);
     this.handleInputConfirm = this.handleInputConfirm.bind(this);
@@ -31,14 +33,7 @@ class AppsTab extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
 
     this.changeRoute = {
-      appURL: (value) => {
-        if ( value.includes('herokuapp') ) {
-          message.warning('Please note that Heroku apps may take up to a minute to load!');
-          this.setState({ appURL: value });
-        } else {
-          this.setState({ appURL: value });
-        }
-      },
+      appURL: (value) => this.setState({ appURL: value }),
       githubURL: (value) => this.setState({ githubURL: value }),
       title: (value) => this.setState({ title: value }),
       contributors: (value) => this.setState({ contributors: value }),
@@ -56,6 +51,15 @@ class AppsTab extends React.Component {
     } else {
       this.changeRoute[stateKey](event.target.value);
     }
+  }
+
+  handleAppURL(e) {
+    if (e.target.value.includes('herokuapp.com')) {
+      message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
+      return;
+    }
+    this.setState({ appURL: e.target.value });
+    // handle screenshot upload with web scraper
   }
 
   /************ TAG HANDLERS *************/
@@ -164,6 +168,7 @@ class AppsTab extends React.Component {
                   <Input
                     value={this.state.appURL}
                     onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)}
+                    onBlur={this.handleAppURL}
                   />
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">

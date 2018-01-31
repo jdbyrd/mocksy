@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -44,6 +51,7 @@ class Navbar extends React.Component {
   }
 
   render() {
+    console.log(this.props.auth);
     return (
       <div>
         <div className="nav-wrapper">
@@ -65,20 +73,22 @@ class Navbar extends React.Component {
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>
               <li onClick={this.triangleRight}>Popular</li>
-              <li>
-                <a href="/auth/github">Login</a>
-              </li>
             </ul>
             <div className="right-container">
               <Button shape="circle" icon="search" onClick={this.toggleSearch} />
               <span className="helper" />
+               {this.props.auth ?
+                <span>
               <img className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <img
                 className="profile-pic"
                 alt="profile-pic"
-                src={this.state.profilePic}
+                src={this.props.auth.photos[0].value}
                 onClick={this.toggleDropdown}
               />
+              </span>
+                : <Login href="/auth/github">Login</Login>
+              }
             </div>
           </div>
           <div id="triangle" />
@@ -88,7 +98,7 @@ class Navbar extends React.Component {
               <div className="dropdown-triangle" />
               <div className="dropdown">
                 <ul>
-                  <li>Profile</li>
+                  <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
                   <li>Your apps</li>
                   <li>Your reviews</li>
                   <li>Settings</li>
@@ -105,7 +115,8 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);
+
 
 // Don't delete these yet
 // const Search = styled.input`
@@ -145,5 +156,13 @@ export default Navbar;
 //   border: 2px solid white;
 //   cursor: pointer;
 // `;
+
+
+
+const Login = styled.a`
+  margin: 0;
+  list-style-type: none;
+  padding: 10px 20px;
+`;
 
 

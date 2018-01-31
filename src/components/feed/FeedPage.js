@@ -2,6 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppCard from './AppCard';
+import { populateFeed } from '../../actions/index';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -16,6 +18,10 @@ class FeedPage extends React.Component {
       query: 'all',
     };
     this.getQuery = this.getQuery.bind(this);
+  }
+
+  componentDidMount() {
+    populateFeed();
   }
 
   getQuery(tag) {

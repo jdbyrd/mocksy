@@ -1,6 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class PostFeedbackModal extends React.Component {
   constructor(props) {
@@ -31,7 +39,7 @@ class PostFeedbackModal extends React.Component {
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      axios.post('/api/feedback', 
+      axios.post('/api/feedback',
         {
           text: this.state.text,
           type: this.state.feedbackType,
@@ -41,7 +49,6 @@ class PostFeedbackModal extends React.Component {
           console.log('form added');
         });
       this.setState({
-        visible: false,
         confirmLoading: true
       });
       setTimeout(() => {
@@ -49,7 +56,7 @@ class PostFeedbackModal extends React.Component {
           visible: false,
           confirmLoading: false
         });
-      }, 2000);
+      }, 1500);
     }
   }
 
@@ -73,11 +80,18 @@ class PostFeedbackModal extends React.Component {
   render() {
     return (
       <div className="modal">
-        <Button
-          type="primary"
-          onClick={this.showModal}
-        >Post feedback
-        </Button>
+        {
+          this.props.auth?
+            <Button
+              type="primary"
+              onClick={this.showModal}
+            >Post feedback
+            </Button>
+            :
+            <Link to='/login'>
+              <Button type="primary">Post feedback</Button>
+            </Link>
+        }
 
         <Modal
           title="Post feedback"
@@ -116,4 +130,4 @@ class PostFeedbackModal extends React.Component {
   }
 }
 
-export default PostFeedbackModal;
+export default connect(mapStateToProps)(PostFeedbackModal);

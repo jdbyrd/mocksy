@@ -45,7 +45,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
-
 app.get(
   '/auth/github',
   passport.authenticate('github', { scope: ['user:email'] }),
@@ -69,10 +68,8 @@ app.get(
 
 app.get('/auth/verify', (req, res) => {
   if (req.user) {
-    console.log('AUTH CHECK LOGGED IN');
     res.send(req.user);
   } else {
-    console.log('AUTH CHECK LOGGED OUT');
     res.send(null);
   }
 });
@@ -106,7 +103,7 @@ app.get('/api/users', (req, res) => {
       res.send(users);
     }
   });
-}); 
+});
 
 app.get('/api/profile', (req, res) => {
   const { name } = req.query;
@@ -114,11 +111,14 @@ app.get('/api/profile', (req, res) => {
   query.userProjects(name).then((projects) => {
     const profile = { projects };
     query.userFeedback(name).then((feedback) => {
-      profile.feedback = feedback;
-      console.log(profile);
+      profile.feedbackList = feedback;
       res.send(profile);
     });
   });
+});
+
+app.get('/api/tags', (req, res) => {
+  query.tags().then(dbRes => res.send(dbRes));
 });
 
 app.post('/api/project', (req, res) => {

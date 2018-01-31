@@ -25,7 +25,7 @@ Store.populateFeedback = (projectId) => {
 };
 
 Store.populateUser = (userName) => {
-  axios(`/api/users?name=${userName}`)
+  axios(`/api/profile?name=${userName}`)
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_USER',

@@ -106,6 +106,11 @@ app.get('/api/users', (req, res) => {
       res.send(users);
     }
   });
+}); 
+
+app.get('/api/profile', (req, res) => {
+  const { name } = req.query;
+  query.userFeedback(name).then(projects => console.log(projects));
 });
 
 app.post('/api/project', (req, res) => {

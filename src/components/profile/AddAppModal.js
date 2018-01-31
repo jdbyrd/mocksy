@@ -65,7 +65,6 @@ class AppsTab extends React.Component {
   /************ TAG HANDLERS *************/
   handleClose(removedTag) {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
     this.setState({ tags });
   }
 
@@ -81,8 +80,8 @@ class AppsTab extends React.Component {
     const state = this.state;
     const inputValue = this.state.inputValue;
     let tags = this.state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+    if (this.state.inputValue && tags.indexOf(this.state.inputValue) === -1) {
+      tags = [...tags, this.state.inputValue];
     }
     console.log(tags);
     this.setState({
@@ -129,6 +128,14 @@ class AppsTab extends React.Component {
     setTimeout(() => {
       this.setState({
         visible: false,
+        appURL: '',
+        githubURL: '',
+        tags: [],
+        title: '',
+        contributors: '',
+        description: '',
+        inputVisible: false,
+        inputValue: '',
         confirmLoading: false
       });
     }, 2000);

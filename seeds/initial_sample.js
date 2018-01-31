@@ -2,7 +2,7 @@ exports.seed = (knex, Promise) => {
   return Promise.all([
     knex('project_tags').del(),
     knex('tags').del(),
-    knex('review_type').del(),
+    knex('types').del(),
     knex('votes').del(),
     knex('feedback').del(),
     knex('projects').del(),
@@ -24,7 +24,6 @@ exports.seed = (knex, Promise) => {
           url: 'http://dmscribe.herokuapp.com/',
           github: 'https://github.com/JEGIS/DMScribe',
           text: 'This is nerdvana.',
-          contributor: 'James',
           user_id: 1
         },
         {
@@ -33,7 +32,6 @@ exports.seed = (knex, Promise) => {
           url: 'http://true-hue.herokuapp.com/',
           github: 'https://github.com/legacy-hue/hue',
           text: 'Your source for quality shit-posts.',
-          contributor: 'Spencer',
           user_id: 2
         },
       ]);
@@ -101,7 +99,7 @@ exports.seed = (knex, Promise) => {
       ]);
     })
     .then(() => {
-      return knex('review_type').insert([
+      return knex('types').insert([
         { id: 1, options: 'Feature' },
         { id: 2, options: 'Design' },
         { id: 3, options: 'Bug' },

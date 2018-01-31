@@ -1,6 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class PostFeedbackModal extends React.Component {
   constructor(props) {
@@ -75,11 +83,18 @@ class PostFeedbackModal extends React.Component {
   render() {
     return (
       <div className="modal">
-        <Button
-          type="primary"
-          onClick={this.showModal}
-        >Post feedback
-        </Button>
+        {
+          this.props.auth?
+            <Button
+              type="primary"
+              onClick={this.showModal}
+            >Post feedback
+            </Button>
+            :
+            <Link to='/login'>
+              <Button type="primary">Post feedback</Button>
+            </Link>
+        }
 
         <Modal
           title="Post feedback"
@@ -118,4 +133,4 @@ class PostFeedbackModal extends React.Component {
   }
 }
 
-export default PostFeedbackModal;
+export default connect(mapStateToProps)(PostFeedbackModal);

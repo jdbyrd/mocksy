@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -36,6 +43,7 @@ class Navbar extends React.Component {
   }
 
   render() {
+    console.log(this.props.auth);
     return (
       <div>
         <NavContainer className="nav">
@@ -45,20 +53,22 @@ class Navbar extends React.Component {
                 <Li onClick={this.triangleLeft}>Feed</Li>
               </Link>
               <Li onClick={this.triangleRight}>Popular</Li>
-              <Li>
-                <a href="/auth/github">Login</a>
-              </Li>
             </Ul>
             <RightContainer>
               <Button shape="circle" icon="search" onClick={this.toggleSearch} />
               <Helper className="helper" />
-              <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
-              <ImgContainer className="user-img-container">
-                <ProfilePic
-                  src={this.state.profilePic}
-                  onClick={this.toggleDropdown}
-                />
-              </ImgContainer>
+              {this.props.auth ?
+                <span>
+                <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+                <ImgContainer className="user-img-container">
+                  <ProfilePic
+                    src={this.props.auth.photos[0].value}
+                    onClick={this.toggleDropdown}
+                  />
+                </ImgContainer>
+                </span>
+                : <Login href="/auth/github">Login</Login>
+              }
             </RightContainer>
           </Nav>
           <Triangle id="triangle" />
@@ -68,7 +78,7 @@ class Navbar extends React.Component {
               <DropdownTriangle />
               <Dropdown>
                 <DropdownUL>
-                  <List>Profile</List>
+                  <List><Link to={`/user/${this.props.auth.username}`}>Profile</Link></List>
                   <List>Your apps</List>
                   <List>Your reviews</List>
                   <List>Settings</List>
@@ -85,7 +95,7 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);
 
 const NavContainer = styled.div`
   margin-bottom: 70px;
@@ -171,7 +181,6 @@ const ImgContainer = styled.div`
   border-radius: 40px;
   display: inline-block;
   vertical-align: middle;
-  border: 2px solid white;
   cursor: pointer;
 `;
 
@@ -216,6 +225,13 @@ const DropdownUL = styled.ul`
   list-style-type: none;
   padding: 10px 20px;
 `;
+
+const Login = styled.a`
+  margin: 0;
+  list-style-type: none;
+  padding: 10px 20px;
+`;
+
 
 const List = styled.li`
   padding: 5px 0;

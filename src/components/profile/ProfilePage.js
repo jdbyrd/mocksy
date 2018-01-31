@@ -47,7 +47,7 @@ class ProfilePage extends React.Component {
           <FeedBackGivenButton onClick={this.showFeedback} className={this.state.apps ? null : 'current-tab'}>Feedback given</FeedBackGivenButton>
         </TabsContainer>
         {this.state.apps ?
-          <AppsTab />
+          <AppsTab name={this.props.match.params.name}/>
         :
           <FeedbackGivenTab />
         }

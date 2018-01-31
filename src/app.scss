@@ -23,12 +23,239 @@ a {
   border-radius: 15px;
 }
 
+/*----------------------------
+------------ NAV -------------
+----------------------------*/
+
+.nav-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-bottom: 70px;
+  z-index: 2;
+}
+
+.nav-inner-wrapper {
+  width: 100%;
+  height: 60px;
+  background: #90aab7;
+  display: grid;
+  grid-template-columns: 72% auto 27%;
+}
+
 .searchResults {
   width: 50%;
   margin: auto;
   height: 600px;
   font-size: 50px;
 }
+
+.hamburger-icon {
+  display: none;
+  height: 50px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.menu-dropdown-container {
+  background: #90aab7;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  font-size: 18px;
+  width: 150px;
+  opacity: 0.8;
+  transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    li {
+      padding: 5px 5px 5px 15px;
+      border-bottom: 1px solid black;
+    }
+  }
+}
+
+.mobile-view-bell-icon {
+  display: none;
+  grid-column-start: 3;
+  grid-column-end: 4;
+  position: absolute;
+  right: 0;
+}
+
+.nav-links {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  vertical-align: middle;
+    li {
+      display: inline-block;
+      padding: 15px 50px;
+      font-size: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+}
+
+.right-container, .nav-links {
+  height: 60px;
+}
+
+.right-container {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  text-align: right;
+  padding-right: 30px;
+  .helper {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+}
+
+.bell-icon {
+  height: 35px;
+  vertical-align: middle;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 40px;
+  border-radius: 40px;
+}
+
+#triangle {
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid #90aab7;
+  margin-left: 57px;
+  width: 0;
+  height: 0;
+  transition-property: transform -webkit-transform color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+.dropdown-container {
+  position: fixed;
+  right: 28px;
+  margin-top: -15px;
+  .dropdown-triangle {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #90aab7;
+    width: 0;
+    height: 0;
+    margin-left: 83px;
+  }
+  .dropdown {
+    background: #90aab7;
+  }
+  ul {
+    margin: 0;
+    list-style-type: none;
+    padding: 10px 20px;
+    li {
+      padding: 5px 0;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/*----------------------------
+-------- END OF NAV ----------
+----------------------------*/
+
+/*----------------------------
+------------ FEED ------------
+----------------------------*/
+
+.project-container {
+  margin-top: 120px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 7.5% 40% 5% 35.5% 12%;
+  grid-template-rows: 22%;
+  z-index: 1;
+  .img-link {
+    width: 100%;
+    padding-bottom: 56.25%;
+    position: relative;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin-bottom: 40px;
+  }
+  .project-img {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border: 1px solid #cecece
+  }
+  .project-details-container {
+    width: 100%;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    position: relative;
+    margin-bottom: 40px;
+    height: 200px;
+    .project-details {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      .title-container {
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: 75% auto 50px;
+        .title {
+          font-size: 30px;
+          font-weight: bold;
+          padding: 0;
+          width: 85%;
+          display: inline-block;
+          line-height: 50px;
+          grid-column-start: 1;
+          grid-column-end: 2;
+        }
+      }
+    }
+  }
+}
+
+
+/*----------------------------
+---------END OF FEED ---------
+----------------------------*/
+
+/*----------------------------
+---------- PROFILE -----------
+----------------------------*/
+
+.user-header-container {
+  margin-top: 70px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 50px 170px auto 50px 80px;
+  padding: 50px 0;
+  z-index: 1;
+}
+
+/*.user-img-container {
+  width: 150px;
+  padding: 0 25px;
+  position: relative;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}*/
 
 .current-tab {
   border-bottom: 1px solid #fbfbfb;
@@ -40,6 +267,7 @@ a {
   height: 300px;
   display: inline-block;
   margin-top: 15px;
+  padding: 0;
 }
 
 .user-add-projects-button {
@@ -59,6 +287,14 @@ a {
   height: 200px;
 }
 
+/*----------------------------
+------- END OF PROFILE -------
+----------------------------*/
+
+/*----------------------------
+-------- MEDIA QUERIES -------
+----------------------------*/
+
 @media only screen and (max-width:1350px) {
   .users-projects {
     width: 300px;
@@ -68,6 +304,31 @@ a {
     width: 300px;
     height: 150px;
     line-height: 150px;
+  }
+}
+
+@media only screen and (max-width:1100px) {
+  .project-container {
+    position: relative;
+    display: block;
+    width: 75%;
+    margin: auto;
+    margin-top: 120px;
+    .img-link {
+      display: block;
+      margin: auto;
+      width: 100%;
+    }
+    .project-details-container {
+      position: relative;
+      margin: auto;
+      width: 100%;
+      .git-icon {
+        position: absolute;
+        top: 15px;
+        right: 5px;
+      }
+    }
   }
 }
 
@@ -98,12 +359,33 @@ a {
     margin: auto;
   }
 
-  .nav {
+  .nav-wrapper {
     display: block;
   }
 
   .nav-links {
     display: none;
   }
+
+  #triangle {
+    display: none;
+  }
+
+  .hamburger-icon {
+    display: block;
+  }
+
+  .right-container {
+    display: none;
+  }
+
+  .mobile-view-bell-icon {
+    display: block;
+    height: 60px;
+  }
 }
+
+/*----------------------------
+---- END OF MEDIA QUERIES ----
+----------------------------*/
 

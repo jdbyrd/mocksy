@@ -59,6 +59,10 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
+    console.log(req.user.username);
+    insert.user(req.user.username)
+      .then(() => console.log(`inserted ${req.user.username} into database`))
+      .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
     res.redirect('/');
   }
 );
@@ -66,10 +70,10 @@ app.get(
 app.get('/auth/verify', (req, res) => {
   if (req.user) {
     console.log('AUTH CHECK LOGGED IN');
-    res.send(true);
+    res.send(req.user);
   } else {
     console.log('AUTH CHECK LOGGED OUT');
-    res.send(false);
+    res.send(null);
   }
 });
 
@@ -82,9 +86,9 @@ app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   query.projects(id).then((projects) => {
     if (id) {
-      const projectFeedback = projects[0];
+      const projectFeedback = { project: projects[0] };
       query.feedback(id).then((feedback) => {
-        projectFeedback.feedback = feedback;
+        projectFeedback.list = feedback;
         res.send(projectFeedback);
       });
     } else {
@@ -102,19 +106,40 @@ app.get('/api/users', (req, res) => {
       res.send(users);
     }
   });
+}); 
+
+app.get('/api/profile', (req, res) => {
+  const { name } = req.query;
+  console.log(name);
+  query.userProjects(name).then((projects) => {
+    const profile = { projects };
+    query.userFeedback(name).then((feedback) => {
+      profile.feedback = feedback;
+      console.log(profile);
+      res.send(profile);
+    });
+  });
 });
 
 app.post('/api/project', (req, res) => {
-  const project =  req.body;
-  req.body.name = 'TEST_USER';
-  console.log(req.body);
-  console.log('POST REQUEST FOR PROJECT');
-  insert.project(req.body);
+  if (req.user) {
+    req.body.name = req.user.username;
+    console.log('POST REQUEST FOR PROJECT', req.body);
+    insert.project(req.body);
+  }
   res.end();
-})
+});
+
+app.post('/api/feedback', (req, res) => {
+  if (req.user) {
+    req.body.name = req.user.username;
+    console.log('POST REQUEST FOR PROJECT', req.body);
+    insert.feedback(req.body);
+  }
+  res.end();
+});
 
 app.get('*', (req, res) => {
-  console.log(req.user);
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });
 

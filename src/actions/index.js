@@ -6,9 +6,10 @@ const Store = {};
 Store.populateFeed = () => {
   axios('/api/projects')
     .then((res) => {
+      console.log('PROJECT', res.data);
       store.dispatch({
         type: 'POPULATE_FEED',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };
@@ -18,17 +19,17 @@ Store.populateFeedback = (projectId) => {
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_FEEDBACK',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };
 
 Store.populateUser = (userName) => {
-  axios(`/api/users?name=${userName}`)
+  axios(`/api/profile?name=${userName}`)
     .then((res) => {
       store.dispatch({
         type: 'POPULATE_USER',
-        payload: res.data.results
+        payload: res.data
       });
     });
 };

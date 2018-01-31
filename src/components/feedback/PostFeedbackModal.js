@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Select, Input, Button, message } from 'antd';
-// import axios from 'axios';
+import axios from 'axios';
 
 class PostFeedbackModal extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class PostFeedbackModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleType = this.handleType.bind(this);
+    this.textChange = this.textChange.bind(this);
   }
 
   /******* MODAL FUNCTIONS ********/
@@ -25,13 +26,20 @@ class PostFeedbackModal extends React.Component {
   }
 
   handleSubmit() {
-    // if (!this.state.feedbackType) {
-    //   message.error('Please select a feedback option');
-    // } else if (this.state.text === '') {
-    //   message.error('Please provide feedback');
-    // } else {
-      // send data to server to be stored on database
- 
+    if (!this.state.feedbackType) {
+      message.error('Please select a feedback option');
+    } else if (this.state.text === '') {
+      message.error('Please provide feedback');
+    } else {
+      axios.post('/api/feedback',
+        {
+          text: this.state.text,
+          type: this.state.feedbackType,
+          projectId: this.props.id
+        })
+        .then(() => {
+          console.log('form added');
+        });
       this.setState({
         confirmLoading: true
       });
@@ -41,7 +49,7 @@ class PostFeedbackModal extends React.Component {
           confirmLoading: false
         });
       }, 1500);
-    //}
+    }
   }
 
   handleCancel() {
@@ -50,11 +58,15 @@ class PostFeedbackModal extends React.Component {
     });
   }
 
+  textChange(input) {
+    this.setState({
+      text: input.target.value
+    });
+  }
+
   /********** DROPDOWN FUNCTIONS **********/
   handleType(value) {
-    console.log('type value:', value);
     this.setState({ feedbackType: value });
-    console.log('state value:', this.state.feedbackType);
   }
 
   render() {
@@ -95,7 +107,7 @@ class PostFeedbackModal extends React.Component {
 
             <br /><br />
             <h4>Say something constructive about this app:</h4>
-            <Input.TextArea rows={8} value={this.state.text}/>
+            <Input.TextArea rows={8} onChange={this.textChange} />
           </form>
         </Modal>
       </div>

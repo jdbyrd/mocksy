@@ -31,7 +31,14 @@ class AppsTab extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
 
     this.changeRoute = {
-      appURL: (value) => this.setState({ appURL: value }),
+      appURL: (value) => {
+        if ( value.includes('herokuapp') ) {
+          message.warning('Please note that Heroku apps may take up to a minute to load!');
+          this.setState({ appURL: value });
+        } else {
+          this.setState({ appURL: value });
+        }
+      },
       githubURL: (value) => this.setState({ githubURL: value }),
       title: (value) => this.setState({ title: value }),
       contributors: (value) => this.setState({ contributors: value }),
@@ -156,14 +163,14 @@ class AppsTab extends React.Component {
                 <Form.Item label="Application URL:">
                   <Input
                     value={this.state.appURL}
-                    onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)} 
+                    onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)}
                   />
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">
                   <Input
                     addonBefore="https://"
                     value={this.state.githubURL}
-                    onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)} 
+                    onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)}
                   />
                 </Form.Item>
                 <Form.Item label="Technologies:">

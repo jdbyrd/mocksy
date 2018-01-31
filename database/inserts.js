@@ -18,12 +18,9 @@ const project = (data) => {
 };
 
 const feedback = (data) => {
-  const { title, name, upvotes, downvotes, text } = data;
+  const { name, text, projectId } = data;
   const userId = knex('users').where({ name }).select('id');
-  const projectId = knex('projects').where({ title }).select('id');
   knex('feedback').insert({
-    upvotes,
-    downvotes,
     text,
     user_id: userId,
     project_id: projectId

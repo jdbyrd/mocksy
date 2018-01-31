@@ -5,7 +5,7 @@ const projects = id => id
   : knex('projects').select();
 
 const feedback = id => id
-  ? knex('feedback').select().where('project_id', id)
+  ? knex('feedback').select().join('users', 'feedback.user_id', '=', 'users.id').where('project_id', id)
   : knex('feedback').select();
 
 const users = name => name

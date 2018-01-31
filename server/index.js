@@ -86,9 +86,9 @@ app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   query.projects(id).then((projects) => {
     if (id) {
-      const projectFeedback = projects[0];
+      const projectFeedback = { project: projects[0] };
       query.feedback(id).then((feedback) => {
-        projectFeedback.feedback = feedback;
+        projectFeedback.list = feedback;
         res.send(projectFeedback);
       });
     } else {

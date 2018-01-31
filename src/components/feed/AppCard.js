@@ -51,7 +51,7 @@ class AppCard extends React.Component {
             </span>
             <br /><br />
             <span>
-              <PostFeedbackModal />
+              <PostFeedbackModal id={this.props.project.id} />
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>

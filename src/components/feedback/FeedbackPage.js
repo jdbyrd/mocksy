@@ -22,7 +22,7 @@ class FeedbackPage extends React.Component {
           <Col span={2} />
           <Col span={8}><AppSidebar /></Col>
           <Col span={12}>
-            <PostFeedbackModal />
+            <PostFeedbackModal id={this.props.match.params.id} />
             <Select
               style={{ width: 200 }}
               placeholder="Sort by"

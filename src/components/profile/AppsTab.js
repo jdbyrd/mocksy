@@ -25,7 +25,7 @@ class AppsTab extends React.Component {
       <ProjectsContainer>
         <AddAppModal />
         {this.props.projects.map((project, index) => (
-          <Container key={index}><AppsTabCard project={project} /></Container>
+          <Container key={index} className="user-projects-container"><AppsTabCard project={project} /></Container>
         ))}
       </ProjectsContainer>
     );
@@ -38,31 +38,9 @@ const ProjectsContainer = styled.div`
   width: 100%;
 `;
 
-const AddProjectContainer = styled.div`
-  width: 33%;
-  height: 278px;
-  display: inline-block;
-`;
-
 const Container = styled.div`
   width: 33%;
   height: 300px;
   display: inline-block;
   margin-top: 15px;
-`;
-
-const Instructions = styled.div`
-  margin-top: 20px;
-  text-align: center;
-  font-size: 16px;
-`;
-
-const AddProjectButton = styled.div`
-  width: 400px;
-  text-align: center;
-  height: 200px;
-  border: 1px solid black;
-  line-height: 200px;
-  font-size: 35px;
-  margin: auto;
 `;

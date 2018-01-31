@@ -12,7 +12,7 @@ class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      apps: true
+      apps: true,
     };
     this.showApps = this.showApps.bind(this);
     this.showFeedback = this.showFeedback.bind(this);
@@ -28,7 +28,7 @@ class ProfilePage extends React.Component {
 
   showApps() {
     this.setState({
-      apps: true
+      apps: true,
     });
   }
 
@@ -43,8 +43,8 @@ class ProfilePage extends React.Component {
       <div>
         <UserHeader />
         <TabsContainer>
-          <AppsButton onClick={this.showApps}>Apps</AppsButton>
-          <FeedBackGivenButton onClick={this.showFeedback}>Feedback given</FeedBackGivenButton>
+          <AppsButton onClick={this.showApps} className={this.state.apps ? 'current-tab' : null}>Apps</AppsButton>
+          <FeedBackGivenButton onClick={this.showFeedback} className={this.state.apps ? null : 'current-tab'}>Feedback given</FeedBackGivenButton>
         </TabsContainer>
         {this.state.apps ?
           <AppsTab />

@@ -8,7 +8,8 @@ class FeedbackTabCard extends React.Component {
   }
 
   render() {
-    const feedback = this.props.feedback;
+    const project = this.props.data.project;
+    const feedback = this.props.data.feedback;
     return (
       <div>
         FEEDBACK HERE

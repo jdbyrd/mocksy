@@ -30,8 +30,16 @@ a {
   font-size: 50px;
 }
 
-.user-projects-container {
+.current-tab {
+  border-bottom: 1px solid #fbfbfb;
+  z-index: 2;
+}
 
+.user-projects-container {
+  width: 33%;
+  height: 300px;
+  display: inline-block;
+  margin-top: 15px;
 }
 
 .user-add-projects-button {
@@ -83,10 +91,19 @@ a {
     display: block;
     text-align: center;
     margin: auto;
+    padding: 0;
   }
 
   .user-img-container {
     margin: auto;
+  }
+
+  .nav {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
   }
 }
 

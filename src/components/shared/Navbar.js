@@ -38,9 +38,9 @@ class Navbar extends React.Component {
   render() {
     return (
       <div>
-        <NavContainer>
+        <NavContainer className="nav">
           <Nav>
-            <Ul>
+            <Ul className="nav-links">
               <Link to='/'>
                 <Li onClick={this.triangleLeft}>Feed</Li>
               </Link>
@@ -96,7 +96,7 @@ const Nav = styled.div`
   height 60px;
   background: #90aab7;
   display: grid;
-  grid-template-columns: 45% auto 45%;
+  grid-template-columns: 72% auto 27%;
 `;
 
 const Ul = styled.ul`

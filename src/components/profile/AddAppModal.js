@@ -181,6 +181,7 @@ const Wrapper = styled.div`
   width: 33%;
   height: 278px;
   display: inline-block;
+  margin-top: 0;
 `;
 
 const AddProjectButton = styled.div`

@@ -10,23 +10,45 @@ class AppsTab extends React.Component {
 
     this.state = {
       visible: false,
+      appURL: '',
+      githubURL: '',
       tags: [],
+      title: '',
+      contributors: '',
+      description: '',
       inputVisible: false,
       inputValue: '',
+      confirmLoading: false
     };
 
     this.showModal = this.showModal.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.showInput = this.showInput.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleTagInputChange = this.handleTagInputChange.bind(this);
     this.handleInputConfirm = this.handleInputConfirm.bind(this);
     this.saveInputRef = this.saveInputRef.bind(this);
     this.projectFormSubmit = this.projectFormSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+
+    this.changeRoute = {
+      appURL: (value) => this.setState({ appURL: value }),
+      githubURL: (value) => this.setState({ githubURL: value }),
+      title: (value) => this.setState({ title: value }),
+      contributors: (value) => this.setState({ contributors: value }),
+      description: (value) => this.setState({ description: value })
+    };
   }
 
   showModal() {
     this.setState({ visible: true });
+  }
+
+  handleInputChange(stateKey, event, index, val) {
+    if (val !== undefined) {
+      this.changeRoute[stateKey](val);
+    } else {
+      this.changeRoute[stateKey](event.target.value);
+    }
   }
 
   /************ TAG HANDLERS *************/
@@ -40,7 +62,7 @@ class AppsTab extends React.Component {
     this.setState({ inputVisible: true }, () => this.input.focus());
   }
 
-  handleInputChange(e) {
+  handleTagInputChange(e) {
     this.setState({ inputValue: e.target.value });
   }
 
@@ -66,16 +88,36 @@ class AppsTab extends React.Component {
   /************ FORM SUBMISSION *************/
   projectFormSubmit(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
-    const form = {};
-    for (let pair of data.entries()) {
-      form[pair[0]] = pair[1];
-    }
-    axios.post('/api/project', form)
-      .then(() => {
-        console.log('form added');
+    const projectData = {
+      appURL: this.state.appURL,
+      githubURL: this.state.githubURL,
+      tags: this.state.tags,
+      title: this.state.title,
+      contributors: this.state.contributors,
+      description: this.state.description,
+    };
+    
+    if (this.state.appURL === '') {
+      message.error('Please provide a deployed URL to your application');
+    } else if (this.state.title === '') {
+      message.error('Please provide a title for your application');
+    } else if (this.state.description === '') {
+      message.error('Please provide a description for your application');
+    } else {
+      axios.post('/api/project', projectData)
+        .then(() => {
+          console.log(projectData);
+        });
+      this.setState({
+        confirmLoading: true
       });
-    this.setState({ visible: false });
+      setTimeout(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false
+        });
+      }, 2000);
+    }
   }
 
   handleCancel() {
@@ -109,16 +151,27 @@ class AppsTab extends React.Component {
             <Row gutter={16}>
               <Col span={8}>
                 <Form.Item label="Application URL:">
-                  <Input />
+                  <Input
+                    value={this.state.appURL}
+                    onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)} 
+                  />
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">
-                  <Input addonBefore="https://" />
+                  <Input
+                    addonBefore="https://"
+                    value={this.state.githubURL}
+                    onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)} 
+                  />
                 </Form.Item>
                 <Form.Item label="Technologies:">
                   {this.state.tags.map((tag, index) => {
                     const isLongTag = tag.length > 20;
                     const tagElem = (
-                      <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
+                      <Tag
+                        key={tag}
+                        closable={index !== 0}
+                        afterClose={() => this.handleClose(tag)}
+                      >
                         {isLongTag ? `${tag.slice(0, 20)}...` : tag}
                       </Tag>
                     );
@@ -131,7 +184,7 @@ class AppsTab extends React.Component {
                       size="small"
                       style={{ width: 78 }}
                       value={this.state.inputValue}
-                      onChange={this.handleInputChange}
+                      onChange={this.handleTagInputChange}
                       onBlur={this.handleInputConfirm}
                       onPressEnter={this.handleInputConfirm}
                     />
@@ -148,13 +201,23 @@ class AppsTab extends React.Component {
               </Col>
               <Col span={16}>
                 <Form.Item label="Title:">
-                  <Input />
+                  <Input
+                    value={this.state.title}
+                    onChange={(e, i, val) => this.handleInputChange('title', e, i, val)}
+                  />
                 </Form.Item>
                 <Form.Item label="Contributors (optional):">
-                  <Input />
+                  <Input
+                    value={this.state.contributors}
+                    onChange={(e, i, val) => this.handleInputChange('contributors', e, i, val)}
+                  />
                 </Form.Item>
                 <Form.Item label="Description:">
-                  <Input.TextArea rows={4} />
+                  <Input.TextArea
+                    rows={4}
+                    value={this.state.description}
+                    onChange={(e, i, val) => this.handleInputChange('description', e, i, val)}
+                  />
                 </Form.Item>
               </Col>
             </Row>

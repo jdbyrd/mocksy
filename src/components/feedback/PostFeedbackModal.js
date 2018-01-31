@@ -25,14 +25,14 @@ class PostFeedbackModal extends React.Component {
   }
 
   handleSubmit() {
-    if (!this.state.feedbackType) {
-      message.error('Please select a feedback option');
-    } else if (this.state.text === '') {
-      message.error('Please provide feedback');
-    } else {
+    // if (!this.state.feedbackType) {
+    //   message.error('Please select a feedback option');
+    // } else if (this.state.text === '') {
+    //   message.error('Please provide feedback');
+    // } else {
       // send data to server to be stored on database
+ 
       this.setState({
-        visible: false,
         confirmLoading: true
       });
       setTimeout(() => {
@@ -40,8 +40,8 @@ class PostFeedbackModal extends React.Component {
           visible: false,
           confirmLoading: false
         });
-      }, 2000);
-    }
+      }, 1500);
+    //}
   }
 
   handleCancel() {

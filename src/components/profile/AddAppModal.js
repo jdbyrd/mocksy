@@ -99,25 +99,28 @@ class AppsTab extends React.Component {
     
     if (this.state.appURL === '') {
       message.error('Please provide a deployed URL to your application');
+      return;
     } else if (this.state.title === '') {
       message.error('Please provide a title for your application');
+      return;
     } else if (this.state.description === '') {
       message.error('Please provide a description for your application');
-    } else {
-      axios.post('/api/project', projectData)
-        .then(() => {
-          console.log(projectData);
-        });
-      this.setState({
-        confirmLoading: true
-      });
-      setTimeout(() => {
-        this.setState({
-          visible: false,
-          confirmLoading: false
-        });
-      }, 2000);
+      return;
     }
+    
+    axios.post('/api/project', projectData)
+      .then(() => {
+        console.log(projectData);
+      });
+    this.setState({
+      confirmLoading: true
+    });
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false
+      });
+    }, 2000);
   }
 
   handleCancel() {

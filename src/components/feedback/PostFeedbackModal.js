@@ -31,7 +31,7 @@ class PostFeedbackModal extends React.Component {
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      axios.post('/api/feedback', 
+      axios.post('/api/feedback',
         {
           text: this.state.text,
           type: this.state.feedbackType,
@@ -41,7 +41,6 @@ class PostFeedbackModal extends React.Component {
           console.log('form added');
         });
       this.setState({
-        visible: false,
         confirmLoading: true
       });
       setTimeout(() => {
@@ -49,7 +48,7 @@ class PostFeedbackModal extends React.Component {
           visible: false,
           confirmLoading: false
         });
-      }, 2000);
+      }, 1500);
     }
   }
 

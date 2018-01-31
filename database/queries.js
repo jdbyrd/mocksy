@@ -12,6 +12,8 @@ const users = name => name
   ? knex('users').select().where('name', name)
   : knex('users').select();
 
+const tags = () => knex('tags').select('tag');
+
 const userProjects = name => knex('projects')
   .select()
   .where('user_id', knex('users').where('name', name).select('id'));
@@ -25,6 +27,7 @@ module.exports = {
   projects,
   feedback,
   users,
+  tags,
   userProjects,
   userFeedback
 };

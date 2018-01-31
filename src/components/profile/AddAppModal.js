@@ -3,6 +3,7 @@ import { Modal, Button, Input, Tag, Icon, Tooltip, Form, message, Row, Col } fro
 import { connect } from 'react-redux';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
+import Store from '../../actions/index';
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -31,12 +32,16 @@ class AppsTab extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
 
     this.changeRoute = {
-      appURL: (value) => this.setState({ appURL: value }),
-      githubURL: (value) => this.setState({ githubURL: value }),
-      title: (value) => this.setState({ title: value }),
-      contributors: (value) => this.setState({ contributors: value }),
-      description: (value) => this.setState({ description: value })
+      appURL: value => this.setState({ appURL: value }),
+      githubURL: value => this.setState({ githubURL: value }),
+      title: value => this.setState({ title: value }),
+      contributors: value => this.setState({ contributors: value }),
+      description: value => this.setState({ description: value })
     };
+  }
+
+  componentDidMount() {
+    Store.populateTags();
   }
 
   showModal() {
@@ -85,7 +90,7 @@ class AppsTab extends React.Component {
     this.input = input;
   }
 
-  /************ FORM SUBMISSION *************/
+  /* *********** FORM SUBMISSION ************ */
   projectFormSubmit(event) {
     event.preventDefault();
     const projectData = {
@@ -96,7 +101,7 @@ class AppsTab extends React.Component {
       contributors: this.state.contributors,
       description: this.state.description,
     };
-    
+
     if (this.state.appURL === '') {
       message.error('Please provide a deployed URL to your application');
       return;
@@ -107,7 +112,7 @@ class AppsTab extends React.Component {
       message.error('Please provide a description for your application');
       return;
     }
-    
+
     axios.post('/api/project', projectData)
       .then(() => {
         console.log(projectData);

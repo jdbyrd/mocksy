@@ -3,6 +3,17 @@ import store from '../store';
 
 const Store = {};
 
+Store.populateTags = () => {
+  axios('/api/tags')
+    .then((res) => {
+      console.log('TAGS', res.data);
+      store.dispatch({
+        type: 'POPULATE_TAGS',
+        payload: res.data
+      });
+    });
+};
+
 Store.populateFeed = () => {
   axios('/api/projects')
     .then((res) => {

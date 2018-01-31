@@ -8,7 +8,8 @@ import AddAppModal from './AddAppModal';
 
 const mapStateToProps = state => (
   {
-    projects: state.user.projects
+    projects: state.user.projects,
+    auth: state.auth
   }
 );
 
@@ -23,7 +24,10 @@ class AppsTab extends React.Component {
   render() {
     return (
       <ProjectsContainer>
-        <AddAppModal />
+        {(this.props.auth && this.props.auth.username === this.props.name)?
+          <AddAppModal />
+          :null
+        }
         {this.props.projects.map((project, index) => (
           <Container key={index} className="user-projects-container"><AppsTabCard project={project} /></Container>
         ))}

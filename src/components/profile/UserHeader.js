@@ -14,8 +14,8 @@ const mapStateToProps = state => (
 class UserHeader extends React.Component {
   render() {
     return (
-      <UserHeaderContainer>
-        <UserImgContainer>
+      <UserHeaderContainer className="user-header-container">
+        <UserImgContainer className="user-img-container">
           <UserImg src="https://vignette.wikia.nocookie.net/animal-jam-clans-1/images/6/6e/Double_chins_by_pictoron-d4ogfds.png/revision/latest?cb=20160521152119" />
         </UserImgContainer>
         <UserInfo>

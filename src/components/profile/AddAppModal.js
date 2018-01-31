@@ -3,7 +3,7 @@ import { Modal, Button, Input, Tag, Icon, Tooltip, Form, message, Row, Col } fro
 import { connect } from 'react-redux';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
-import Store from '../../../server/index';
+import Store from '../../actions/index';
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -32,11 +32,11 @@ class AppsTab extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
 
     this.changeRoute = {
-      appURL: (value) => this.setState({ appURL: value }),
-      githubURL: (value) => this.setState({ githubURL: value }),
-      title: (value) => this.setState({ title: value }),
-      contributors: (value) => this.setState({ contributors: value }),
-      description: (value) => this.setState({ description: value })
+      appURL: value => this.setState({ appURL: value }),
+      githubURL: value => this.setState({ githubURL: value }),
+      title: value => this.setState({ title: value }),
+      contributors: value => this.setState({ contributors: value }),
+      description: value => this.setState({ description: value })
     };
   }
 
@@ -90,7 +90,7 @@ class AppsTab extends React.Component {
     this.input = input;
   }
 
-  /************ FORM SUBMISSION *************/
+  /* *********** FORM SUBMISSION ************ */
   projectFormSubmit(event) {
     event.preventDefault();
     const projectData = {

@@ -7,7 +7,10 @@ Store.populateTags = () => {
   axios('/api/tags')
     .then((res) => {
       console.log('TAGS', res.data);
-      // dispatch tags to store
+      store.dispatch({
+        type: 'POPULATE_TAGS',
+        payload: res.data
+      });
     });
 };
 

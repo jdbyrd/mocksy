@@ -118,7 +118,7 @@ app.get('/api/profile', (req, res) => {
 });
 
 app.get('/api/tags', (req, res) => {
-  res.send(query.tags());
+  query.tags().then(dbRes => res.send(dbRes));
 });
 
 app.post('/api/project', (req, res) => {

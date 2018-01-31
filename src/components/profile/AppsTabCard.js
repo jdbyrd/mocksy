@@ -7,8 +7,8 @@ class AppsTabCard extends React.Component {
   render() {
     const project = this.props.project;
     return (
-      <Project>
-        <ProjectImage src={project.image} />
+      <Project className="users-projects">
+        <ProjectImage src={project.image} className="users-projects-image" />
         <ProjectTitle>{project.title}</ProjectTitle>
         <ProjectDescription>{project.text}</ProjectDescription>
       </Project>
@@ -19,9 +19,7 @@ class AppsTabCard extends React.Component {
 export default AppsTabCard;
 
 const Project = styled.div`
-  margin: auto;
-  width: 400px;
-  height: 300px;
+
 `;
 
 const ProjectImage = styled.img`

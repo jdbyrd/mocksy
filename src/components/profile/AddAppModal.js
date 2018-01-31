@@ -86,9 +86,9 @@ class AppsTab extends React.Component {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper className="user-projects-container">
         <AddProjectButton
-          type="primary"
+          className="users-projects-image"
           onClick={this.showModal}
         >+
         </AddProjectButton>

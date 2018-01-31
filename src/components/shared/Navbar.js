@@ -10,8 +10,10 @@ class Navbar extends React.Component {
     this.state = {
       profilePic: 'http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg',
       viewMenu: false,
+      search: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.toggleSearch = this.toggleSearch.bind(this);
   }
 
   toggleDropdown() {
@@ -23,9 +25,14 @@ class Navbar extends React.Component {
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
   }
 
-  triangleRight(){
+  triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
+  }
+
+  toggleSearch() {
+    console.log('search running')
+    this.setState({ search: !this.state.search });
   }
 
   render() {
@@ -43,7 +50,7 @@ class Navbar extends React.Component {
               </Li>
             </Ul>
             <RightContainer>
-              <Button shape="circle" icon="search" />
+              <Button shape="circle" icon="search" onClick={this.toggleSearch} />
               <Helper className="helper" />
               <Bell className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
               <ImgContainer className="user-img-container">
@@ -55,6 +62,7 @@ class Navbar extends React.Component {
             </RightContainer>
           </Nav>
           <Triangle id="triangle" />
+          {this.state.search ? <h4 className="searchResults">HAHA YOU CAN'T SEARCH!</h4> : null}
           {this.state.viewMenu ?
             <DropdownContainer>
               <DropdownTriangle />

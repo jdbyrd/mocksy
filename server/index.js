@@ -110,8 +110,8 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/profile', (req, res) => {
   const { name } = req.query;
-  query.users('jdbyrd').then(user => console.log(user));
-  query.userFeedback(name).then((projects) => {
+  console.log(name);
+  query.userProjects(name).then((projects) => {
     const profile = { projects };
     query.userFeedback(name).then((feedback) => {
       profile.feedback = feedback;

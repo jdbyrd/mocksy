@@ -103,7 +103,7 @@ app.get('/api/users', (req, res) => {
       res.send(users);
     }
   });
-}); 
+});
 
 app.get('/api/profile', (req, res) => {
   const { name } = req.query;
@@ -115,6 +115,10 @@ app.get('/api/profile', (req, res) => {
       res.send(profile);
     });
   });
+});
+
+app.get('/api/tags', (req, res) => {
+  query.tags().then(dbRes => res.send(dbRes));
 });
 
 app.post('/api/project', (req, res) => {

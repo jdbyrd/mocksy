@@ -12,14 +12,16 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
+      <div className = 'mocksyBlock'>
+        <div className = 'mocksyText'>
           <img src="./mocksylogo.png" />ocksy
         </div>
-        <Button type="primary" size="large" href="/auth/github">
-          {'Login to Github      '} 
-          <img src="./github.png"/>
-        </Button>
+        <div className="loginButton">
+          <Button type="primary" size="large" href="/auth/github">
+            {'Login to Github      '} 
+            <img src="./github.png"/>
+          </Button>
+        </div>
       </div>
     );
   }

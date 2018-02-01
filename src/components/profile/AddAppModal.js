@@ -38,7 +38,7 @@ class AppsTab extends React.Component {
       appURL: value => this.setState({ appURL: value }),
       githubURL: value => this.setState({ githubURL: value }),
       title: value => this.setState({ title: value }),
-      contributors: value => this.setState({ contributors: [...this.state.contributors, value] }),
+      contributors: value => this.setState({ contributors: value }),
       description: value => this.setState({ description: value })
     };
   }
@@ -54,11 +54,7 @@ class AppsTab extends React.Component {
   handleInputChange(stateKey, event, index, val) {
     if (val !== undefined) {
       this.changeRoute[stateKey](val);
-    }
-    //   else if (stateKey === 'contributors') {
-    //   this.changeRoute
-    // }
-      else {
+    } else {
       this.changeRoute[stateKey](event.target.value);
     }
   }
@@ -113,7 +109,7 @@ class AppsTab extends React.Component {
       githubURL: this.state.githubURL,
       tags: this.state.tags,
       title: this.state.title,
-      // contributors: this.state.contributors,
+      contributors: this.state.contributors,
       description: this.state.description,
     };
 

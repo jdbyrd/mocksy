@@ -1,12 +1,36 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import Button from '../shared/button';
+import { populateUser } from '../../actions/index';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class AppsTabCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.delete = this.delete.bind(this);
+  }
+
+  delete() {
+    axios.delete(`/api/project?id=${this.props.project.id}`)
+      .then(() => populateUser(this.props.name));
+  }
 
   render() {
     const project = this.props.project;
+    let id = '';
+    if (this.props.auth) {
+      id = this.props.auth.id;
+    }
+    console.log(project);
+    console.log(this.props.auth);
     return (
       <Project className="users-projects">
         <Link to={`/project/${this.props.project.id}`}>
@@ -14,12 +38,16 @@ class AppsTabCard extends React.Component {
           <ProjectTitle>{project.title}</ProjectTitle>
           <ProjectDescription>{project.text}</ProjectDescription>
         </Link>
+        {(this.props.auth && this.props.auth.username === this.props.name)?
+            <button onClick={this.delete}>DELEEETEEE</button>
+            :null
+        }
       </Project>
     );
   }
 }
 
-export default AppsTabCard;
+export default connect(mapStateToProps)(AppsTabCard);
 
 const Project = styled.div`
 

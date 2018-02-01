@@ -1,9 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { populateFeedback } from '../../actions/index';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class FeedbackItem extends React.Component {
   constructor(props) {
     super(props);
+    this.delete = this.delete.bind(this);
+  }
+
+  delete() {
+    axios.delete(`/api/feedback?id=${this.props.item.id}`)
+      .then(() => populateFeedback());
   }
 
   render() {
@@ -21,4 +36,4 @@ class FeedbackItem extends React.Component {
   }
 }
 
-export default FeedbackItem;
+export default connect(mapStateToProps)(FeedbackItem);

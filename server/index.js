@@ -59,7 +59,7 @@ app.get(
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
     console.log(req.user.username);
-    insert.user(req.user.username)
+    insert.user(req.user)
       .then(() => console.log(`inserted ${req.user.username} into database`))
       .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
     res.redirect('/');

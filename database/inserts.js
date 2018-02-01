@@ -1,6 +1,6 @@
 const knex = require('./db');
 
-const user = (name) => knex('users').insert({ name });
+const user = data => knex('users').insert({ name: data.username, avatar: data.photos[0].value, display_name: data.displayName, email: data.emails[0].value, github_profile: data.profileUrl });
 
 const project = (data) => {
   const { name, title, url, github, text, contributor } = data;

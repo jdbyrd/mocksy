@@ -41,7 +41,7 @@ class AppCard extends React.Component {
               <Contributor>{this.props.project.user}</Contributor>
             </Link>
             <Description>
-              <Link to={`/project/${this.props.name}`}>
+              <Link to={`/user/${this.props.project.name}`}>
                 {this.props.project.display_name}
               </Link>
             </Description>

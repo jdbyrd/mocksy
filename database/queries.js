@@ -3,7 +3,9 @@ const knex = require('./db');
 const projects = id => id
   ? knex('projects').select().where('id', id)
   : knex('projects').select()
-    .join('users', 'projects.user_id', '=', 'users.id');
+    .join('users', 'projects.user_id', '=', 'users.id')
+    .orderBy('projects.created_at', 'desc');
+    ;
 
 const feedback = id => id
   ? knex('feedback').select().join('users', 'feedback.user_id', '=', 'users.id').where('project_id', id)

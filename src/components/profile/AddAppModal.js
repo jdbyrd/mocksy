@@ -8,6 +8,8 @@ import Store from '../../actions/index';
 class AppsTab extends React.Component {
   constructor(props) {
     super(props);
+    this.lastFetchId = 0;
+    this.fetchUser = debounce(this.fetchUser, 800);
 
     this.state = {
       // toggles modal visibility
@@ -29,9 +31,8 @@ class AppsTab extends React.Component {
       confirmLoading: false
     };
 
-    this.lastFetchId = 0;
-    this.fetchUser = debounce(this.fetchUser, 800);
-
+    this.fetchUser = this.fetchUser.bind(this);
+    this.handleContributorChange = this.handleContributorChange.bind(this);
     this.showModal = this.showModal.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleAppURL = this.handleAppURL.bind(this);
@@ -86,21 +87,20 @@ class AppsTab extends React.Component {
       data: [],
       fetching: true
     });
-    fetch(/* API URL GOES HERE */)
-      .then(response => response.json())
-      .then((body) => {
+    axios(`https://api.github.com/search/users?q=${value}`)
+      .then((response) => {
         if (fetchId !== this.lastFetchId) {
           return;
         }
-        const data = body.results.map(user => ({
-          // text: `${user.name.first} ${user.name.last}`,
-          // value: /* user.login.username */,
+        const data = response.data.items.map(user => ({
+          value: user.login
         }));
         this.setState({ data, fetching: false });
       });
   }
 
   handleContributorChange(value) {
+    console.log(this.state.data);
     this.setState({
       value,
       data: [],
@@ -311,7 +311,7 @@ class AppsTab extends React.Component {
                     onSearch={this.fetchUser}
                     onChange={this.handleContributorChange}
                   >
-                    {this.state.data.map(d => <Select.Option key={d.value}>{d.text}</Select.Option>)}
+                    {this.state.data.map(d => <Select.Option key={d.value}>{d.value}</Select.Option>)}
                   </Select>
                 </Form.Item>
                 <Form.Item label="Description:">

@@ -308,7 +308,7 @@ class AppsTab extends React.Component {
                     mode="multiple"
                     labelInValue
                     value={this.state.value}
-                    placeholder="Select users"
+                    placeholder="Select users from Github"
                     notFoundContent={this.state.fetching ? <Spin size="small" /> : null}
                     filterOption={false}
                     onSearch={this.fetchUser}

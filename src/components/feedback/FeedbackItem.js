@@ -15,16 +15,16 @@ class FeedbackItem extends React.Component {
   }
 
 
-  upvote(value) {
-    if (value === 1) {
-      this.setState({ total: this.state.total += 1 });
-    }
+  upvote() {
+    this.setState({ total: this.state.total + 1 });
   }
 
-  downvote(value) {
-    if (value === -1) {
-      this.setState({ total: this.state.total -= 1 });
-    }
+  downvote() {
+    this.setState({ total: this.state.total - 1 });
+  }
+
+  handleDelete() {
+    /* trigger error handling modal */
   }
 
   render() {
@@ -32,7 +32,7 @@ class FeedbackItem extends React.Component {
     return (
       <div id="feedback-item">
         <Row>
-          <Col span={21}>
+          <Col span={20}>
             <h2>{item.options} by
               <Link to={`/user/${item.name}`}>
                 &nbsp;{item.display_name}
@@ -54,6 +54,12 @@ class FeedbackItem extends React.Component {
               type="down"
               value={-1}
               onClick={this.downvote}
+            />
+          </Col>
+          <Col span={1}>
+            <Icon
+              type="close-circle"
+              onClick={this.handleDelete}
             />
           </Col>
         </Row>

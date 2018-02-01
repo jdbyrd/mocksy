@@ -2,10 +2,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { Tabs, Button } from 'antd';
 import UserHeader from './UserHeader';
 import AppsTab from './AppsTab';
 import FeedbackGivenTab from './FeedbackGivenTab';
 import { populateUser } from '../../actions/index';
+
+const { TabPane } = Tabs;
+const operations = <Button>Extra Action</Button>;
 
 
 class ProfilePage extends React.Component {
@@ -14,8 +18,6 @@ class ProfilePage extends React.Component {
     this.state = {
       apps: true,
     };
-    this.showApps = this.showApps.bind(this);
-    this.showFeedback = this.showFeedback.bind(this);
   }
 
   componentDidMount() {
@@ -26,31 +28,16 @@ class ProfilePage extends React.Component {
     populateUser(nextprops.match.params.name);
   }
 
-  showApps() {
-    this.setState({
-      apps: true,
-    });
-  }
-
-  showFeedback() {
-    this.setState({
-      apps: false
-    });
-  }
-
   render() {
     return (
       <div>
         <UserHeader />
-        <TabsContainer>
-          <AppsButton onClick={this.showApps} className={this.state.apps ? 'current-tab' : null}>Apps</AppsButton>
-          <FeedBackGivenButton onClick={this.showFeedback} className={this.state.apps ? null : 'current-tab'}>Feedback given</FeedBackGivenButton>
+        <TabsContainer className="tabs-container">
+          <Tabs>
+            <TabPane tab="Apps" key="1"><AppsTab name={this.props.match.params.name}/></TabPane>
+            <TabPane tab="Feedback given" key="2"><FeedbackGivenTab /></TabPane>
+          </Tabs>
         </TabsContainer>
-        {this.state.apps ?
-          <AppsTab name={this.props.match.params.name}/>
-        :
-          <FeedbackGivenTab />
-        }
       </div>
     );
   }

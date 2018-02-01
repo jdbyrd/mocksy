@@ -58,6 +58,7 @@ class PostFeedbackModal extends React.Component {
       setTimeout(() => {
         populateFeedback(this.props.id);
         this.setState({
+          // feedback type and text are not resetting
           visible: false,
           confirmLoading: false,
           feedbackType: 0,

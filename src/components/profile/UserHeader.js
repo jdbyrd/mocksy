@@ -17,10 +17,10 @@ class UserHeader extends React.Component {
     const user = this.props.user;
     console.log(user);
     return (
-      <UserHeaderContainer className="user-header-container">
-        <UserImgContainer className="user-img-container">
+      <div className="user-header-container">
+        <div className="user-img-container">
           <UserImg src={user.avatar} />
-        </UserImgContainer>
+        </div>
         <UserInfo>
           <UserName>{user.display_name}</UserName>
           <UserJob>Software Engineer @ Hack Reactor</UserJob>
@@ -28,28 +28,12 @@ class UserHeader extends React.Component {
         <a href={user.github_profile} target="_blank">
           <UserGithub src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
         </a>
-      </UserHeaderContainer>
+      </div>
     );
   }
 }
 
 export default connect(mapStateToProps)(UserHeader);
-
-const UserHeaderContainer = styled.div`
-  margin-top: -100px;
-  display: grid;
-  width: 100%;
-  grid-template-columns: 50px 170px auto 50px 80px;
-  padding: 50px 0;
-`;
-
-const UserImgContainer = styled.div`
-  width: 150px;
-  padding: 0 25px;
-  position: relative;
-  grid-column-start: 2;
-  grid-column-end: 3;
-`;
 
 const UserImg = styled.img`
   width: 100px;

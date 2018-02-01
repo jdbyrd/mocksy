@@ -21,20 +21,20 @@ class AppCard extends React.Component {
 
   render() {
     return (
-      <ProjectContainer>
-        <ImgLink href={this.props.project.url}>
-          <ProjectImg src={`/images/${this.props.project.id}`} />
-        </ImgLink>
-        <ProjectDetailsContainer>
-          <ProjectDetails>
-            <TitleContainer>
+      <div className="project-container">
+        <a className="img-link" href={this.props.project.url}>
+          <img className="project-img" src={`/images/${this.props.project.id}`} />
+        </a>
+        <div className="project-details-container">
+          <div className="project-details">
+            <div className="title-container">
               <a href={this.props.project.url}>
-                <Title>{this.props.project.title}</Title>
+                <div className="title">{this.props.project.title}</div>
               </a>
               <a href={this.props.project.github} target="_blank">
-                <GitIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
+                <GitIcon className="git-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
               </a>
-            </TitleContainer>
+            </div>
 
             <Link to={`/user/${this.props.project.user}`}>
               <Contributor>{this.props.project.user}</Contributor>
@@ -45,8 +45,8 @@ class AppCard extends React.Component {
             <span>{
               this.props.project.tags ? 
               this.props.project.tags.map((tag) =>
-              <Tag color="blue" onClick={(e) => this.clickTag(e)} key={tag}>{tag}</Tag>):
-              <span></span>
+                <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) :
+              <span />
             }
             </span>
             <br /><br />
@@ -56,73 +56,14 @@ class AppCard extends React.Component {
                   <Button>Read feedback</Button>
                 </Link>
             </span>     
-          </ProjectDetails>
-        </ProjectDetailsContainer>
-      </ProjectContainer>
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
 export default AppCard;
-
-const ProjectContainer = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: 7.5% 40% 5% 35.5% 12%;
-  grid-template-rows: 22%;
-`;
-
-const ImgLink = styled.a`
-  width: 100%;
-  padding-bottom: 56.25%;
-  position: relative;
-  grid-column-start: 2;
-  grid-column-end: 3;
-  margin-bottom: 40px;
-`;
-
-const ProjectImg = styled.img`
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 100%;
-  border: 1px solid #cecece
-`;
-
-const ProjectDetailsContainer = styled.div`
-  width: 100%;
-  padding-bottom: 56.25%;
-  grid-column-start: 4;
-  grid-column-end: 5;
-  position: relative;
-  margin-bottom: 40px;
-`;
-
-const ProjectDetails = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 100%;
-`;
-
-const TitleContainer = styled.div`
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: 75% auto 50px;
-`;
-
-const Title = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  padding: 0;
-  width: 85%;
-  display: inline-block;
-  line-height: 50px;
-  grid-column-start: 1;
-  grid-column-end: 2;
-`;
 
 const GitIcon = styled.img`
   width: 50px;

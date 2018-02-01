@@ -75,40 +75,43 @@ class Navbar extends React.Component {
               <li onClick={this.triangleRight}>Popular</li>
             </ul>
             <div className="right-container">
-              <Button shape="circle" icon="search" onClick={this.toggleSearch} />
+              <Button shape="circle" icon="search" className="search" onClick={this.toggleSearch} />
               <span className="helper" />
                {this.props.auth ?
-                <span>
-              <img className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
-              <img
-                className="profile-pic"
-                alt="profile-pic"
-                src={this.props.auth.photos[0].value}
-                onClick={this.toggleDropdown}
-              />
-              </span>
+                <ul className="buttons-wrapper">
+                  <li>
+                    <img className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+                  </li>
+                  <li className="img-dropdown-container">
+                    <img
+                      className="profile-pic"
+                      alt="profile-pic"
+                      src={this.props.auth.photos[0].value}
+                      onClick={this.toggleDropdown}
+                    />
+                    <ul className="dropdown-container">
+                      <div className="invisible-dropdown-helper" />
+                      <div className="dropdown-triangle" />
+                        <ul className="dropdown" onClick={this.toggleDropdown}>
+                          <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
+                          <li>Your apps</li>
+                          <li>Your reviews</li>
+                          <li>Settings</li>
+                          <li>
+                            <a href="/logout">Logout</a>
+                          </li>
+                        </ul>
+                    </ul>
+                  </li>
+                </ul>
                 : <Login href="/auth/github">Login</Login>
               }
             </div>
           </div>
           <div id="triangle" />
           {this.state.search ? <h4 className="searchResults">HAHA YOU CAN&#39;T SEARCH!</h4> : null}
-          {this.state.viewMenu ?
-            <div className="dropdown-container">
-              <div className="dropdown-triangle" />
-              <div className="dropdown">
-                <ul>
-                  <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
-                  <li>Your apps</li>
-                  <li>Your reviews</li>
-                  <li>Settings</li>
-                  <li>
-                    <a href="/logout">Logout</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          : null}
+            
+
         </div>
       </div>
     );

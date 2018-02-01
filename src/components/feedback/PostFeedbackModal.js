@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
+import { populateFeedback } from '../../actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -55,6 +56,7 @@ class PostFeedbackModal extends React.Component {
       console.log(this.state.confirmLoading);
       // this is running just fine
       setTimeout(() => {
+        populateFeedback(this.props.id);
         this.setState({
           visible: false,
           confirmLoading: false

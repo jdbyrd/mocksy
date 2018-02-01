@@ -25,7 +25,7 @@ class AppsTab extends React.Component {
     return (
       <ProjectsContainer>
         {(this.props.auth && this.props.auth.username === this.props.name)?
-          <AddAppModal />
+          <AddAppModal name={this.props.name} />
           :null
         }
         {this.props.projects.map((project, index) => (

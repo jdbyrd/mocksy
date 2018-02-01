@@ -4,49 +4,36 @@ import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 
+/* eslint-disable */
 
 const mapStateToProps = state => (
   {
-    user: state.user.profile
+    user: state.user.user
   }
 );
 
 class UserHeader extends React.Component {
   render() {
+    const user = this.props.user;
+    console.log(user);
     return (
-      <UserHeaderContainer className="user-header-container">
-        <UserImgContainer className="user-img-container">
-          <UserImg src="https://vignette.wikia.nocookie.net/animal-jam-clans-1/images/6/6e/Double_chins_by_pictoron-d4ogfds.png/revision/latest?cb=20160521152119" />
-        </UserImgContainer>
+      <div className="user-header-container">
+        <div className="user-img-container">
+          <UserImg src={user.avatar} />
+        </div>
         <UserInfo>
-          <UserName>Alice Bob</UserName>
+          <UserName>{user.display_name}</UserName>
           <UserJob>Software Engineer @ Hack Reactor</UserJob>
         </UserInfo>
-        <a href={"#"} target="_blank">
+        <a href={user.github_profile} target="_blank">
           <UserGithub src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
         </a>
-      </UserHeaderContainer>
+      </div>
     );
   }
 }
 
 export default connect(mapStateToProps)(UserHeader);
-
-const UserHeaderContainer = styled.div`
-  margin-top: -100px;
-  display: grid;
-  width: 100%;
-  grid-template-columns: 50px 170px auto 50px 80px;
-  padding: 50px 0;
-`;
-
-const UserImgContainer = styled.div`
-  width: 150px;
-  padding: 0 25px;
-  position: relative;
-  grid-column-start: 2;
-  grid-column-end: 3;
-`;
 
 const UserImg = styled.img`
   width: 100px;

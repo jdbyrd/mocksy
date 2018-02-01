@@ -59,7 +59,7 @@ app.get(
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
     console.log(req.user.username);
-    insert.user(req.user.username)
+    insert.user(req.user)
       .then(() => console.log(`inserted ${req.user.username} into database`))
       .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
     res.redirect('/');
@@ -107,12 +107,14 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/profile', (req, res) => {
   const { name } = req.query;
-  console.log(name);
   query.userProjects(name).then((projects) => {
     const profile = { projects };
     query.userFeedback(name).then((feedback) => {
       profile.feedbackList = feedback;
-      res.send(profile);
+      query.users(name).then((user) => {
+        profile.user = user[0];
+        res.send(profile);
+      });
     });
   });
 });

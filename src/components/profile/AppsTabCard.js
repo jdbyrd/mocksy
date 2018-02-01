@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 import Button from '../shared/button';
 
 class AppsTabCard extends React.Component {
@@ -8,9 +9,11 @@ class AppsTabCard extends React.Component {
     const project = this.props.project;
     return (
       <Project className="users-projects">
-        <ProjectImage src={project.image} className="users-projects-image" />
-        <ProjectTitle>{project.title}</ProjectTitle>
-        <ProjectDescription>{project.text}</ProjectDescription>
+        <Link to={`/project/${this.props.project.id}`}>
+          <ProjectImage src={project.image} className="users-projects-image" />
+          <ProjectTitle>{project.title}</ProjectTitle>
+          <ProjectDescription>{project.text}</ProjectDescription>
+        </Link>
       </Project>
     );
   }

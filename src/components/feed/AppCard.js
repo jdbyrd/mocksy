@@ -20,6 +20,7 @@ class AppCard extends React.Component {
   }
 
   render() {
+    console.log(this.props.project);
     return (
       <div className="project-container">
         <a className="img-link" href={this.props.project.url}>
@@ -39,7 +40,7 @@ class AppCard extends React.Component {
             <Link to={`/user/${this.props.project.user}`}>
               <Contributor>{this.props.project.user}</Contributor>
             </Link>
-
+            <Description>{this.props.project.display_name}</Description>
             <Description>{this.props.project.text}</Description>
 
             <span>{

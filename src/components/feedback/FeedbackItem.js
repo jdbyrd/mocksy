@@ -10,9 +10,9 @@ class FeedbackItem extends React.Component {
     const item = this.props.item;
     return (
       <div id="feedback-item">
-        <h2>{item.type} by
-          <Link to={`/user/${item.user}`}>
-            &nbsp;{item.name}
+        <h2>{item.options} by
+          <Link to={`/user/${item.name}`}>
+            &nbsp;{item.display_name}
           </Link>
         </h2>
         <p>{item.text}</p>

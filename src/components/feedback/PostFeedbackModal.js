@@ -59,7 +59,9 @@ class PostFeedbackModal extends React.Component {
         populateFeedback(this.props.id);
         this.setState({
           visible: false,
-          confirmLoading: false
+          confirmLoading: false,
+          feedbackType: 0,
+          text: '',
         });
       }, 1500);
     }
@@ -68,6 +70,9 @@ class PostFeedbackModal extends React.Component {
   handleCancel() {
     this.setState({
       visible: false,
+      confirmLoading: false,
+      feedbackType: 0,
+      text: '',
     });
   }
 

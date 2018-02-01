@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Select } from 'antd';
 import { populateFeedback } from '../../actions/index';
 
@@ -6,18 +7,28 @@ import AppSidebar from './AppSidebar';
 import FeedbackList from './FeedbackList';
 import PostFeedbackModal from './PostFeedbackModal';
 
+const mapStateToProps = state => (
+  {
+    project: state.feedback.project
+  }
+);
+
 class FeedbackPage extends React.Component {
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
   }
 
-  componentWillReceiveProps(nextprops) {
-    populateFeedback(nextprops.match.params.id);
-  }
-
   render() {
+    const project = this.props.project;
     return (
       <div>
+        <div id="feedback-padding"></div>
+        <Row>
+          <Col span={2} />
+          <Col span={22}>
+            <h1>Feedback for {project.title}</h1>
+          </Col>
+        </Row>
         <Row gutter={48}>
           <Col span={2} />
           <Col span={8}><AppSidebar /></Col>
@@ -42,5 +53,4 @@ class FeedbackPage extends React.Component {
   }
 }
 
-export default FeedbackPage;
-
+export default connect(mapStateToProps)(FeedbackPage);

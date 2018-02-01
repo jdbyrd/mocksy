@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal, Button, Input, Card, Tag, AutoComplete, Icon, Tooltip, Form, message, Row, Col } from 'antd';
-import { connect } from 'react-redux';
+import { Modal, Button, Input, Tag, Select, Spin, Icon, Tooltip, Form, message, Row, Col } from 'antd';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
 import styled, { css } from 'styled-components';
 import Store from '../../actions/index';
 
@@ -10,18 +10,27 @@ class AppsTab extends React.Component {
     super(props);
 
     this.state = {
+      // toggles modal visibility
       visible: false,
+      // form data
       appURL: '',
       githubURL: '',
       tags: [],
-      //dataSource: ['React', 'Redux', 'Javascript', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Node', 'Express'], /* should pull from database */
       title: '',
-      contributors: [],
       description: '',
+      // tags
       inputVisible: false,
       inputValue: '',
+      // contributors
+      data: [],
+      value: [],
+      fetching: false,
+      // spinner for submit button (doesn't work)
       confirmLoading: false
     };
+
+    this.lastFetchId = 0;
+    this.fetchUser = debounce(this.fetchUser, 800);
 
     this.showModal = this.showModal.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -38,7 +47,7 @@ class AppsTab extends React.Component {
       appURL: value => this.setState({ appURL: value }),
       githubURL: value => this.setState({ githubURL: value }),
       title: value => this.setState({ title: value }),
-      contributors: value => this.setState({ contributors: value }),
+      //contributors: value => this.setState({ contributors: value }),
       description: value => this.setState({ description: value })
     };
   }
@@ -68,7 +77,38 @@ class AppsTab extends React.Component {
     // handle screenshot upload with web scraper
   }
 
-  /************ TAG HANDLERS *************/
+  /* *********** CONTRIBUTOR HANDLERS ************ */
+  fetchUser(value) {
+    console.log('fetching user', value);
+    this.lastFetchId += 1;
+    const fetchId = this.lastFetchId;
+    this.setState({
+      data: [],
+      fetching: true
+    });
+    fetch(/* API URL GOES HERE */)
+      .then(response => response.json())
+      .then((body) => {
+        if (fetchId !== this.lastFetchId) {
+          return;
+        }
+        const data = body.results.map(user => ({
+          // text: `${user.name.first} ${user.name.last}`,
+          // value: /* user.login.username */,
+        }));
+        this.setState({ data, fetching: false });
+      });
+  }
+
+  handleContributorChange(value) {
+    this.setState({
+      value,
+      data: [],
+      fetching: false
+    });
+  }
+
+  /* *********** TAG HANDLERS ************ */
   handleClose(removedTag) {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     this.setState({ tags });
@@ -109,7 +149,7 @@ class AppsTab extends React.Component {
       githubURL: this.state.githubURL,
       tags: this.state.tags,
       title: this.state.title,
-      contributors: this.state.contributors,
+      contributors: this.state.data,
       description: this.state.description,
     };
 
@@ -134,15 +174,22 @@ class AppsTab extends React.Component {
     setTimeout(() => {
       Store.populateUser(this.props.name);
       this.setState({
+        // toggles modal visibility
         visible: false,
+        // form data
         appURL: '',
         githubURL: '',
         tags: [],
         title: '',
-        contributors: '',
         description: '',
+        // tags
         inputVisible: false,
         inputValue: '',
+        // contributors
+        data: [],
+        value: [],
+        fetching: false,
+        // spinner for submit button (doesn't work)
         confirmLoading: false
       });
     }, 2000);
@@ -150,15 +197,22 @@ class AppsTab extends React.Component {
 
   handleCancel() {
     this.setState({
+      // toggles modal visibility
       visible: false,
+      // form data
       appURL: '',
       githubURL: '',
       tags: [],
       title: '',
-      contributors: '',
       description: '',
+      // tags
       inputVisible: false,
       inputValue: '',
+      // contributors
+      data: [],
+      value: [],
+      fetching: false,
+      // spinner for submit button (doesn't work)
       confirmLoading: false
     });
   }
@@ -247,10 +301,18 @@ class AppsTab extends React.Component {
                   />
                 </Form.Item>
                 <Form.Item label="Contributors (optional):">
-                  <Input
-                    value={this.state.contributors}
-                    onChange={(e, i, val) => this.handleInputChange('contributors', e, i, val)}
-                  />
+                  <Select
+                    mode="multiple"
+                    labelInValue
+                    value={this.state.value}
+                    placeholder="Select users"
+                    notFoundContent={this.state.fetching ? <Spin size="small" /> : null}
+                    filterOption={false}
+                    onSearch={this.fetchUser}
+                    onChange={this.handleContributorChange}
+                  >
+                    {this.state.data.map(d => <Select.Option key={d.value}>{d.text}</Select.Option>)}
+                  </Select>
                 </Form.Item>
                 <Form.Item label="Description:">
                   <Input.TextArea

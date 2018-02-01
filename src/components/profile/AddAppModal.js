@@ -4,6 +4,7 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import styled, { css } from 'styled-components';
 import Store from '../../actions/index';
+// import getScreenshot from '../../actions/screenshot_scraper'; // <<<<<<=========== STUPID ERROR
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -70,12 +71,14 @@ class AppsTab extends React.Component {
   }
 
   handleAppURL(e) {
-    if (e.target.value.includes('herokuapp.com')) {
+    const url = e.target.value;
+    if (url.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
       return;
     }
-    this.setState({ appURL: e.target.value });
-    // handle screenshot upload with web scraper
+    this.setState({ appURL: url });
+    // handle screenshot upload with web scraper <<<<<<<<<<<<<<<<<
+    getScreenshot(url, 'temp');
   }
 
   /* *********** CONTRIBUTOR HANDLERS ************ */
@@ -241,7 +244,9 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="screenshot"></div>
+                <div id="screenshot">
+                  <img alt="app screenshot"/>
+                </div>
                 <Form.Item label="Application URL:">
                   <Input
                     value={this.state.appURL}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Input, Tag, Icon, Tooltip, Form, message, Row, Col } from 'antd';
+import { Modal, Button, Input, Card, Tag, AutoComplete, Icon, Tooltip, Form, message, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
@@ -14,8 +14,9 @@ class AppsTab extends React.Component {
       appURL: '',
       githubURL: '',
       tags: [],
+      //dataSource: ['React', 'Redux', 'Javascript', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Node', 'Express'], /* should pull from database */
       title: '',
-      contributors: '',
+      contributors: [],
       description: '',
       inputVisible: false,
       inputValue: '',
@@ -24,6 +25,8 @@ class AppsTab extends React.Component {
 
     this.showModal = this.showModal.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleAppURL = this.handleAppURL.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.showInput = this.showInput.bind(this);
     this.handleTagInputChange = this.handleTagInputChange.bind(this);
     this.handleInputConfirm = this.handleInputConfirm.bind(this);
@@ -35,7 +38,7 @@ class AppsTab extends React.Component {
       appURL: value => this.setState({ appURL: value }),
       githubURL: value => this.setState({ githubURL: value }),
       title: value => this.setState({ title: value }),
-      contributors: value => this.setState({ contributors: value }),
+      contributors: value => this.setState({ contributors: [...this.state.contributors, value] }),
       description: value => this.setState({ description: value })
     };
   }
@@ -51,15 +54,27 @@ class AppsTab extends React.Component {
   handleInputChange(stateKey, event, index, val) {
     if (val !== undefined) {
       this.changeRoute[stateKey](val);
-    } else {
+    }
+    //   else if (stateKey === 'contributors') {
+    //   this.changeRoute
+    // }
+      else {
       this.changeRoute[stateKey](event.target.value);
     }
+  }
+
+  handleAppURL(e) {
+    if (e.target.value.includes('herokuapp.com')) {
+      message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
+      return;
+    }
+    this.setState({ appURL: e.target.value });
+    // handle screenshot upload with web scraper
   }
 
   /************ TAG HANDLERS *************/
   handleClose(removedTag) {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
     this.setState({ tags });
   }
 
@@ -75,8 +90,8 @@ class AppsTab extends React.Component {
     const state = this.state;
     const inputValue = this.state.inputValue;
     let tags = this.state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+    if (this.state.inputValue && tags.indexOf(this.state.inputValue) === -1) {
+      tags = [...tags, this.state.inputValue];
     }
     console.log(tags);
     this.setState({
@@ -98,7 +113,7 @@ class AppsTab extends React.Component {
       githubURL: this.state.githubURL,
       tags: this.state.tags,
       title: this.state.title,
-      contributors: this.state.contributors,
+      // contributors: this.state.contributors,
       description: this.state.description,
     };
 
@@ -124,6 +139,14 @@ class AppsTab extends React.Component {
       Store.populateUser(this.props.name);
       this.setState({
         visible: false,
+        appURL: '',
+        githubURL: '',
+        tags: [],
+        title: '',
+        contributors: '',
+        description: '',
+        inputVisible: false,
+        inputValue: '',
         confirmLoading: false
       });
     }, 2000);
@@ -132,6 +155,15 @@ class AppsTab extends React.Component {
   handleCancel() {
     this.setState({
       visible: false,
+      appURL: '',
+      githubURL: '',
+      tags: [],
+      title: '',
+      contributors: '',
+      description: '',
+      inputVisible: false,
+      inputValue: '',
+      confirmLoading: false
     });
   }
 
@@ -159,17 +191,19 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
+                <div id="screenshot"></div>
                 <Form.Item label="Application URL:">
                   <Input
                     value={this.state.appURL}
-                    onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)} 
+                    onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)}
+                    onBlur={this.handleAppURL}
                   />
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">
                   <Input
                     addonBefore="https://"
                     value={this.state.githubURL}
-                    onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)} 
+                    onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)}
                   />
                 </Form.Item>
                 <Form.Item label="Technologies:">
@@ -211,6 +245,7 @@ class AppsTab extends React.Component {
               <Col span={16}>
                 <Form.Item label="Title:">
                   <Input
+                    size="large"
                     value={this.state.title}
                     onChange={(e, i, val) => this.handleInputChange('title', e, i, val)}
                   />
@@ -223,7 +258,7 @@ class AppsTab extends React.Component {
                 </Form.Item>
                 <Form.Item label="Description:">
                   <Input.TextArea
-                    rows={4}
+                    rows={8}
                     value={this.state.description}
                     onChange={(e, i, val) => this.handleInputChange('description', e, i, val)}
                   />

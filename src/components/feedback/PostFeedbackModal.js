@@ -17,9 +17,9 @@ class PostFeedbackModal extends React.Component {
 
     this.state = {
       visible: false,
+      confirmLoading: false,
       feedbackType: 0,
       text: '',
-      confirmLoading: false,
     };
 
     this.showModal = this.showModal.bind(this);
@@ -49,9 +49,12 @@ class PostFeedbackModal extends React.Component {
         .then(() => {
           console.log('form added');
         });
+      // this is never setting the state to true
       this.setState({
         confirmLoading: true
       });
+      console.log(this.state.confirmLoading);
+      // this is running just fine
       setTimeout(() => {
         populateFeedback(this.props.id);
         this.setState({

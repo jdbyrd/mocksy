@@ -26,9 +26,15 @@ a {
   position: relative;
 }
 
+#feedback-padding {
+  height: 100px;
+}
+
 #feedback-item {
-  border: 2px solid black;
+  border: 2px solid #d6d6d6;
   border-radius: 15px;
+  padding: 10px 20px 5px 20px;
+  margin-bottom: 10px;
 }
 
 /*----------------------------

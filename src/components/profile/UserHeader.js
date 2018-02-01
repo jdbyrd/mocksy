@@ -4,25 +4,28 @@ import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 
+/* eslint-disable */
 
 const mapStateToProps = state => (
   {
-    user: state.user.profile
+    user: state.user.user
   }
 );
 
 class UserHeader extends React.Component {
   render() {
+    const user = this.props.user;
+    console.log(user);
     return (
       <UserHeaderContainer className="user-header-container">
         <UserImgContainer className="user-img-container">
-          <UserImg src="https://vignette.wikia.nocookie.net/animal-jam-clans-1/images/6/6e/Double_chins_by_pictoron-d4ogfds.png/revision/latest?cb=20160521152119" />
+          <UserImg src={user.avatar} />
         </UserImgContainer>
         <UserInfo>
-          <UserName>Alice Bob</UserName>
+          <UserName>{user.display_name}</UserName>
           <UserJob>Software Engineer @ Hack Reactor</UserJob>
         </UserInfo>
-        <a href={"#"} target="_blank">
+        <a href={user.github_profile} target="_blank">
           <UserGithub src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
         </a>
       </UserHeaderContainer>

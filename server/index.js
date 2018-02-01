@@ -107,12 +107,14 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/profile', (req, res) => {
   const { name } = req.query;
-  console.log(name);
   query.userProjects(name).then((projects) => {
     const profile = { projects };
     query.userFeedback(name).then((feedback) => {
       profile.feedbackList = feedback;
-      res.send(profile);
+      query.users(name).then((user) => {
+        profile.user = user[0];
+        res.send(profile);
+      });
     });
   });
 });

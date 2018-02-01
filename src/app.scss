@@ -26,9 +26,19 @@ a {
   position: relative;
 }
 
+#feedback-padding {
+  height: 100px;
+}
+
+#tab-padding {
+  height: 50px;
+}
+
 #feedback-item {
-  border: 2px solid black;
+  border: 2px solid #d6d6d6;
   border-radius: 15px;
+  padding: 10px 20px 5px 20px;
+  margin-bottom: 10px;
 }
 
 .hidden {
@@ -436,3 +446,30 @@ a {
 ---- END OF MEDIA QUERIES ----
 ----------------------------*/
 
+
+/*----------------------------
+-------     LOGIN      -------
+----------------------------*/
+
+.mocksyText {
+  font-size: 50px;
+  font-weight: bold;
+  color: black;
+  width: 330px;
+  margin: auto;
+}
+
+.mocksyBlock {
+  height: 600px;
+  padding-top: 300px;
+}
+
+.loginButton{
+  width: 200px;
+  padding-top: 50px;
+  margin: auto;
+}
+
+/*----------------------------
+-------- END OF LOGIN  -------
+----------------------------*/

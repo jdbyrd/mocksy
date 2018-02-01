@@ -8,6 +8,7 @@ class FeedbackTabCard extends React.Component {
     const feedback = this.props.data.feedback;
     return (
       <div>
+        <div id="tab-padding" />
         <Row gutter={48}>
           <Col span={2} />
           <Col span={8}>

@@ -17,8 +17,12 @@ class AppSidebar extends React.Component {
     const project = this.props.project;
     return (
       <div>
-        {project.title}
-        {project.type}
+        <a href={project.url} >
+          <h2>{project.title}</h2>
+        </a>
+        <p>
+          {project.text}
+        </p>
       </div>
     );
   }

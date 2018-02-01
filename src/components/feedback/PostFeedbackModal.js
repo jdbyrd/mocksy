@@ -58,8 +58,11 @@ class PostFeedbackModal extends React.Component {
       setTimeout(() => {
         populateFeedback(this.props.id);
         this.setState({
+          // feedback type and text are not resetting
           visible: false,
-          confirmLoading: false
+          confirmLoading: false,
+          feedbackType: 0,
+          text: '',
         });
       }, 1500);
     }
@@ -68,6 +71,9 @@ class PostFeedbackModal extends React.Component {
   handleCancel() {
     this.setState({
       visible: false,
+      confirmLoading: false,
+      feedbackType: 0,
+      text: '',
     });
   }
 

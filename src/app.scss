@@ -41,6 +41,10 @@ a {
   margin-bottom: 10px;
 }
 
+.hidden {
+  display: none;
+}
+
 /*----------------------------
 ------------ NAV -------------
 ----------------------------*/
@@ -128,23 +132,42 @@ a {
   grid-column-end: 4;
   text-align: right;
   padding-right: 30px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  .search {
+    display: inline-block;
+  }
   .helper {
     display: inline-block;
     vertical-align: middle;
     height: 100%;
   }
-}
-
-.bell-icon {
-  height: 35px;
-  vertical-align: middle;
-  padding: 0 15px;
-  cursor: pointer;
-}
-
-.profile-pic {
-  width: 40px;
-  border-radius: 40px;
+  .buttons-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 106px;
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+    height: 60px;
+    margin-bottom: 0;
+    .bell-icon {
+      height: 35px;
+      vertical-align: middle;
+      padding: 0 15px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .profile-pic {
+      width: 40px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+  }
 }
 
 #triangle {
@@ -161,8 +184,17 @@ a {
 
 .dropdown-container {
   position: fixed;
+  display: none;
   right: 28px;
-  margin-top: -15px;
+  margin-top: 10px;
+  .invisible-dropdown-helper {
+    position: fixed;
+    top: 10px;
+    right: 28px;
+    height: 240px;
+    width: 60px;
+    z-index: 7;
+  }
   .dropdown-triangle {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
@@ -181,11 +213,17 @@ a {
     li {
       padding: 5px 0;
       &:hover {
+        color: white;
         cursor: pointer;
       }
     }
   }
 }
+
+.img-dropdown-container:hover > ul {
+  display: block;
+}
+
 
 /*----------------------------
 -------- END OF NAV ----------

@@ -3,16 +3,17 @@ const knex = require('./db');
 const user = (name) => knex('users').insert({ name });
 
 const project = (data) => {
-  const { name, title, url, github, text, contributor } = data;
+  const { name, title, appURL, githubURL, description, tags, contributors } = data;
   const userId = knex('users').where({ name }).select('id');
   knex('projects').insert({
     title,
-    url,
-    github,
-    text,
-    contributor,
+    url: appURL,
+    github: githubURL,
+    text: description,
     user_id: userId
   })
+    .then(() => { /* add tags to tags table? */ })
+    .then(() => { /* add contributors to contributors table? */ })
     .then(() => console.log('inserted project into database'))
     .catch(error => console.log('DID NOT ADD PROJECT: ', error));
 };

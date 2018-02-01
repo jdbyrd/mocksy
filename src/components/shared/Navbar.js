@@ -96,7 +96,7 @@ class Navbar extends React.Component {
           {this.state.viewMenu ?
             <div className="dropdown-container">
               <div className="dropdown-triangle" />
-              <div className="dropdown">
+              <div className="dropdown" onClick={this.toggleDropdown}>
                 <ul>
                   <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
                   <li>Your apps</li>

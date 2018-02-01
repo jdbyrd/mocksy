@@ -70,7 +70,10 @@ class AppsTab extends React.Component {
   }
 
   handleAppURL(e) {
-    if (e.target.value.includes('herokuapp.com')) {
+    const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
+    if (!(regexp.test(e.target.value))) {
+      message.error('Not a valid URL');
+    } else if (e.target.value.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
       return;
     }

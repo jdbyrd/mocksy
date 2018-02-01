@@ -14,9 +14,12 @@ class Login extends React.Component {
     return (
       <div>
         <div>
-          <img src="https://image.flaticon.com/icons/svg/25/25231.svg" />
+          <img src="./mocksylogo.png" />ocksy
         </div>
-        <Button href="/auth/github">Login to Github</Button>
+        <Button type="primary" size="large" href="/auth/github">
+          {'Login to Github      '} 
+          <img src="./github.png"/>
+        </Button>
       </div>
     );
   }

@@ -22,7 +22,7 @@ class ProfilePage extends React.Component {
     populateUser(this.props.match.params.name);
   }
 
-  componentWillReceiveProps(nextprops){
+  componentWillReceiveProps(nextprops) {
     populateUser(nextprops.match.params.name);
   }
 

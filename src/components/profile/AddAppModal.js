@@ -121,6 +121,7 @@ class AppsTab extends React.Component {
       confirmLoading: true
     });
     setTimeout(() => {
+      Store.populateUser(this.props.name);
       this.setState({
         visible: false,
         confirmLoading: false

@@ -14,7 +14,7 @@ class AppsTab extends React.Component {
       appURL: '',
       githubURL: '',
       tags: [],
-      dataSource: ['React', 'Redux', 'Javascript', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Node', 'Express'], /* should pull from database */
+      //dataSource: ['React', 'Redux', 'Javascript', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Node', 'Express'], /* should pull from database */
       title: '',
       contributors: [],
       description: '',
@@ -191,7 +191,7 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="screenshot">Screenshot goes here</div>
+                <div id="screenshot"></div>
                 <Form.Item label="Application URL:">
                   <Input
                     value={this.state.appURL}
@@ -221,13 +221,11 @@ class AppsTab extends React.Component {
                     return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
                   })}
                   {this.state.inputVisible && (
-                    <AutoComplete
+                    <Input
                       ref={this.saveInputRef}
                       type="text"
                       size="small"
                       style={{ width: 78 }}
-                      dataSource={this.state.dataSource}
-                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                       value={this.state.inputValue}
                       onChange={this.handleTagInputChange}
                       onBlur={this.handleInputConfirm}
@@ -247,6 +245,7 @@ class AppsTab extends React.Component {
               <Col span={16}>
                 <Form.Item label="Title:">
                   <Input
+                    size="large"
                     value={this.state.title}
                     onChange={(e, i, val) => this.handleInputChange('title', e, i, val)}
                   />
@@ -259,7 +258,7 @@ class AppsTab extends React.Component {
                 </Form.Item>
                 <Form.Item label="Description:">
                   <Input.TextArea
-                    rows={4}
+                    rows={8}
                     value={this.state.description}
                     onChange={(e, i, val) => this.handleInputChange('description', e, i, val)}
                   />

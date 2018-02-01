@@ -1,18 +1,23 @@
-/* Essentially a <FeedbackItem> but with a screenshot and link of the reviewed app. */
 import React from 'react';
-import Button from '../shared/button';
+import { Row, Col } from 'antd';
 
 class FeedbackTabCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const project = this.props.data.project;
     const feedback = this.props.data.feedback;
     return (
       <div>
-        FEEDBACK HERE
+        <Row gutter={48}>
+          <Col span={2} />
+          <Col span={8}>
+            <h2>{project.title}</h2>
+          </Col>
+          <Col span={12}>
+            <p>{feedback.text}</p>
+          </Col>
+          <Col span={2} />
+        </Row>
       </div>
     );
   }

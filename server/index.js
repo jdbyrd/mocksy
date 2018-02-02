@@ -151,6 +151,14 @@ app.post('/api/feedback', (req, res) => {
   res.end();
 });
 
+app.post('/api/votes', (req, res) => {
+  if (req.user) {
+    if (req.body.votes_id === null) {
+      insert.vote(req.user.username, req.body.vote);
+    }
+  }
+});
+
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;

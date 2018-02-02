@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Button from '../shared/button';
 import { populateUser } from '../../actions/index';
+import { Icon } from 'antd';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -33,15 +35,20 @@ class AppsTabCard extends React.Component {
     console.log(this.props.auth);
     return (
       <Project className="users-projects">
+          <Container>
+            <ProjectImage src={project.image} className="users-projects-image" />
+            {(this.props.auth && this.props.auth.username === this.props.name)?
+              <TopRight>
+                <Icon type="close-circle" onClick={this.delete} />
+              </TopRight>
+              :null
+            }
+          </Container>
         <Link to={`/project/${this.props.project.id}`}>
-          <ProjectImage src={project.image} className="users-projects-image" />
           <ProjectTitle>{project.title}</ProjectTitle>
           <ProjectDescription>{project.text}</ProjectDescription>
         </Link>
-        {(this.props.auth && this.props.auth.username === this.props.name)?
-            <button onClick={this.delete}>DELEEETEEE</button>
-            :null
-        }
+
       </Project>
     );
   }
@@ -68,4 +75,14 @@ const ProjectTitle = styled.div`
 
 const ProjectDescription = styled.div`
   text-align: center;
+`;
+
+const Container = styled.div`
+  position: relative;
+`;
+
+const TopRight = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 16px;
 `;

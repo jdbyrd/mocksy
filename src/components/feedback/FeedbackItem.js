@@ -32,8 +32,10 @@ class FeedbackItem extends React.Component {
   }
 
   handleDelete() {
+    console.log('Hey');
+    console.log(this.props.item);
     axios.delete(`/api/feedback?id=${this.props.item.id}`)
-      .then(() => populateFeedback());
+      .then(() => populateFeedback(this.props.item.project_id));
   }
 
   render() {
@@ -65,12 +67,15 @@ class FeedbackItem extends React.Component {
               onClick={this.downvote}
             />
           </Col>
-          <Col span={1}>
-            <Icon
-              type="close-circle"
-              onClick={this.handleDelete}
-            />
-          </Col>
+          {(this.props.auth && this.props.auth.username === item.name)?
+            <Col span={1}>
+              <Icon
+                type="close-circle"
+                onClick={this.handleDelete}
+              />
+            </Col>
+            :null
+          }
         </Row>
         <Row>
           <p>{item.text}</p>

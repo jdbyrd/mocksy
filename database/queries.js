@@ -7,7 +7,7 @@ const projects = id => id
     .orderBy('projects.created_at', 'desc');
 
 const feedback = id => id
-  ? knex('feedback').select()
+  ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.id')
     .where('project_id', id)

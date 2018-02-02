@@ -10,7 +10,7 @@ const feedback = (id, name) => name
   ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote', 'votes.votes_id')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.id')
-    .leftJoin('votes', function() {
+    .leftJoin('votes', () => {
       this.on('votes.feedback_id', '=', 'feedback.id' && 'votes.user_id', '=', knex('users').where('name', name).select('id'))
     })
     .where('project_id', id)
@@ -37,6 +37,15 @@ const userFeedback = name => knex('feedback')
 const votes = name => knex('votes')
   .select()
   .where('user_id', knex('users').where('name', name).select('id'));
+  
+const searchProjects = q => knex('projects')
+  .select()
+  .where(knex.raw(`lower(title) like lower('${q}')`));
+
+const searchUsers = q => knex('users')
+  .select()
+  .where(knex.raw(`lower(name) like lower('${q}')`))
+  .orWhere(knex.raw(`lower(display_name) like lower('${q}')`));
 
 module.exports = {
   projects,
@@ -45,5 +54,7 @@ module.exports = {
   tags,
   userProjects,
   userFeedback,
-  votes
+  votes,
+  searchProjects,
+  searchUsers
 };

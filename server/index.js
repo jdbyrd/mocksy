@@ -16,6 +16,7 @@ const query = require('../database/queries');
 const insert = require('../database/inserts');
 const deletes = require('../database/deletes');
 const update = require('../database/updates');
+const screen = require('./screenshot_scraper');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -132,6 +133,24 @@ app.get('/api/profile', (req, res) => {
 
 app.get('/api/tags', (req, res) => {
   query.tags().then(dbRes => res.send(dbRes));
+});
+
+app.get('/api/search', (req, res) => {
+  const q = `${req.query.query}%`;
+  query.searchUsers(q).then((users) => {
+    const results = { users };
+    query.searchProjects(q).then((project) => {
+      results.projects = project;
+      res.send(results);
+    });
+  });
+});
+
+app.get('/api/screenshot', (req, res) => {
+  const tempId = req.user.username;
+  const { url } = req.query;
+  screen.getScreenshot(url, tempId)
+    .then(message => res.send(message));
 });
 
 app.post('/api/project', (req, res) => {

@@ -38,6 +38,7 @@ Store.populateFeedback = (projectId) => {
 Store.populateUser = (userName) => {
   axios(`/api/profile?name=${userName}`)
     .then((res) => {
+      console.log('wtf');
       store.dispatch({
         type: 'POPULATE_USER',
         payload: res.data

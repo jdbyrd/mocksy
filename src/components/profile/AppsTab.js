@@ -29,7 +29,7 @@ class AppsTab extends React.Component {
           :null
         }
         {this.props.projects.map((project, index) => (
-          <Container key={index} className="user-projects-container"><AppsTabCard project={project} /></Container>
+          <Container key={index} className="user-projects-container"><AppsTabCard project={project} name={this.props.name} /></Container>
         ))}
       </ProjectsContainer>
     );

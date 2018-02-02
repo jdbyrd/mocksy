@@ -4,7 +4,6 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import styled, { css } from 'styled-components';
 import Store from '../../actions/index';
-// import getScreenshot from '../../actions/screenshot_scraper'; // <<<<<<=========== STUPID ERROR
 
 class AppsTab extends React.Component {
   constructor(props) {
@@ -72,7 +71,10 @@ class AppsTab extends React.Component {
 
   handleAppURL(e) {
     const url = e.target.value;
-    if (url.includes('herokuapp.com')) {
+    const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
+    if (!(regexp.test(url))) {
+      message.error('Not a valid URL');
+    } else if (url.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
       return;
     }
@@ -314,7 +316,7 @@ class AppsTab extends React.Component {
                     mode="multiple"
                     labelInValue
                     value={this.state.value}
-                    placeholder="Select users"
+                    placeholder="Select users from Github"
                     notFoundContent={this.state.fetching ? <Spin size="small" /> : null}
                     filterOption={false}
                     onSearch={this.fetchUser}

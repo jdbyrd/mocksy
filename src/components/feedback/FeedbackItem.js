@@ -7,7 +7,9 @@ class FeedbackItem extends React.Component {
     super(props);
 
     this.state = {
-      total: 0
+      total: 0,
+      upvoteClicked: false,
+      downvoteClicked: false
     };
 
     this.upvote = this.upvote.bind(this);
@@ -16,11 +18,17 @@ class FeedbackItem extends React.Component {
 
 
   upvote() {
-    this.setState({ total: this.state.total + 1 });
+    this.setState({
+      total: this.state.total + 1,
+      upvoteClicked: true
+    });
   }
 
   downvote() {
-    this.setState({ total: this.state.total - 1 });
+    this.setState({
+      total: this.state.total - 1,
+      downvoteClicked: true
+    });
   }
 
   handleDelete() {
@@ -43,18 +51,24 @@ class FeedbackItem extends React.Component {
             <h4>{this.state.total}</h4>
           </Col>
           <Col span={1}>
-            <Icon
-              type="up"
-              value={1}
-              onClick={this.upvote}
-            />
+            { !this.state.upvoteClicked ?
+              <Icon
+                type="up"
+                value={1}
+                onClick={this.upvote}
+              /> :
+              <Icon type="up-circle" />
+            }
           </Col>
           <Col span={1}>
-            <Icon
-              type="down"
-              value={-1}
-              onClick={this.downvote}
-            />
+            { !this.state.downvoteClicked ?
+              <Icon
+                type="down"
+                value={-1}
+                onClick={this.downvote}
+              /> :
+              <Icon type="down-circle" />
+            }
           </Col>
           <Col span={1}>
             <Icon

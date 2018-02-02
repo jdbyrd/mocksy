@@ -10,7 +10,7 @@ const feedback = (id, name) => name
   ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote', 'votes.votes_id')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.id')
-    .leftJoin('votes', () => {
+    .leftJoin('votes', function() {
       this.on('votes.feedback_id', '=', 'feedback.id' && 'votes.user_id', '=', knex('users').where('name', name).select('id'))
     })
     .where('project_id', id)

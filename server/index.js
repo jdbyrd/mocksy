@@ -137,11 +137,17 @@ app.get('/api/search', (req, res) => {
   });
 });
 
-app.get('/api/screenshot', (req, res) => {
+app.get('/api/screenshot', async (req, res) => {
   const tempId = req.user.username;
   const { url } = req.query;
-  screen.getScreenshot(url, tempId)
-    .then(message => res.send(message));
+  const message = await screen.getScreenshot(url, tempId);
+  res.send(message);
+});
+
+app.delete('/user/screenshot', (req, res) => {
+  console.log('request to delete screenshot!');
+  fs.unlink(`./dist/images/${req.user.username}.png`, err => console.log(err));
+  res.end();
 });
 
 app.post('/api/project', (req, res) => {

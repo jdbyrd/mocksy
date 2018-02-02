@@ -36,7 +36,7 @@ class AppsTabCard extends React.Component {
     return (
       <Project className="users-projects">
           <Container>
-            <ProjectImage src={project.image} className="users-projects-image" />
+            <ProjectImage src={`/images/${this.props.project.id}.png`} className="users-projects-image" />
             {(this.props.auth && this.props.auth.username === this.props.name)?
               <TopRight>
                 <Icon type="close-circle" onClick={this.delete} />

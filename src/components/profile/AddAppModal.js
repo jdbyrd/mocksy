@@ -27,6 +27,7 @@ class AppsTab extends React.Component {
       data: [],
       value: [],
       fetching: false,
+      loadingImg: false,
       // spinner for submit button (doesn't work)
       confirmLoading: false
     };
@@ -224,6 +225,7 @@ class AppsTab extends React.Component {
       // spinner for submit button (doesn't work)
       confirmLoading: false
     });
+    axios.delete('screenshot');
   }
 
   render() {

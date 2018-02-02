@@ -24,7 +24,7 @@ class AppCard extends React.Component {
     return (
       <div className="project-container">
         <a className="img-link" href={this.props.project.url}>
-          <img className="project-img" src={`/images/${this.props.project.id}`} />
+          <img className="project-img" src={`/images/${this.props.project.id}.png`} />
         </a>
         <div className="project-details-container">
           <div className="project-details">

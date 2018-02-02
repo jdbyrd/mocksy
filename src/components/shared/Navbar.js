@@ -27,12 +27,13 @@ class Navbar extends React.Component {
 
   handleSearch() {
     const query = document.getElementById('search').value;
-    console.log('query: ', query)
     this.setState({ query });
-    axios(`/api/search?query=${query}`)
-      .then((res) => {
-        console.log('SEARCH: ', res.data);
-      });
+    if (query) {
+      axios(`/api/search?query=${query}`)
+        .then((res) => {
+          console.log('SEARCH: ', res.data);
+        });
+    }
   }
 
   toggleDropdown() {

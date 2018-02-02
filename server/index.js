@@ -124,12 +124,10 @@ app.get('/api/tags', (req, res) => {
 });
 
 app.get('/api/search', (req, res) => {
-  // TODO
-  const q = req.query.query;
-  console.log('q: ', q);
-  query.users(q).then((users) => {
+  const q = `${req.query.query}%`;
+  query.searchUsers(q).then((users) => {
     const results = { users };
-    query.project(q).then((project) => {
+    query.searchProjects(q).then((project) => {
       results.projects = project;
       res.send(results);
     });

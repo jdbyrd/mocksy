@@ -29,11 +29,16 @@ const userFeedback = name => knex('feedback')
   .join('projects', 'feedback.project_id', '=', 'projects.id')
   .where('feedback.user_id', knex('users').where('name', name).select('id'));
 
+const project = name => knex('projects')
+  .select()
+  .where('title', name);
+
 module.exports = {
   projects,
   feedback,
   users,
   tags,
   userProjects,
-  userFeedback
+  userFeedback,
+  project
 };

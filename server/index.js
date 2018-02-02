@@ -123,6 +123,19 @@ app.get('/api/tags', (req, res) => {
   query.tags().then(dbRes => res.send(dbRes));
 });
 
+app.get('/api/search', (req, res) => {
+  // TODO
+  const q = req.query.query;
+  console.log('q: ', q);
+  query.users(q).then((users) => {
+    const results = { users };
+    query.project(q).then((project) => {
+      results.projects = project;
+      res.send(results);
+    });
+  });
+});
+
 app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;

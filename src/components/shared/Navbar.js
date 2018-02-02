@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
@@ -26,8 +27,12 @@ class Navbar extends React.Component {
 
   handleSearch() {
     const query = document.getElementById('search').value;
-    this.setState({query});
-    console.log(this.state.query);
+    console.log('query: ', query)
+    this.setState({ query });
+    axios(`/api/search?query=${query}`)
+      .then((res) => {
+        console.log('SEARCH: ', res.data);
+      });
   }
 
   toggleDropdown() {

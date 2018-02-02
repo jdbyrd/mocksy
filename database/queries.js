@@ -28,11 +28,22 @@ const userFeedback = name => knex('feedback')
   .join('projects', 'feedback.project_id', '=', 'projects.id')
   .where('feedback.user_id', knex('users').where('name', name).select('id'));
 
+const searchProjects = q => knex('projects')
+  .select()
+  .where(knex.raw(`lower(title) like lower('${q}')`));
+
+const searchUsers = q => knex('users')
+  .select()
+  .where(knex.raw(`lower(name) like lower('${q}')`))
+  .orWhere(knex.raw(`lower(display_name) like lower('${q}')`));
+
 module.exports = {
   projects,
   feedback,
   users,
   tags,
   userProjects,
-  userFeedback
+  userFeedback,
+  searchProjects,
+  searchUsers
 };

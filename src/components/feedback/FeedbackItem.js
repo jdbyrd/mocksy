@@ -16,8 +16,7 @@ class FeedbackItem extends React.Component {
     super(props);
     this.state = {
       total: 0,
-      toggleUpvoteClick: false,
-      toggleDownvoteClick: false
+      toggled: null
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.upvote = this.upvote.bind(this);
@@ -26,17 +25,42 @@ class FeedbackItem extends React.Component {
 
 
   upvote() {
-    this.setState({
-      total: this.state.total + 1,
-      toggleUpvoteClick: !this.toggleUpvoteClick
-    });
+    if (this.state.toggled) {
+      this.setState({
+        toggled: null,
+        total: this.state.total - 1,
+      });
+    } else if (this.state.toggled === false) {
+      this.setState({
+        toggled: true,
+        total: this.state.total + 2,
+      });
+    } else if (this.state.toggled === null) {
+      this.setState({
+        toggled: true,
+        total: this.state.total + 1,
+      });
+    }
+    console.log(this.state.toggled);
   }
 
   downvote() {
-    this.setState({
-      total: this.state.total - 1,
-      toggleDownvoteClick: !this.toggleDownvoteClick
-    });
+    if (this.state.toggled) {
+      this.setState({
+        toggled: false,
+        total: this.state.total - 2,
+      });
+    } else if (this.state.toggled === false) {
+      this.setState({
+        toggled: null,
+        total: this.state.total + 1,
+      });
+    } else if (this.state.toggled === null) {
+      this.setState({
+        toggled: false,
+        total: this.state.total - 1,
+      });
+    }
   }
 
   handleDelete() {
@@ -47,7 +71,7 @@ class FeedbackItem extends React.Component {
   }
 
   render() {
-    const item = this.props.item;
+    const { item } = this.props;
     return (
       <div id="feedback-item">
         <Row>
@@ -62,7 +86,7 @@ class FeedbackItem extends React.Component {
             <h4>{this.state.total}</h4>
           </Col>
           <Col span={1}>
-            { !this.state.toggleUpvoteClick ?
+            { (this.state.toggled === false) || (this.state.toggled === null) ?
               <Icon
                 type="up"
                 value={1}
@@ -75,7 +99,7 @@ class FeedbackItem extends React.Component {
             }
           </Col>
           <Col span={1}>
-            { !this.state.toggleDownvoteClick ?
+            { (this.state.toggled === null) || (this.state.toggled === true) ?
               <Icon
                 type="down"
                 value={-1}

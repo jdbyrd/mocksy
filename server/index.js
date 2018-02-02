@@ -14,7 +14,8 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const db = require('../database/db');
 const query = require('../database/queries');
 const insert = require('../database/inserts');
-const deletes = require('../database/deletes')
+const deletes = require('../database/deletes');
+const update = require('../database/updates');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);

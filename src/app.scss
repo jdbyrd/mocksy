@@ -40,7 +40,7 @@ a {
 #feedback-item {
   border: 2px solid #d6d6d6;
   border-radius: 15px;
-  padding: 10px 20px 5px 20px;
+  padding: 10px 0px 5px 20px;
   margin-bottom: 10px;
 }
 
@@ -372,6 +372,10 @@ a {
   grid-column-start: 2;
   grid-column-end: 3;
 }
+
+/*.tabs-container {
+  margin-left: 100px;
+}*/
 
 .current-tab {
   border-bottom: 1px solid #fbfbfb;

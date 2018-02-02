@@ -1,17 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import { Row, Col, Icon } from 'antd';
+import { populateFeedback } from '../../actions/index';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class FeedbackItem extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       total: 0,
       toggleUpvoteClick: false,
       toggleDownvoteClick: false
     };
-
+    this.handleDelete = this.handleDelete.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
   }
@@ -32,7 +40,10 @@ class FeedbackItem extends React.Component {
   }
 
   handleDelete() {
-    /* trigger error handling modal */
+    console.log('Hey');
+    console.log(this.props.item);
+    axios.delete(`/api/feedback?id=${this.props.item.id}`)
+      .then(() => populateFeedback(this.props.item.project_id));
   }
 
   render() {
@@ -76,12 +87,15 @@ class FeedbackItem extends React.Component {
               />
             }
           </Col>
-          <Col span={1}>
-            <Icon
-              type="close-circle"
-              onClick={this.handleDelete}
-            />
-          </Col>
+          {(this.props.auth && this.props.auth.username === item.name)?
+            <Col span={1}>
+              <Icon
+                type="close-circle"
+                onClick={this.handleDelete}
+              />
+            </Col>
+            :null
+          }
         </Row>
         <Row>
           <p>{item.text}</p>
@@ -91,4 +105,4 @@ class FeedbackItem extends React.Component {
   }
 }
 
-export default FeedbackItem;
+export default connect(mapStateToProps)(FeedbackItem);

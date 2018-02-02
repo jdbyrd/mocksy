@@ -1,11 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 @import url(https://raw.github.com/FortAwesome/Font-Awesome/master/docs/assets/css/font-awesome.min.css);
 
+$background: #fbfbfb;
+$background2: #90aab7;
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Nunito', sans-serif;
-  background: #fbfbfb;
+  background: $background;
 }
 
 a {
@@ -63,7 +66,7 @@ a {
 .nav-inner-wrapper {
   width: 100%;
   height: 60px;
-  background: #90aab7;
+  background: $background2;
   display: grid;
   grid-template-columns: 72% auto 27%;
 }
@@ -83,7 +86,7 @@ a {
 }
 
 .menu-dropdown-container {
-  background: #90aab7;
+  background: $background2;
   position: fixed;
   left: 0;
   top: 60px;
@@ -140,7 +143,9 @@ a {
   justify-content: flex-end;
   align-items: center;
   .search {
-    display: inline-block;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
     position: relative;
     height: 60px;
     padding: 0;
@@ -201,18 +206,25 @@ a {
 
     .search-results {
       position: fixed;
-      top: 60px;
-      right: 245px;
-      width: 600px;
+      top: 42px;
+      right: 104px;
+      width: 170px;
       list-style-type: none;
-      border-left: 1px solid black;
+      border: 1px solid white;
+      border-top: none;
       z-index: 9;
       text-align: left;
       font-family: "Lato";
       font-weight: 100;
-      font-size: 40px;
+      font-size: 14px;
+      background: #ededed;
+    }
+
+    .logged-in {
+      right: 136px;
     }
   }
+
   .helper {
     display: inline-block;
     vertical-align: middle;
@@ -392,7 +404,7 @@ a {
 }*/
 
 .current-tab {
-  border-bottom: 1px solid #fbfbfb;
+  border-bottom: 1px solid $background;
   z-index: 2;
 }
 

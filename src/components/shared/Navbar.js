@@ -28,7 +28,6 @@ class Navbar extends React.Component {
   }
 
   displayResults(result, index) {
-    console.log(result);
     const query = new RegExp(`^[${this.state.query}]`, 'i');
     let url = '';
     let name = '';
@@ -106,11 +105,12 @@ class Navbar extends React.Component {
             </ul>
             <div className="right-container">
               <div className="search">
-                <Button shape="circle" icon="search" />
+                <Search onChange={this.handleSearch} id="search" />
+                {/*<Button shape="circle" icon="search" />
                 <input id="search" name="search" type="text" placeholder="What're we looking for ?" onChange={this.handleSearch} />
-                <input id="search_submit" value="Rechercher" type="submit" id="search" />
+                <input id="search_submit" value="Rechercher" type="submit" id="search" />*/}
                 {this.state.query &&
-                <ul className="search-results">
+                <ul className={this.props.auth ? "search-results logged-in" : "search-results"}>
                   {this.state.searchResults.map((result, index) => this.displayResults(result, index))}
                 </ul>
                 }
@@ -159,12 +159,11 @@ export default connect(mapStateToProps)(Navbar);
 
 // Don't delete these yet
 // const Search = styled.input`
-//   display: inline-block;
 //   padding-right: 10px;
 //   outline: none;
 //   width: 5px;
 //   height: 20px;
-//   border-radius: 15px;
+//   border-radius: 5px;
 //   padding-left: 10px;
 //   -webkit-appearance: textfield;
 //   -webkit-box-sizing: content-box;
@@ -184,6 +183,26 @@ export default connect(mapStateToProps)(Navbar);
 //     border-color: white;
 //   }
 // `;
+
+const Search = styled.input`
+  padding-right: 10px;
+  outline: none;
+  width: 130px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding-left: 27px;
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  font-family: "Lato";
+  font-size: 100%;
+  color: #000;
+  cursor: auto;
+  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 4px center;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+`;
 
 // const ImgContainer = styled.div`
 //   background: white;

@@ -198,6 +198,20 @@ a {
     input[type="submit"]:hover {
       opacity: 0.8;
     }
+
+    .search-results {
+      position: fixed;
+      top: 60px;
+      right: 202px;
+      width: 600px;
+      list-style-type: none;
+      border-left: 1px solid black;
+      z-index: 9;
+      text-align: left;
+      font-family: "Lato";
+      font-weight: 100;
+      font-size: 40px;
+    }
   }
   .helper {
     display: inline-block;

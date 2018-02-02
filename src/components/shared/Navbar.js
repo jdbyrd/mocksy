@@ -16,14 +16,18 @@ class Navbar extends React.Component {
     super(props);
     this.state = {
       viewMenu: false,
-      menu: false
+      menu: false,
+      query: ''
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu =this.toggleMenu.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   handleSearch() {
     const query = document.getElementById('search').value;
+    this.setState({query});
+    console.log(this.state.query);
   }
 
   toggleDropdown() {
@@ -73,8 +77,17 @@ class Navbar extends React.Component {
             <div className="right-container">
               <div className="search">
                 <Button shape="circle" icon="search" />
-                <input id="search" name="search" type="text" placeholder="What're we looking for ?" />
-                <input id="search_submit" value="Rechercher" type="submit" id="search" onChange={this.handleSearch} />
+                <input id="search" name="search" type="text" placeholder="What're we looking for ?" onChange={this.handleSearch} />
+                <input id="search_submit" value="Rechercher" type="submit" id="search" />
+                {this.state.query &&
+                <ul className="search-results">
+                  {/*this.props.search.map(result => <li>{result.name}</li>)*/}
+                  <li>Edward White</li>
+                  <li>Discover Austin</li>
+                  <li>Mocksy</li>
+                  <li>Google</li>
+                </ul>
+                }
               </div>
               <span className="helper" />
                {this.props.auth ?

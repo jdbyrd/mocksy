@@ -15,14 +15,15 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: 'http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg',
       viewMenu: false,
-      search: false,
       menu: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu =this.toggleMenu.bind(this);
-    this.toggleSearch = this.toggleSearch.bind(this);
+  }
+
+  handleSearch() {
+    const query = document.getElementById('search').value;
   }
 
   toggleDropdown() {
@@ -43,11 +44,6 @@ class Navbar extends React.Component {
     this.setState({
       menu: !this.state.menu,
     });
-  }
-
-  toggleSearch() {
-    console.log('search running')
-    this.setState({ search: !this.state.search });
   }
 
   render() {
@@ -75,7 +71,11 @@ class Navbar extends React.Component {
               <li onClick={this.triangleRight}>Popular</li>
             </ul>
             <div className="right-container">
-              <Button shape="circle" icon="search" className="search" onClick={this.toggleSearch} />
+              <div className="search">
+                <Button shape="circle" icon="search" />
+                <input id="search" name="search" type="text" placeholder="What're we looking for ?" />
+                <input id="search_submit" value="Rechercher" type="submit" id="search" onChange={this.handleSearch} />
+              </div>
               <span className="helper" />
                {this.props.auth ?
                 <ul className="buttons-wrapper">
@@ -109,9 +109,6 @@ class Navbar extends React.Component {
             </div>
           </div>
           <div id="triangle" />
-          {this.state.search ? <h4 className="searchResults">HAHA YOU CAN&#39;T SEARCH!</h4> : null}
-            
-
         </div>
       </div>
     );

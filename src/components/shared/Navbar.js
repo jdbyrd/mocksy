@@ -27,16 +27,24 @@ class Navbar extends React.Component {
     this.displayResults = this.displayResults.bind(this);
   }
 
-  displayResults(result) {
+  displayResults(result, index) {
+    console.log(result);
     const query = new RegExp(`^[${this.state.query}]`, 'i');
+    let url = '';
+    let name = '';
     if (result.name && query.test(result.name)) {
-      return <li>{result.name}</li>;
+      url = `/user/${result.name}`;
+      name = result.name;
     } else if (result.display_name && query.test(result.display_name)) {
-      return <li>{result.display_name}</li>;
+      url = `/user/${result.name}`;
+      name = result.display_name;
     } else if (result.title && query.test(result.title)) {
-      return <li>{result.title}</li>;
+      url = `/project/${result.id}`;
+      name = result.title;
+    } else {
+      return null;
     }
-    return null;
+    return <li key={index}><a href={url}>{name}</a></li>;
   }
 
   handleSearch() {
@@ -74,7 +82,6 @@ class Navbar extends React.Component {
   }
 
   render() {
-    console.log(this.props.auth);
     return (
       <div>
         <div className="nav-wrapper">
@@ -104,13 +111,7 @@ class Navbar extends React.Component {
                 <input id="search_submit" value="Rechercher" type="submit" id="search" />
                 {this.state.query &&
                 <ul className="search-results">
-                  {this.state.searchResults.map(result => this.displayResults(result))}
-                  {/*
-                  <li>Edward White</li>
-                  <li>Discover Austin</li>
-                  <li>Mocksy</li>
-                  <li>Google</li>
-                */}
+                  {this.state.searchResults.map((result, index) => this.displayResults(result, index))}
                 </ul>
                 }
               </div>

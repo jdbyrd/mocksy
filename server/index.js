@@ -125,6 +125,17 @@ app.get('/api/tags', (req, res) => {
   query.tags().then(dbRes => res.send(dbRes));
 });
 
+app.get('/api/search', (req, res) => {
+  const q = `${req.query.query}%`;
+  query.searchUsers(q).then((users) => {
+    const results = { users };
+    query.searchProjects(q).then((project) => {
+      results.projects = project;
+      res.send(results);
+    });
+  });
+});
+
 app.get('/api/screenshot', (req, res) => {
   const tempId = req.user.username;
   const { url } = req.query;

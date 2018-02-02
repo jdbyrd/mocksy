@@ -26,7 +26,7 @@ class FeedbackPage extends React.Component {
         <Row>
           <Col span={2} />
           <Col span={22}>
-            <h1>Feedback for {project.title}</h1>
+            <h1>Feedback for </h1>
           </Col>
         </Row>
         <Row gutter={48}>

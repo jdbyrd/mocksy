@@ -14,8 +14,9 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const db = require('../database/db');
 const query = require('../database/queries');
 const insert = require('../database/inserts');
-const deletes = require('../database/deletes')
+const deletes = require('../database/deletes');
 const screen = require('./screenshot_scraper');
+const fs = require('fs');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -136,7 +137,10 @@ app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
     console.log('POST REQUEST FOR PROJECT', req.body);
-    insert.project(req.body);
+    insert.project(req.body)
+      .then((data) => {
+        fs.rename(`./dist/images/${req.body.name}.png`, `./dist/images/${data[0].id}.png`);
+      });
   }
   res.end();
 });

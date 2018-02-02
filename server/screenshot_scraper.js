@@ -12,6 +12,7 @@ const getScreenshot = async (url, projectId) => {
   await fs.rename(`./${projectId}.png`, `./dist/images/${projectId}.png`, (err) => {
     if (err) console.log('ERROR:', err);
   });
+  return 'screenshot complete';
 };
 
 module.exports = { getScreenshot };

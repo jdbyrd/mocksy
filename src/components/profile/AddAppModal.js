@@ -77,8 +77,12 @@ class AppsTab extends React.Component {
       return;
     }
     this.setState({ appURL: url });
-    // handle screenshot upload with web scraper <<<<<<<<<<<<<<<<<
-    getScreenshot(url, 'temp');
+    axios.get('/api/screenshot', { params: { url } })
+      .then((res) => {
+        console.log('res:', res);
+        document.getElementById('screenshot-img').src = `/images/${this.props.name}.png`;
+        document.getElementById('before-screenshot').id = 'after-screenshot';
+      });
   }
 
   /* *********** CONTRIBUTOR HANDLERS ************ */
@@ -244,8 +248,8 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="screenshot">
-                  <img alt="app screenshot"/>
+                <div id="before-screenshot">
+                  <img id="screenshot-img" />
                 </div>
                 <Form.Item label="Application URL:">
                   <Input

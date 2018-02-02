@@ -70,15 +70,21 @@ class AppsTab extends React.Component {
   }
 
   handleAppURL(e) {
+    const url = e.target.value;
     const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
-    if (!(regexp.test(e.target.value))) {
+    if (!(regexp.test(url))) {
       message.error('Not a valid URL');
-    } else if (e.target.value.includes('herokuapp.com')) {
+    } else if (url.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
       return;
     }
-    this.setState({ appURL: e.target.value });
-    // handle screenshot upload with web scraper
+    this.setState({ appURL: url });
+    axios.get('/api/screenshot', { params: { url } })
+      .then((res) => {
+        console.log('res:', res);
+        document.getElementById('screenshot-img').src = `/images/${this.props.name}.png`;
+        document.getElementById('before-screenshot').id = 'after-screenshot';
+      });
   }
 
   /* *********** CONTRIBUTOR HANDLERS ************ */
@@ -244,7 +250,9 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="screenshot"></div>
+                <div id="before-screenshot">
+                  <img id="screenshot-img" />
+                </div>
                 <Form.Item label="Application URL:">
                   <Input
                     value={this.state.appURL}

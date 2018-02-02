@@ -24,14 +24,6 @@ a {
   display: inline-block;
 }
 
-#screenshot {
-  width: 100%;
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-  padding-bottom: 56.25%;
-  position: relative;
-}
-
 #feedback-padding {
   height: 100px;
 }
@@ -47,10 +39,46 @@ a {
   margin-bottom: 10px;
 }
 
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+    display: block;
+    content: " ";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
 .hidden {
   display: none;
 }
 
+#before-screenshot {
+  @include aspect-ratio(16,9);
+  width: 100%;
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  position: relative;
+}
+
+#after-screenshot {
+  @include aspect-ratio(16,9);
+  width: 100%;
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  position: relative;
+  padding-top: 0;
+}
+
+#screenshot-img {
+  width: 100%;
+}
 /*----------------------------
 ------------ NAV -------------
 ----------------------------*/

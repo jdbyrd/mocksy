@@ -1,34 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import { Row, Col, Icon } from 'antd';
+import { populateFeedback } from '../../actions/index';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class FeedbackItem extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      total: 0
+      total: 0,
+      toggled: null
     };
-
+    this.handleDelete = this.handleDelete.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
   }
 
 
   upvote() {
-    this.setState({ total: this.state.total + 1 });
+    if (this.state.toggled) {
+      this.setState({
+        toggled: null,
+        total: this.state.total - 1,
+      });
+    } else if (this.state.toggled === false) {
+      this.setState({
+        toggled: true,
+        total: this.state.total + 2,
+      });
+    } else if (this.state.toggled === null) {
+      this.setState({
+        toggled: true,
+        total: this.state.total + 1,
+      });
+    }
+    console.log(this.state.toggled);
   }
 
   downvote() {
-    this.setState({ total: this.state.total - 1 });
+    if (this.state.toggled) {
+      this.setState({
+        toggled: false,
+        total: this.state.total - 2,
+      });
+    } else if (this.state.toggled === false) {
+      this.setState({
+        toggled: null,
+        total: this.state.total + 1,
+      });
+    } else if (this.state.toggled === null) {
+      this.setState({
+        toggled: false,
+        total: this.state.total - 1,
+      });
+    }
   }
 
   handleDelete() {
-    /* trigger error handling modal */
+    console.log('Hey');
+    console.log(this.props.item);
+    axios.delete(`/api/feedback?id=${this.props.item.id}`)
+      .then(() => populateFeedback(this.props.item.project_id));
   }
 
   render() {
-    const item = this.props.item;
+    const { item } = this.props;
     return (
       <div id="feedback-item">
         <Row>
@@ -43,25 +86,40 @@ class FeedbackItem extends React.Component {
             <h4>{this.state.total}</h4>
           </Col>
           <Col span={1}>
-            <Icon
-              type="up"
-              value={1}
-              onClick={this.upvote}
-            />
+            { (this.state.toggled === false) || (this.state.toggled === null) ?
+              <Icon
+                type="up"
+                value={1}
+                onClick={this.upvote}
+              /> :
+              <Icon
+                type="up-circle"
+                onClick={this.upvote}
+              />
+            }
           </Col>
           <Col span={1}>
-            <Icon
-              type="down"
-              value={-1}
-              onClick={this.downvote}
-            />
+            { (this.state.toggled === null) || (this.state.toggled === true) ?
+              <Icon
+                type="down"
+                value={-1}
+                onClick={this.downvote}
+              /> :
+              <Icon
+                type="down-circle"
+                onClick={this.downvote}
+              />
+            }
           </Col>
-          <Col span={1}>
-            <Icon
-              type="close-circle"
-              onClick={this.handleDelete}
-            />
-          </Col>
+          {(this.props.auth && this.props.auth.username === item.name)?
+            <Col span={1}>
+              <Icon
+                type="close-circle"
+                onClick={this.handleDelete}
+              />
+            </Col>
+            :null
+          }
         </Row>
         <Row>
           <p>{item.text}</p>
@@ -71,4 +129,4 @@ class FeedbackItem extends React.Component {
   }
 }
 
-export default FeedbackItem;
+export default connect(mapStateToProps)(FeedbackItem);

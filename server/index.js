@@ -14,6 +14,8 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const db = require('../database/db');
 const query = require('../database/queries');
 const insert = require('../database/inserts');
+const deletes = require('../database/deletes')
+const screen = require('./screenshot_scraper');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -134,6 +136,13 @@ app.get('/api/search', (req, res) => {
   });
 });
 
+app.get('/api/screenshot', (req, res) => {
+  const tempId = req.user.username;
+  const { url } = req.query;
+  screen.getScreenshot(url, tempId)
+    .then(message => res.send(message));
+});
+
 app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
@@ -150,6 +159,24 @@ app.post('/api/feedback', (req, res) => {
     insert.feedback(req.body);
   }
   res.end();
+});
+
+app.delete('/api/project', (req, res) => {
+  if (req.user) {
+    const { id } = req.query;
+    deletes.projectFeedback(id).then(() => {
+      deletes.project(id)
+        .then(() => res.end());
+    });
+  }
+});
+
+app.delete('/api/feedback', (req, res) => {
+  if (req.user) {
+    const { id } = req.query;
+    deletes.feedback(id)
+      .then(() => res.end());
+  }
 });
 
 app.get('*', (req, res) => {

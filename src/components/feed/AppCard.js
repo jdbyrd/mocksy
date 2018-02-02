@@ -29,7 +29,7 @@ class AppCard extends React.Component {
         <div className="project-details-container">
           <div className="project-details">
             <div className="title-container">
-              <a href={this.props.project.url}>
+              <a href={`/project/${this.props.project.id}`}>
                 <div className="title">{this.props.project.title}</div>
               </a>
               <a href={this.props.project.github} target="_blank">
@@ -48,7 +48,7 @@ class AppCard extends React.Component {
             <Description>{this.props.project.text}</Description>
 
             <span>{
-              this.props.project.tags ? 
+              this.props.project.tags ?
               this.props.project.tags.map((tag) =>
                 <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) :
               <span />
@@ -60,7 +60,7 @@ class AppCard extends React.Component {
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>
-            </span>     
+            </span>
           </div>
         </div>
       </div>

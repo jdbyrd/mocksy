@@ -44,5 +44,6 @@ module.exports = {
   users,
   tags,
   userProjects,
-  userFeedback
+  userFeedback,
+  votes
 };

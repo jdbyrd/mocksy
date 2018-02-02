@@ -154,7 +154,9 @@ app.post('/api/feedback', (req, res) => {
 app.post('/api/votes', (req, res) => {
   if (req.user) {
     if (req.body.votes_id === null) {
-      insert.vote(req.user.username, req.body.vote);
+      insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+    } else {
+      update.vote(req.votes_id, req.body.vote);
     }
   }
 });

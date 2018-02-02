@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
@@ -15,14 +16,48 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: 'http://2.bp.blogspot.com/-RJe3UG5Py1o/TzoOyLOMksI/AAAAAAAAA2U/metNEzpJnY8/s1600/funny-cat-face+1.jpg',
       viewMenu: false,
-      search: false,
-      menu: false
+      menu: false,
+      query: '',
+      searchResults: []
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.toggleMenu =this.toggleMenu.bind(this);
-    this.toggleSearch = this.toggleSearch.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.displayResults = this.displayResults.bind(this);
+  }
+
+  displayResults(result, index) {
+    const query = new RegExp(`^[${this.state.query}]`, 'i');
+    let url = '';
+    let name = '';
+    if (result.name && query.test(result.name)) {
+      url = `/user/${result.name}`;
+      name = result.name;
+    } else if (result.display_name && query.test(result.display_name)) {
+      url = `/user/${result.name}`;
+      name = result.display_name;
+    } else if (result.title && query.test(result.title)) {
+      url = `/project/${result.id}`;
+      name = result.title;
+    } else {
+      return null;
+    }
+    return <li key={index}><a href={url}>{name}</a></li>;
+  }
+
+  handleSearch() {
+    const query = document.getElementById('search').value;
+    this.setState({ query });
+    if (query) {
+      axios(`/api/search?query=${query}`)
+        .then((res) => {
+          const results = [].concat(res.data.users, res.data.projects);
+          this.setState({
+            searchResults: results
+          });
+        });
+    }
   }
 
   toggleDropdown() {
@@ -45,13 +80,7 @@ class Navbar extends React.Component {
     });
   }
 
-  toggleSearch() {
-    console.log('search running')
-    this.setState({ search: !this.state.search });
-  }
-
   render() {
-    console.log(this.props.auth);
     return (
       <div>
         <div className="nav-wrapper">
@@ -75,7 +104,17 @@ class Navbar extends React.Component {
               <li onClick={this.triangleRight}>Popular</li>
             </ul>
             <div className="right-container">
-              <Button shape="circle" icon="search" className="search" onClick={this.toggleSearch} />
+              <div className="search">
+                <Search onChange={this.handleSearch} id="search" />
+                {/*<Button shape="circle" icon="search" />
+                <input id="search" name="search" type="text" placeholder="What're we looking for ?" onChange={this.handleSearch} />
+                <input id="search_submit" value="Rechercher" type="submit" id="search" />*/}
+                {this.state.query &&
+                <ul className={this.props.auth ? "search-results logged-in" : "search-results"}>
+                  {this.state.searchResults.map((result, index) => this.displayResults(result, index))}
+                </ul>
+                }
+              </div>
               <span className="helper" />
                {this.props.auth ?
                 <ul className="buttons-wrapper">
@@ -109,9 +148,6 @@ class Navbar extends React.Component {
             </div>
           </div>
           <div id="triangle" />
-          {this.state.search ? <h4 className="searchResults">HAHA YOU CAN&#39;T SEARCH!</h4> : null}
-            
-
         </div>
       </div>
     );
@@ -123,12 +159,11 @@ export default connect(mapStateToProps)(Navbar);
 
 // Don't delete these yet
 // const Search = styled.input`
-//   display: inline-block;
 //   padding-right: 10px;
 //   outline: none;
 //   width: 5px;
 //   height: 20px;
-//   border-radius: 15px;
+//   border-radius: 5px;
 //   padding-left: 10px;
 //   -webkit-appearance: textfield;
 //   -webkit-box-sizing: content-box;
@@ -148,6 +183,26 @@ export default connect(mapStateToProps)(Navbar);
 //     border-color: white;
 //   }
 // `;
+
+const Search = styled.input`
+  padding-right: 10px;
+  outline: none;
+  width: 130px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding-left: 27px;
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  font-family: "Lato";
+  font-size: 100%;
+  color: #000;
+  cursor: auto;
+  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 4px center;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+`;
 
 // const ImgContainer = styled.div`
 //   background: white;

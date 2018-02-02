@@ -18,11 +18,25 @@ class Navbar extends React.Component {
     this.state = {
       viewMenu: false,
       menu: false,
-      query: ''
+      query: '',
+      searchResults: []
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.toggleMenu =this.toggleMenu.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.displayResults = this.displayResults.bind(this);
+  }
+
+  displayResults(result) {
+    const query = new RegExp(`^[${this.state.query}]`, 'i');
+    if (result.name && query.test(result.name)) {
+      return <li>{result.name}</li>;
+    } else if (result.display_name && query.test(result.display_name)) {
+      return <li>{result.display_name}</li>;
+    } else if (result.title && query.test(result.title)) {
+      return <li>{result.title}</li>;
+    }
+    return null;
   }
 
   handleSearch() {
@@ -31,7 +45,10 @@ class Navbar extends React.Component {
     if (query) {
       axios(`/api/search?query=${query}`)
         .then((res) => {
-          console.log('SEARCH: ', res.data);
+          const results = [].concat(res.data.users, res.data.projects);
+          this.setState({
+            searchResults: results
+          });
         });
     }
   }
@@ -87,11 +104,13 @@ class Navbar extends React.Component {
                 <input id="search_submit" value="Rechercher" type="submit" id="search" />
                 {this.state.query &&
                 <ul className="search-results">
-                  {/*this.props.search.map(result => <li>{result.name}</li>)*/}
+                  {this.state.searchResults.map(result => this.displayResults(result))}
+                  {/*
                   <li>Edward White</li>
                   <li>Discover Austin</li>
                   <li>Mocksy</li>
                   <li>Google</li>
+                */}
                 </ul>
                 }
               </div>

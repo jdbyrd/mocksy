@@ -43,7 +43,7 @@ class FeedbackItem extends React.Component {
         });
       }
     } else {
-      message.warning('Please log in to vote!')
+      message.warning('Please log in to vote!');
     }
     console.log(this.state.toggled);
   }
@@ -67,7 +67,7 @@ class FeedbackItem extends React.Component {
         });
       }
     } else {
-      message.warning('Please log in to vote!')
+      message.warning('Please log in to vote!');
     }
   }
 
@@ -93,7 +93,6 @@ class FeedbackItem extends React.Component {
           <Col span={1}>
             <h4>{this.state.total}</h4>
           </Col>
-        
           <Col span={1}>
             { (this.state.toggled === false) || (this.state.toggled === null) ?
               <Icon
@@ -120,15 +119,14 @@ class FeedbackItem extends React.Component {
               />
             }
           </Col>
-      
-          {(this.props.auth && this.props.auth.username === item.name)?
+          {(this.props.auth && this.props.auth.username === item.name) ?
             <Col span={1}>
               <Icon
                 type="close-circle"
                 onClick={this.handleDelete}
               />
             </Col>
-            :null
+            : null
           }
         </Row>
         <Row>

@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 @import url(https://raw.github.com/FortAwesome/Font-Awesome/master/docs/assets/css/font-awesome.min.css);
 
-$background: #fbfbfb;
-$background2: #90aab7;
+$background: #ffffff;
+$background2: #DCE6FC;
 
 body {
   margin: 0;
@@ -294,7 +294,7 @@ a {
 #triangle {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 15px solid #90aab7;
+  border-top: 15px solid $background2;
   margin-left: 57px;
   width: 0;
   height: 0;
@@ -319,13 +319,13 @@ a {
   .dropdown-triangle {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 15px solid #90aab7;
+    border-bottom: 15px solid $background2;
     width: 0;
     height: 0;
     margin-left: 83px;
   }
   .dropdown {
-    background: #90aab7;
+    background: $background2;
   }
   ul {
     margin: 0;

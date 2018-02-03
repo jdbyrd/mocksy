@@ -10,26 +10,30 @@ const vote = (votes_id, vote) => {
 const incrementFeedbackUp = (feedbackId) => {
   knex('feedback')
     .where('id', '=', feedbackId)
-    .increment('up', 1);
-}
+    .increment('up', 1)
+    .then(() => console.log('updated feedback Up'));
+};
 
 const incrementFeedbackDown = (feedbackId) => {
   knex('feedback')
     .where('id', '=', feedbackId)
-    .increment('down', 1);
-}
+    .increment('down', 1)
+    .then(() => console.log('updated feedback Down'));
+};
 
 const decrementFeedbackUp = (feedbackId) => {
   knex('feedback')
     .where('id', '=', feedbackId)
-    .decrement('up', 1);
-}
+    .decrement('up', 1)
+    .then(() => console.log('updated feedback Up'));
+};
 
 const decrementFeedbackDown = (feedbackId) => {
   knex('feedback')
     .where('id', '=', feedbackId)
-    .decrement('down', 1);
-}
+    .decrement('down', 1)
+    .then(() => console.log('updated feedback Down'));
+};
 
 module.exports = {
   vote,

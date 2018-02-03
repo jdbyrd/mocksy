@@ -175,6 +175,19 @@ app.post('/api/votes', (req, res) => {
     } else {
       update.vote(req.body.votes_id, req.body.vote);
     }
+    const diff = req.body.difference;
+    console.log()
+    if (diff > 0) {
+      update.incrementFeedbackUp(req.body.feedback_id);
+      if (diff > 1) {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
+    } else if (diff < 0) {
+      update.incrementFeedbackDown(req.body.feedback_id);
+      if (diff < -1) {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
+    }
   }
   res.end();
 });

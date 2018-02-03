@@ -25,11 +25,10 @@ class AppsTab extends React.Component {
     return (
       <ProjectsContainer>
         {(this.props.auth && this.props.auth.username === this.props.name)?
-          <AddAppModal name={this.props.name} />
-          :null
+          <AddAppModal name={this.props.name} /> : null
         }
         {this.props.projects.map((project, index) => (
-          <Container key={index} className="user-projects-container"><AppsTabCard project={project} name={this.props.name} /></Container>
+          <Container key={index} className="user-projects-container"><AppsTabCard project={project} name={this.props.name} className="extra" /></Container>
         ))}
       </ProjectsContainer>
     );
@@ -40,11 +39,14 @@ export default connect(mapStateToProps)(AppsTab);
 
 const ProjectsContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const Container = styled.div`
   width: 33%;
-  height: 300px;
+  height: 400px;
+  overflow: scroll;
   display: inline-block;
   margin-top: 15px;
 `;

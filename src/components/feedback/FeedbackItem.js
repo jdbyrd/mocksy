@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Icon, message } from 'antd';
 import { populateFeedback } from '../../actions/index';
+import VerificationModal from '../shared/VerificationModal';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,9 +17,10 @@ class FeedbackItem extends React.Component {
     super(props);
     this.state = {
       total: 0,
-      toggled: null
+      toggled: null,
+      component: 'feedback'
     };
-    this.handleDelete = this.handleDelete.bind(this);
+
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.vote = this.vote.bind(this);
@@ -56,46 +58,49 @@ class FeedbackItem extends React.Component {
   }
 
   upvote() {
-    if (this.state.toggled) {
-      this.setState({
-        toggled: null,
-        total: this.state.total - 1,
-      });
-    } else if (this.state.toggled === false) {
-      this.setState({
-        toggled: true,
-        total: this.state.total + 2,
-      });
-    } else if (this.state.toggled === null) {
-      this.setState({
-        toggled: true,
-        total: this.state.total + 1,
-      });
+    if (this.props.auth) {
+      if (this.state.toggled) {
+        this.setState({
+          toggled: null,
+          total: this.state.total - 1,
+        });
+      } else if (this.state.toggled === false) {
+        this.setState({
+          toggled: true,
+          total: this.state.total + 2,
+        });
+      } else if (this.state.toggled === null) {
+        this.setState({
+          toggled: true,
+          total: this.state.total + 1,
+        });
+      }
+    } else {
+      message.warning('Please log in to vote!');
     }
   }
 
   downvote() {
-    if (this.state.toggled) {
-      this.setState({
-        toggled: false,
-        total: this.state.total - 2,
-      });
-    } else if (this.state.toggled === false) {
-      this.setState({
-        toggled: null,
-        total: this.state.total + 1,
-      });
-    } else if (this.state.toggled === null) {
-      this.setState({
-        toggled: false,
-        total: this.state.total - 1,
-      });
+    if (this.props.auth) {
+      if (this.state.toggled) {
+        this.setState({
+          toggled: false,
+          total: this.state.total - 2,
+        });
+      } else if (this.state.toggled === false) {
+        this.setState({
+          toggled: null,
+          total: this.state.total + 1,
+        });
+      } else if (this.state.toggled === null) {
+        this.setState({
+          toggled: false,
+          total: this.state.total - 1,
+        });
+      }
+    } else {
+      message.warning('Please log in to vote!');
     }
-  }
-
-  handleDelete() {
-    axios.delete(`/api/feedback?id=${this.props.item.id}`)
-      .then(() => populateFeedback(this.props.item.project_id));
   }
 
   render() {
@@ -140,15 +145,9 @@ class FeedbackItem extends React.Component {
               />
             }
           </Col>
-          {(this.props.auth && this.props.auth.username === item.name)?
-            <Col span={1}>
-              <Icon
-                type="close-circle"
-                onClick={this.handleDelete}
-              />
-            </Col>
-            :null
-          }
+          <Col span={1}>
+            <VerificationModal item={item} component={this.state.component} />
+          </Col>
         </Row>
         <Row>
           <p>{item.text}</p>

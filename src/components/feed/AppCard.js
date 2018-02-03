@@ -8,6 +8,8 @@ import PostFeedbackModal from '../feedback/PostFeedbackModal';
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(this.props.project.tags)
   }
 
   clickTag(e) {
@@ -20,7 +22,6 @@ class AppCard extends React.Component {
   }
 
   render() {
-    console.log(this.props.project);
     return (
       <div className="project-container">
         <a className="img-link" href={this.props.project.url}>
@@ -47,11 +48,11 @@ class AppCard extends React.Component {
             </Description>
             <Description>{this.props.project.text}</Description>
 
-            <span>{
+            <span>
+            {
               this.props.project.tags ?
               this.props.project.tags.map((tag) =>
-                <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) :
-              <span />
+                <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) : <span />
             }
             </span>
             <br /><br />

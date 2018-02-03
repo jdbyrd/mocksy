@@ -135,7 +135,7 @@ class Navbar extends React.Component {
                           <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
                           <li>Your apps</li>
                           <li>Your reviews</li>
-                          <li>Settings</li>
+                          <li><Link to={`/settings/${this.props.auth.username}`}>Settings</Link></li>
                           <li>
                             <a href="/logout">Logout</a>
                           </li>
@@ -189,12 +189,12 @@ const Search = styled.input`
   outline: none;
   width: 130px;
   height: 20px;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid white;
   padding-left: 27px;
   -webkit-appearance: textfield;
   -webkit-box-sizing: content-box;
-  font-family: "Lato";
+  font-family: "Nunito";
   font-size: 100%;
   color: #000;
   cursor: auto;

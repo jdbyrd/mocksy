@@ -221,8 +221,10 @@ app.delete('/api/project', (req, res) => {
 app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.feedback(id)
-      .then(() => res.end());
+    deletes.feedbackVotes(id).then(() => {
+      deletes.feedback(id)
+        .then(() => res.end());
+    })
   }
 });
 

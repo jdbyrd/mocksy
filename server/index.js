@@ -15,6 +15,7 @@ const db = require('../database/db');
 const query = require('../database/queries');
 const insert = require('../database/inserts');
 const deletes = require('../database/deletes');
+const update = require('../database/updates');
 const screen = require('./screenshot_scraper');
 const fse = require('fs-extra');
 
@@ -61,7 +62,6 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log(req.user.username);
     insert.user(req.user)
       .then(() => console.log(`inserted ${req.user.username} into database`))
       .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
@@ -87,10 +87,19 @@ app.get('/api/projects', (req, res) => {
   query.projects(id).then((projects) => {
     if (id) {
       const projectFeedback = { project: projects[0] };
-      query.feedback(id).then((feedback) => {
-        projectFeedback.list = feedback;
-        res.send(projectFeedback);
-      });
+      if (req.user) {
+        query.users(req.user.username).then((user) => {
+          query.feedback(id, user[0].id).then((feedback) => {
+            projectFeedback.list = feedback;
+            res.send(projectFeedback);
+          });
+        });
+      } else {
+        query.feedback(id).then((feedback) => {
+          projectFeedback.list = feedback;
+          res.send(projectFeedback);
+        });
+      }
     } else {
       res.send(projects);
     }
@@ -154,7 +163,6 @@ app.delete('/user/screenshot', async (req, res) => {
 app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
     insert.project(req.body)
       .then((data) => {
         fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
@@ -166,8 +174,47 @@ app.post('/api/project', (req, res) => {
 app.post('/api/feedback', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
     insert.feedback(req.body);
+  }
+  res.end();
+});
+
+app.post('/api/votes', (req, res) => {
+  if (req.user) {
+    if (req.body.votes_id === null) {
+      query.users(req.user.username).then((user) => {
+        query.votes(user[0].id, req.body.feedback_id).then((vote) => {
+          console.log(vote);
+          if (vote.length === 0) {
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+          } else {
+            update.vote(vote[0].votes_id, req.body.vote);
+          }
+        });
+      });
+    } else {
+      update.vote(req.body.votes_id, req.body.vote);
+    }
+    const diff = req.body.difference;
+    if (diff > 0) {
+      if (req.body.vote === true) {
+        update.incrementFeedbackUp(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
+      if (diff > 1) {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
+    } else if (diff < 0) {
+      if (req.body.vote === false) {
+        update.incrementFeedbackDown(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
+      if (diff < -1) {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
+    }
   }
   res.end();
 });

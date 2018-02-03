@@ -10,6 +10,7 @@ import FeedbackPage from './components/feedback/FeedbackPage';
 import ProfilePage from './components/profile/ProfilePage';
 import Login from './components/login/Login';
 import Navbar from './components/shared/Navbar';
+import SettingsPage from './components/settings/SettingsPage';
 import { checkAuth } from './actions/index';
 import './app.scss';
 
@@ -26,6 +27,7 @@ class App extends React.Component {
           <Route exact={true} path="/" render={() => (<FeedPage />)} />
           <Route path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
           <Route path="/user/:name" render={(props) => (<ProfilePage {...props}/>)} />
+          <Route path="/settings/:name" render={() => (<SettingsPage />)} />
           <Route path="/login" render={() => (<Login />)} />
           <Route render={() => (<div>404 lol</div>)} />
         </Switch>

@@ -88,11 +88,8 @@ app.get('/api/projects', (req, res) => {
       const projectFeedback = { project: projects[0] };
       if (req.user) {
         query.users(req.user.username).then((user) => {
-          console.log(user);
-          console.log(user.id);
           query.feedback(id, user[0].id).then((feedback) => {
             projectFeedback.list = feedback;
-            console.log(feedback);
             res.send(projectFeedback);
           });
         });
@@ -158,7 +155,6 @@ app.get('/api/screenshot', (req, res) => {
 app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
     insert.project(req.body);
   }
   res.end();
@@ -167,7 +163,6 @@ app.post('/api/project', (req, res) => {
 app.post('/api/feedback', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
     insert.feedback(req.body);
   }
   res.end();

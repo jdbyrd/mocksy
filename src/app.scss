@@ -294,7 +294,7 @@ a {
 #triangle {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 15px solid #90aab7;
+  border-top: 15px solid $background2;
   margin-left: 57px;
   width: 0;
   height: 0;
@@ -319,13 +319,13 @@ a {
   .dropdown-triangle {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 15px solid #90aab7;
+    border-bottom: 15px solid $background2;
     width: 0;
     height: 0;
     margin-left: 83px;
   }
   .dropdown {
-    background: #90aab7;
+    background: $background2;
   }
   ul {
     margin: 0;
@@ -445,7 +445,7 @@ a {
 
 .user-projects-container {
   width: 33%;
-  height: 300px;
+  height: 400px;
   display: inline-block;
   margin-top: 15px;
   padding: 0;
@@ -466,6 +466,10 @@ a {
   margin: auto;
   width: 400px;
   height: 200px;
+}
+
+.extra {
+  margin-top: 100px !important;
 }
 
 /*----------------------------

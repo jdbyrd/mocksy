@@ -27,7 +27,6 @@ class AppsTab extends React.Component {
       data: [],
       value: [],
       fetching: false,
-      loadingImg: false,
       tempId: '',
       // spinner for submit button (doesn't work)
       confirmLoading: false

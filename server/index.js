@@ -143,10 +143,12 @@ app.get('/api/screenshot', async (req, res) => {
   res.send(message);
 });
 
-app.delete('/user/screenshot', (req, res) => {
+app.delete('/user/screenshot', async (req, res) => {
   console.log('request to delete screenshot!');
-  fse.remove(`./dist/images/${req.user.username}.png`, err => console.log(err))
-    .then(res.end());
+  const files = await fse.readdir('./dist/images');
+  const targets = files.filter(file => file.includes(req.user.username));
+  targets.map(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  res.end();
 });
 
 app.post('/api/project', (req, res) => {

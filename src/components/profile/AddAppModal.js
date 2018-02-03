@@ -79,7 +79,6 @@ class AppsTab extends React.Component {
       message.error('Not a valid URL');
     } else if (url.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
-      return;
     }
     this.setState({
       tempId,

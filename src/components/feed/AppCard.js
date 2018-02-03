@@ -22,7 +22,6 @@ class AppCard extends React.Component {
   }
 
   render() {
-    console.log(this.props.project);
     return (
       <div className="project-container">
         <a className="img-link" href={this.props.project.url}>

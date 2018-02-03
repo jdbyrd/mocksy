@@ -445,7 +445,7 @@ a {
 
 .user-projects-container {
   width: 33%;
-  height: 300px;
+  height: 400px;
   display: inline-block;
   margin-top: 15px;
   padding: 0;
@@ -466,6 +466,10 @@ a {
   margin: auto;
   width: 400px;
   height: 200px;
+}
+
+.extra {
+  margin-top: 100px !important;
 }
 
 /*----------------------------
@@ -597,4 +601,18 @@ a {
 
 /*----------------------------
 -------- END OF LOGIN  -------
+----------------------------*/
+
+/*----------------------------
+--------   SETTINGS   --------
+----------------------------*/
+
+.settings-container {
+  width: 100%;
+  margin-top: 60px;
+}
+
+
+/*----------------------------
+------ END OF SETTINGS -------
 ----------------------------*/

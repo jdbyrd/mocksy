@@ -28,6 +28,7 @@ class AppsTab extends React.Component {
       value: [],
       fetching: false,
       loadingImg: false,
+      tempId: '',
       // spinner for submit button (doesn't work)
       confirmLoading: false
     };
@@ -72,6 +73,7 @@ class AppsTab extends React.Component {
 
   handleAppURL(e) {
     const url = e.target.value;
+    const tempId = `${this.props.name}_${Date.now()}`;
     const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
     if (!(regexp.test(url))) {
       message.error('Not a valid URL');
@@ -79,13 +81,25 @@ class AppsTab extends React.Component {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
       return;
     }
-    this.setState({ appURL: url });
-    axios.get('/api/screenshot', { params: { url } })
-      .then((res) => {
-        console.log('res:', res);
-        document.getElementById('screenshot-img').src = `/images/${this.props.name}.png`;
-        document.getElementById('before-screenshot').id = 'after-screenshot';
-      });
+    this.setState({
+      tempId,
+      appURL: url
+    });
+    this.updateScreenshot();
+    axios.get('/api/screenshot', {
+      params: { url, tempId }
+    }).then((res) => {
+      console.log(res.data);
+      this.updateScreenshot(tempId);
+    });
+  }
+
+  updateScreenshot(fileName) {
+    if (fileName) {
+      document.getElementById('screenshot-img').src = `/images/${fileName}.png`;
+    } else {
+      document.getElementById('screenshot-img').src = '/default_screenshot.png';
+    }
   }
 
   /* *********** CONTRIBUTOR HANDLERS ************ */
@@ -155,6 +169,7 @@ class AppsTab extends React.Component {
   projectFormSubmit(event) {
     event.preventDefault();
     const projectData = {
+      tempId: this.state.tempId,
       appURL: this.state.appURL,
       githubURL: this.state.githubURL,
       tags: this.state.tags,
@@ -252,8 +267,12 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="before-screenshot">
-                  <img id="screenshot-img" />
+                <div id="screenshot-wrapper">
+                  <img
+                    id="screenshot-img"
+                    src="/default_screenshot.png"
+                    alt="app screenshot"
+                  />
                 </div>
                 <Form.Item label="Application URL:">
                   <Input

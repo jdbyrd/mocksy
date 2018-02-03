@@ -16,7 +16,7 @@ const query = require('../database/queries');
 const insert = require('../database/inserts');
 const deletes = require('../database/deletes');
 const screen = require('./screenshot_scraper');
-const fs = require('fs');
+const fse = require('fs-extra');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -138,16 +138,15 @@ app.get('/api/search', (req, res) => {
 });
 
 app.get('/api/screenshot', async (req, res) => {
-  const tempId = req.user.username;
-  const { url } = req.query;
+  const { url, tempId } = req.query;
   const message = await screen.getScreenshot(url, tempId);
   res.send(message);
 });
 
 app.delete('/user/screenshot', (req, res) => {
   console.log('request to delete screenshot!');
-  fs.unlink(`./dist/images/${req.user.username}.png`, err => console.log(err));
-  res.end();
+  fse.remove(`./dist/images/${req.user.username}.png`, err => console.log(err))
+    .then(res.end());
 });
 
 app.post('/api/project', (req, res) => {
@@ -156,7 +155,7 @@ app.post('/api/project', (req, res) => {
     console.log('POST REQUEST FOR PROJECT', req.body);
     insert.project(req.body)
       .then((data) => {
-        fs.rename(`./dist/images/${req.body.name}.png`, `./dist/images/${data[0].id}.png`);
+        fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
       });
   }
   res.end();

@@ -32,16 +32,18 @@ class FeedbackItem extends React.Component {
   
   componentDidUpdate(prevProps, prevState) {
     if (prevState.toggled !== this.state.toggled) {
-      this.vote();
+      const difference = this.state.total - prevState.total;
+      this.vote(difference);
     }
   }
 
-  vote() {
+  vote(difference) {
     axios.post('/api/votes',
       {
         votes_id: this.props.item.votes_id,
         feedback_id: this.props.item.id,
-        vote: this.state.toggled
+        vote: this.state.toggled,
+        difference
       }
     )
       .then(() => {

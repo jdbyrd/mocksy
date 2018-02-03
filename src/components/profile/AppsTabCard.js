@@ -6,6 +6,7 @@ import axios from 'axios';
 import Button from '../shared/button';
 import { populateUser } from '../../actions/index';
 import { Icon } from 'antd';
+import VerificationModal from '../shared/VerificationModal';
 
 
 const mapStateToProps = (state) => {
@@ -17,13 +18,17 @@ const mapStateToProps = (state) => {
 class AppsTabCard extends React.Component {
   constructor(props) {
     super(props);
-    this.delete = this.delete.bind(this);
+    // this.delete = this.delete.bind(this);
+
+    this.state = {
+      component: 'project'
+    }
   }
 
-  delete() {
-    axios.delete(`/api/project?id=${this.props.project.id}`)
-      .then(() => populateUser(this.props.name));
-  }
+  // delete() {
+  //   axios.delete(`/api/project?id=${this.props.project.id}`)
+  //     .then(() => populateUser(this.props.name));
+  // }
 
   render() {
     const project = this.props.project;
@@ -37,12 +42,9 @@ class AppsTabCard extends React.Component {
       <Project className="users-projects">
           <Container>
             <ProjectImage src={project.image} className="users-projects-image" />
-            {(this.props.auth && this.props.auth.username === this.props.name)?
-              <TopRight>
-                <Icon type="close-circle" onClick={this.delete} />
-              </TopRight>
-              :null
-            }
+            <TopRight>
+              <VerificationModal item={this.props} component={this.state.component} />
+            </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>
           <ProjectTitle>{project.title}</ProjectTitle>

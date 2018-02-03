@@ -47,10 +47,28 @@ const reviewType = (data) => {
     .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
 };
 
+const updateNumFeedback = (id) => {
+  knex('projects')
+    .where('id', id)
+    .increment('num_feedback', 1)
+    .then(() => console.log('added +1 to numFeedback'))
+    .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
+};
+
+const decreaseNumFeedback = (id) => {
+  knex('projects')
+    .where('id', id)
+    .decrement('num_feedback', 1)
+    .then(() => console.log('added -1 to numFeedback'))
+    .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
+};
+
 module.exports = {
   user,
   project,
   feedback,
   tags,
-  reviewType
+  reviewType,
+  updateNumFeedback,
+  decreaseNumFeedback
 };

@@ -157,6 +157,7 @@ app.post('/api/feedback', (req, res) => {
     req.body.name = req.user.username;
     console.log('POST REQUEST FOR PROJECT', req.body);
     insert.feedback(req.body);
+    insert.updateNumFeedback(req.body.projectId);
   }
   res.end();
 });
@@ -174,6 +175,9 @@ app.delete('/api/project', (req, res) => {
 app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
+    const { projectid } = req.query;
+    console.log('YOYOYOYOYO: ', req.query);
+    insert.decreaseNumFeedback(projectid);
     deletes.feedback(id)
       .then(() => res.end());
   }

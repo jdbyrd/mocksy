@@ -66,7 +66,7 @@ class FeedbackItem extends React.Component {
   handleDelete() {
     console.log('Hey');
     console.log(this.props.item);
-    axios.delete(`/api/feedback?id=${this.props.item.id}`)
+    axios.delete(`/api/feedback?id=${this.props.item.id}&projectid=${this.props.item.project_id}`)
       .then(() => populateFeedback(this.props.item.project_id));
   }
 

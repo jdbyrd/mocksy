@@ -15,7 +15,7 @@ class FeedPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      query: 'all',
+      query: 'all'
     };
     this.getQuery = this.getQuery.bind(this);
   }
@@ -32,7 +32,7 @@ class FeedPage extends React.Component {
     if (this.state.query === 'all' || project.tags.includes(this.state.query)) {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }
-    return <p key={index}>{index}</p>;
+    return null;
   }
 
   render() {

@@ -25,9 +25,13 @@ class FeedbackItem extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({ total: nextProps.item.up - nextProps.item.down });
     if (nextProps.auth) {
-      this.setState({toggled: nextProps.item.vote})
+      this.setState({
+        toggled: nextProps.item.vote
+      });
     }
+    console.log('FUUUCKKK', this.props.item)
   }
   
   componentDidUpdate(prevProps, prevState) {

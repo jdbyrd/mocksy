@@ -174,13 +174,11 @@ app.post('/api/feedback', (req, res) => {
 });
 
 app.post('/api/votes', (req, res) => {
-  console.log('POST REQUEST FOR VOTE', req.body);
   if (req.user) {
-    console.log(req.body);
     if (req.body.votes_id === null) {
       insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
     } else {
-      update.vote(req.votes_id, req.body.vote);
+      update.vote(req.body.votes_id, req.body.vote);
     }
   }
   res.end();

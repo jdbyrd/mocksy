@@ -171,12 +171,20 @@ app.post('/api/feedback', (req, res) => {
 app.post('/api/votes', (req, res) => {
   if (req.user) {
     if (req.body.votes_id === null) {
-      insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+      query.users(req.user.username).then((user) => {
+        query.votes(user[0].id, req.body.feedback_id).then((vote) => {
+          console.log(vote);
+          if (vote.length === 0) {
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+          } else {
+            update.vote(vote[0].votes_id, req.body.vote);
+          }
+        });
+      });
     } else {
       update.vote(req.body.votes_id, req.body.vote);
     }
     const diff = req.body.difference;
-    console.log()
     if (diff > 0) {
       if (req.body.vote === true) {
         update.incrementFeedbackUp(req.body.feedback_id);

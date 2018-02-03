@@ -34,10 +34,10 @@ const userFeedback = name => knex('feedback')
   .join('projects', 'feedback.project_id', '=', 'projects.id')
   .where('feedback.user_id', knex('users').where('name', name).select('id'));
 
-const votes = name => knex('votes')
-  .select()
-  .where('user_id', knex('users').where('name', name).select('id'));
-  
+const votes = (user_id, feedback_id) => knex('votes')
+  .where({ user_id, feedback_id })
+  .select();
+
 const searchProjects = q => knex('projects')
   .select()
   .where(knex.raw(`lower(title) like lower('${q}')`));

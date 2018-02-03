@@ -41,7 +41,7 @@ class AppsTabCard extends React.Component {
     return (
       <Project className="users-projects">
           <Container>
-            <ProjectImage src={project.image} className="users-projects-image" />
+            <ProjectImage src={`/images/${this.props.project.id}.png`} className="users-projects-image" />
             <TopRight>
               <VerificationModal item={this.props} component={this.state.component} />
             </TopRight>

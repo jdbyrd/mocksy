@@ -7,16 +7,19 @@ const user = data => {
 const project = (data) => {
   const { name, title, appURL, githubURL, description, tags, contributors } = data;
   const userId = knex('users').where({ name }).select('id');
-  knex('projects').insert({
+  return knex('projects').insert({
     title,
     url: appURL,
     github: githubURL,
     text: description,
     user_id: userId
   })
-    .then(() => { /* add tags to tags table? */ })
-    .then(() => { /* add contributors to contributors table? */ })
-    .then(() => console.log('inserted project into database'))
+    // .then(() => { /* add tags to tags table? */ })
+    // .then(() => { /* add contributors to contributors table? */ })
+    .then(() => {
+      console.log('inserted project into database');
+      return knex('projects').where({ url: appURL }).select('id');
+    })
     .catch(error => console.log('DID NOT ADD PROJECT: ', error));
 };
 

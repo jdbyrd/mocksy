@@ -186,7 +186,7 @@ class AppsTab extends React.Component {
       message.error('Please provide a description for your application');
       return;
     }
-
+    this.updateScreenshot();
     axios.post('/api/project', projectData)
       .then(() => {
         console.log(projectData);
@@ -194,28 +194,26 @@ class AppsTab extends React.Component {
     this.setState({
       confirmLoading: true
     });
-    setTimeout(() => {
-      Store.populateUser(this.props.name);
-      this.setState({
-        // toggles modal visibility
-        visible: false,
-        // form data
-        appURL: '',
-        githubURL: '',
-        tags: [],
-        title: '',
-        description: '',
-        // tags
-        inputVisible: false,
-        inputValue: '',
-        // contributors
-        data: [],
-        value: [],
-        fetching: false,
-        // spinner for submit button (doesn't work)
-        confirmLoading: false
-      });
-    }, 2000);
+    Store.populateUser(this.props.name);
+    this.setState({
+      // toggles modal visibility
+      visible: false,
+      // form data
+      appURL: '',
+      githubURL: '',
+      tags: [],
+      title: '',
+      description: '',
+      // tags
+      inputVisible: false,
+      inputValue: '',
+      // contributors
+      data: [],
+      value: [],
+      fetching: false,
+      // spinner for submit button (doesn't work)
+      confirmLoading: false
+    });
   }
 
   handleCancel() {
@@ -239,6 +237,7 @@ class AppsTab extends React.Component {
       confirmLoading: false
     });
     axios.delete('screenshot');
+    this.updateScreenshot();
   }
 
   render() {

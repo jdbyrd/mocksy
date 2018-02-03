@@ -11,9 +11,10 @@ class FeedbackTabCard extends React.Component {
         <div id="tab-padding" />
         <Row gutter={48}>
           <Col span={2} />
-          <Col span={8}>
-            <h2>{project.title}</h2>
-          </Col>
+            <Col span={8}>
+              <h3>{project.title}</h3>
+              <p>{project.text}</p>
+            </Col>
           <Col span={12}>
             <p>{feedback.text}</p>
           </Col>

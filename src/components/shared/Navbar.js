@@ -189,12 +189,12 @@ const Search = styled.input`
   outline: none;
   width: 130px;
   height: 20px;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid white;
   padding-left: 27px;
   -webkit-appearance: textfield;
   -webkit-box-sizing: content-box;
-  font-family: "Lato";
+  font-family: "Nunito";
   font-size: 100%;
   color: #000;
   cursor: auto;

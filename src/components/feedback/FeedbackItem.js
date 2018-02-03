@@ -23,8 +23,39 @@ class FeedbackItem extends React.Component {
 
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
+    this.vote = this.vote.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ total: nextProps.item.up - nextProps.item.down });
+    if (nextProps.auth) {
+      this.setState({
+        toggled: nextProps.item.vote
+      });
+    }
+    console.log('FUUUCKKK', this.props.item)
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.toggled !== this.state.toggled) {
+      const difference = this.state.total - prevState.total;
+      this.vote(difference);
+    }
+  }
+
+  vote(difference) {
+    axios.post('/api/votes',
+      {
+        votes_id: this.props.item.votes_id,
+        feedback_id: this.props.item.id,
+        vote: this.state.toggled,
+        difference
+      }
+    )
+      .then(() => {
+        console.log('form added');
+      });
+  }
 
   upvote() {
     if (this.props.auth) {
@@ -47,7 +78,6 @@ class FeedbackItem extends React.Component {
     } else {
       message.warning('Please log in to vote!');
     }
-    console.log(this.state.toggled);
   }
 
   downvote() {
@@ -75,6 +105,7 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
+    console.log(item);
     return (
       <div id="feedback-item">
         <Row>

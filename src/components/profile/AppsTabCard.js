@@ -19,6 +19,10 @@ class AppsTabCard extends React.Component {
   constructor(props) {
     super(props);
     // this.delete = this.delete.bind(this);
+
+    this.state = {
+      component: 'project'
+    }
   }
 
   // delete() {
@@ -39,7 +43,7 @@ class AppsTabCard extends React.Component {
           <Container>
             <ProjectImage src={project.image} className="users-projects-image" />
             <TopRight>
-              <VerificationModal item={this.props.auth} />
+              <VerificationModal item={this.props} component={this.state.component} />
             </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>

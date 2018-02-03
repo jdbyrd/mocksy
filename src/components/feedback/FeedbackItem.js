@@ -17,7 +17,8 @@ class FeedbackItem extends React.Component {
     super(props);
     this.state = {
       total: 0,
-      toggled: null
+      toggled: null,
+      component: 'feedback'
     };
 
     this.upvote = this.upvote.bind(this);
@@ -114,7 +115,7 @@ class FeedbackItem extends React.Component {
             }
           </Col>
           <Col span={1}>
-            <VerificationModal item={item} />
+            <VerificationModal item={item} component={this.state.component} />
           </Col>
         </Row>
         <Row>

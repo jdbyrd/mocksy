@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Icon, message } from 'antd';
 import { populateFeedback } from '../../actions/index';
+import VerificationModal from '../shared/VerificationModal';
 
 const mapStateToProps = (state) => {
   return {
@@ -18,7 +19,7 @@ class FeedbackItem extends React.Component {
       total: 0,
       toggled: null
     };
-    this.handleDelete = this.handleDelete.bind(this);
+
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
   }
@@ -71,13 +72,6 @@ class FeedbackItem extends React.Component {
     }
   }
 
-  handleDelete() {
-    console.log('Hey');
-    console.log(this.props.item);
-    axios.delete(`/api/feedback?id=${this.props.item.id}`)
-      .then(() => populateFeedback(this.props.item.project_id));
-  }
-
   render() {
     const { item } = this.props;
     return (
@@ -119,15 +113,9 @@ class FeedbackItem extends React.Component {
               />
             }
           </Col>
-          {(this.props.auth && this.props.auth.username === item.name) ?
-            <Col span={1}>
-              <Icon
-                type="close-circle"
-                onClick={this.handleDelete}
-              />
-            </Col>
-            : null
-          }
+          <Col span={1}>
+            <VerificationModal item={item} />
+          </Col>
         </Row>
         <Row>
           <p>{item.text}</p>

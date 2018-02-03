@@ -18,7 +18,7 @@ class PostFeedbackModal extends React.Component {
     this.state = {
       visible: false,
       confirmLoading: false,
-      feedbackType: 0,
+      feedbackType: null,
       text: '',
     };
 
@@ -29,7 +29,7 @@ class PostFeedbackModal extends React.Component {
     this.textChange = this.textChange.bind(this);
   }
 
-  /******* MODAL FUNCTIONS ********/
+  /* ****** MODAL FUNCTIONS ******* */
   showModal() {
     this.setState({ visible: true });
   }
@@ -55,13 +55,15 @@ class PostFeedbackModal extends React.Component {
       });
       console.log(this.state.confirmLoading);
       // this is running just fine
+      var form = document.getElementById('form');
       setTimeout(() => {
         populateFeedback(this.props.id);
+        form.reset();
         this.setState({
           // feedback type and text are not resetting
           visible: false,
           confirmLoading: false,
-          feedbackType: 0,
+          feedbackType: null,
           text: '',
         });
       }, 1500);
@@ -83,7 +85,7 @@ class PostFeedbackModal extends React.Component {
     });
   }
 
-  /********** DROPDOWN FUNCTIONS **********/
+  /* ********* DROPDOWN FUNCTIONS ********* */
   handleType(value) {
     this.setState({ feedbackType: value });
   }
@@ -115,7 +117,7 @@ class PostFeedbackModal extends React.Component {
             <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
           ]}
         >
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} id="form">
             <h4>What kind of feedback are you leaving?</h4>
             <Select
               style={{ width: 300 }}
@@ -133,7 +135,7 @@ class PostFeedbackModal extends React.Component {
 
             <br /><br />
             <h4>Say something constructive about this app:</h4>
-            <Input.TextArea rows={8} onChange={this.textChange} />
+            <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
           </form>
         </Modal>
       </div>

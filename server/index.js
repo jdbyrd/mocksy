@@ -178,12 +178,20 @@ app.post('/api/votes', (req, res) => {
     const diff = req.body.difference;
     console.log()
     if (diff > 0) {
-      update.incrementFeedbackUp(req.body.feedback_id);
+      if (req.body.vote === true) {
+        update.incrementFeedbackUp(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
       if (diff > 1) {
         update.decrementFeedbackDown(req.body.feedback_id);
       }
     } else if (diff < 0) {
-      update.incrementFeedbackDown(req.body.feedback_id);
+      if (req.body.vote === false) {
+        update.incrementFeedbackDown(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
       if (diff < -1) {
         update.decrementFeedbackUp(req.body.feedback_id);
       }

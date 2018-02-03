@@ -58,5 +58,6 @@ module.exports = {
   project,
   feedback,
   tags,
-  reviewType
+  reviewType,
+  vote
 };

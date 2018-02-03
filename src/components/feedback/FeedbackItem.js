@@ -21,8 +21,33 @@ class FeedbackItem extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
+    this.vote = this.vote.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth) {
+      this.setState({toggled: nextProps.item.vote})
+    }
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.toggled !== this.state.toggled) {
+      this.vote();
+    }
+  }
+
+  vote() {
+    axios.post('/api/votes',
+      {
+        votes_id: this.props.item.votes_id,
+        feedback_id: this.props.item.id,
+        vote: this.state.toggled
+      }
+    )
+      .then(() => {
+        console.log('form added');
+      });
+  }
 
   upvote() {
     if (this.state.toggled) {
@@ -41,7 +66,6 @@ class FeedbackItem extends React.Component {
         total: this.state.total + 1,
       });
     }
-    console.log(this.state.toggled);
   }
 
   downvote() {
@@ -64,14 +88,13 @@ class FeedbackItem extends React.Component {
   }
 
   handleDelete() {
-    console.log('Hey');
-    console.log(this.props.item);
     axios.delete(`/api/feedback?id=${this.props.item.id}`)
       .then(() => populateFeedback(this.props.item.project_id));
   }
 
   render() {
     const { item } = this.props;
+    console.log(item);
     return (
       <div id="feedback-item">
         <Row>

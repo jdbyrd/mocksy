@@ -1,6 +1,6 @@
 const knex = require('./db');
 
-const votes = (votes_id, vote) => {
+const vote = (votes_id, vote) => {
   knex('votes')
     .where('votes_id', '=', votes_id)
     .update({ vote })
@@ -8,5 +8,5 @@ const votes = (votes_id, vote) => {
 };
 
 module.exports = {
-  votes
+  vote
 };

@@ -61,7 +61,6 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log(req.user.username);
     insert.user(req.user)
       .then(() => console.log(`inserted ${req.user.username} into database`))
       .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
@@ -88,15 +87,18 @@ app.get('/api/projects', (req, res) => {
     if (id) {
       const projectFeedback = { project: projects[0] };
       if (req.user) {
-        query.feedback(id, req.user.username).then((feedback) => {
-          projectFeedback.list = feedback;
-          console.log(projectFeedback);
-          res.send(projectFeedback);
+        query.users(req.user.username).then((user) => {
+          console.log(user);
+          console.log(user.id);
+          query.feedback(id, user[0].id).then((feedback) => {
+            projectFeedback.list = feedback;
+            console.log(feedback);
+            res.send(projectFeedback);
+          });
         });
       } else {
         query.feedback(id).then((feedback) => {
           projectFeedback.list = feedback;
-          console.log(projectFeedback);
           res.send(projectFeedback);
         });
       }
@@ -172,13 +174,16 @@ app.post('/api/feedback', (req, res) => {
 });
 
 app.post('/api/votes', (req, res) => {
+  console.log('POST REQUEST FOR VOTE', req.body);
   if (req.user) {
+    console.log(req.body);
     if (req.body.votes_id === null) {
       insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
     } else {
       update.vote(req.votes_id, req.body.vote);
     }
   }
+  res.end();
 });
 
 app.delete('/api/project', (req, res) => {

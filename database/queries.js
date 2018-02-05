@@ -44,6 +44,10 @@ const votes = (user_id, feedback_id) => knex('votes')
   .where({ user_id, feedback_id })
   .select();
 
+const votesById = votes_id => knex('votes')
+  .where({ votes_id })
+  .select();
+
 const searchProjects = q => knex('projects')
   .select()
   .where(knex.raw(`lower(title) like lower('${q}')`));
@@ -61,6 +65,7 @@ module.exports = {
   userProjects,
   userFeedback,
   votes,
+  votesById,
   searchProjects,
   searchUsers,
   sortProjects

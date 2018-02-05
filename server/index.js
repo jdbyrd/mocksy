@@ -86,7 +86,7 @@ app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   if (req.query.sort === 'true') {
     query.sortProjects().then((projects) => {
-        res.send(projects);
+      res.send(projects);
     });
   }
   query.projects(id).then((projects) => {
@@ -186,22 +186,7 @@ app.post('/api/feedback', (req, res) => {
 });
 
 app.post('/api/votes', (req, res) => {
-  if (req.user) {
-    if (req.body.votes_id === null) {
-      query.users(req.user.username).then((user) => {
-        query.votes(user[0].id, req.body.feedback_id).then((vote) => {
-          console.log(vote);
-          if (vote.length === 0) {
-            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
-          } else {
-            update.vote(vote[0].votes_id, req.body.vote);
-          }
-        });
-      });
-    } else {
-      update.vote(req.body.votes_id, req.body.vote);
-    }
-    const diff = req.body.difference;
+  const differenceIncrementer = (diff) => {
     if (diff > 0) {
       if (req.body.vote === true) {
         update.incrementFeedbackUp(req.body.feedback_id);
@@ -221,8 +206,33 @@ app.post('/api/votes', (req, res) => {
         update.decrementFeedbackUp(req.body.feedback_id);
       }
     }
+  };
+
+  if (req.user) {
+    if (req.body.votes_id === null) {
+      query.users(req.user.username).then((user) => {
+        query.votes(user[0].id, req.body.feedback_id).then((vote) => {
+          if (vote.length === 0) {
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+            differenceIncrementer(req.body.difference);
+            res.end();
+          } else if (vote[0].vote !== req.body.vote) {
+            update.vote(vote[0].votes_id, req.body.vote);
+            differenceIncrementer(req.body.difference);
+            res.end();
+          }
+        });
+      });
+    } else {
+      query.votesById(req.body.votes_id).then((vote) => {
+        if (vote[0].vote !== req.body.vote) {
+          update.vote(req.body.votes_id, req.body.vote);
+          differenceIncrementer(req.body.difference);
+          res.end();
+        }
+      });
+    }
   }
-  res.end();
 });
 
 app.delete('/api/project', (req, res) => {

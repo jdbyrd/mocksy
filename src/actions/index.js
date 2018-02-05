@@ -35,15 +35,14 @@ Store.populateFeedback = (projectId) => {
     });
 };
 
-Store.populateUser = (userName) => {
-  axios(`/api/profile?name=${userName}`)
-    .then((res) => {
-      console.log('wtf');
-      store.dispatch({
-        type: 'POPULATE_USER',
-        payload: res.data
-      });
-    });
+Store.populateUser = async (userName) => {
+  const res = await axios(`/api/profile?name=${userName}`);
+  console.log('POPULATEUSERPOPULATEUSERPOPULATEUSER:', res.data);
+  store.dispatch({
+    type: 'POPULATE_USER',
+    payload: res.data
+  });
+  return 'complete';
 };
 
 Store.checkAuth = () => {

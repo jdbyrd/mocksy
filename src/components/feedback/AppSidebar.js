@@ -1,4 +1,3 @@
-/* Sidebar with the data (title, author, description, tech stack) of the app being reviewed. */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -21,6 +20,9 @@ class AppSidebar extends React.Component {
         <br /><br />
         <a href={project.url} >
           <h2>{project.title}</h2>
+        </a>
+        <a href={`/users/${project.user_id}`}>
+          <h3>{project.user_id}</h3>
         </a>
         <p>
           {project.text}

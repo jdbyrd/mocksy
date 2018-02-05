@@ -47,26 +47,21 @@ class PostFeedbackModal extends React.Component {
           projectId: this.props.id
         })
         .then(() => {
-          console.log('form added');
+          this.setState({confirmLoading: true}, () => {
+            // this is running just fine
+            setTimeout(() => {
+              populateFeedback(this.props.id);
+              console.log('hello');
+              this.setState({
+                // feedback type and text are not resetting
+                visible: false,
+                confirmLoading: false,
+                feedbackType: null,
+                text: '',
+              });
+            }, 1500);
         });
-      // this is never setting the state to true
-      this.setState({
-        confirmLoading: true
       });
-      console.log(this.state.confirmLoading);
-      // this is running just fine
-      var form = document.getElementById('form');
-      setTimeout(() => {
-        populateFeedback(this.props.id);
-        form.reset();
-        this.setState({
-          // feedback type and text are not resetting
-          visible: false,
-          confirmLoading: false,
-          feedbackType: null,
-          text: '',
-        });
-      }, 1500);
     }
   }
 
@@ -91,6 +86,7 @@ class PostFeedbackModal extends React.Component {
   }
 
   render() {
+    const {visible, confirmLoading} = this.state
     return (
       <div className="modal">
         {
@@ -108,8 +104,8 @@ class PostFeedbackModal extends React.Component {
 
         <Modal
           title="Post feedback"
-          visible={this.state.visible}
-          confirmLoading={this.state.confirmLoading}
+          visible={visible}
+          confirmLoading={confirmLoading}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           footer={[

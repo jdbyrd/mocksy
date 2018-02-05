@@ -6,6 +6,12 @@ const projects = id => id
     .join('users', 'projects.user_id', '=', 'users.id')
     .orderBy('projects.created_at', 'desc');
 
+const sortProjects = id => id
+  ? knex('projects').select().where('id', id)
+  : knex('projects').select('projects.title', 'projects.url', 'projects.github', 'projects.text', 'projects.id', 'projects.text', 'projects.num_feedback', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
+    .join('users', 'projects.user_id', '=', 'users.id')
+    .orderBy('num_feedback', 'desc');
+
 const feedback = (id, userId) => userId
   ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote', 'votes.votes_id')
     .join('users', 'feedback.user_id', '=', 'users.id')
@@ -56,5 +62,6 @@ module.exports = {
   userFeedback,
   votes,
   searchProjects,
-  searchUsers
+  searchUsers,
+  sortProjects
 };

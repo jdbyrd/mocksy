@@ -36,8 +36,6 @@ class AppsTabCard extends React.Component {
     if (this.props.auth) {
       id = this.props.auth.id;
     }
-    console.log(project);
-    console.log(this.props.auth);
     return (
       <Project className="users-projects">
           <Container>
@@ -47,7 +45,9 @@ class AppsTabCard extends React.Component {
             </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>
-          <ProjectTitle>{project.title}</ProjectTitle>
+          <ProjectTitle>
+            <h3>{project.title}</h3>
+          </ProjectTitle>
           <ProjectDescription>{project.text}</ProjectDescription>
         </Link>
 

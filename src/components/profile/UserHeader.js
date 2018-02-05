@@ -15,7 +15,6 @@ const mapStateToProps = state => (
 class UserHeader extends React.Component {
   render() {
     const user = this.props.user;
-    console.log(user);
     return (
       <div className="user-header-container">
         <div className="user-img-container">

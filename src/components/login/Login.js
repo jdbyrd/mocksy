@@ -10,6 +10,10 @@ class Login extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.isHomepage(false);
+  }
+
   render() {
     return (
       <div className = 'mocksyBlock'>

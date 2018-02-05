@@ -40,12 +40,14 @@ class PostFeedbackModal extends React.Component {
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      axios.post('/api/feedback',
+      axios.post(
+        '/api/feedback',
         {
           text: this.state.text,
           type: this.state.feedbackType,
           projectId: this.props.id
-        })
+        }
+      )
         .then(() => {
           console.log('form added');
         });
@@ -124,11 +126,10 @@ class PostFeedbackModal extends React.Component {
             >
               <Select.Option value={1}>General feedback</Select.Option>
               <Select.Option value={2}>Feature suggestion</Select.Option>
-              <Select.Option value={3}>Bug fixes</Select.Option>
-              <Select.Option value={4}>Dependency recommendation</Select.Option>
-              <Select.Option value={5}>Code review</Select.Option>
-              <Select.Option value={6}>Design critique</Select.Option>
-              <Select.Option value={7}>Other...</Select.Option>
+              <Select.Option value={3}>Bug report</Select.Option>
+              <Select.Option value={4}>Code review</Select.Option>
+              <Select.Option value={5}>Design critique</Select.Option>
+              <Select.Option value={6}>Other...</Select.Option>
             </Select>
 
             <br /><br />

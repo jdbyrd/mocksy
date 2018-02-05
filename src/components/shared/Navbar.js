@@ -30,21 +30,6 @@ class Navbar extends React.Component {
     this.triangleRight = this.triangleRight.bind(this);
   }
 
-  componentDidMount() {
-    // if (window.location.href === 'http://127.0.0.1:3000/') {
-    //   console.log('if running')
-    //   this.setState({
-    //     showTriangle: true
-    //   });
-    // } else {
-    //   console.log('else running')
-    //   this.setState({
-    //     showTriangle: false
-    //   });
-    // }
-    // console.log(window.location.href);
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({ showTriangle: nextProps.homepage });
   }
@@ -89,14 +74,12 @@ class Navbar extends React.Component {
   triangleLeft() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
-    console.log('triangleLeft calling changeTriangle')
     this.props.changeTriangle(false);
   }
 
   triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
-    console.log('triangleRight calling changeTriangle')
     this.props.changeTriangle(true);
   }
 
@@ -115,11 +98,16 @@ class Navbar extends React.Component {
             <img className="bell-icon mobile-view-bell-icon" alt="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
             {this.state.menu &&
             <div className="menu-dropdown-container">
-              <ul>
-                <li>Feed</li>
-                <li>Popular</li>
-                <li>Search</li>
-                <li>Login</li>
+              <ul onClick={this.toggleMenu}>
+                <Link to={"/"}><li onClick={this.triangleLeft}>Feed</li></Link>
+                <Link to={"/"}><li onClick={this.triangleRight}>Popular</li></Link>
+                <Link to={`/user/${this.props.auth.username}`}><li>Profile</li></Link>
+                <Link to={"/"}><li>Search</li></Link>
+                {this.props.auth ?
+                  <Link to={"/logout"}><li>Logout</li></Link>
+                :
+                  <Link to={"/login"}><li>Login</li></Link>
+                }
               </ul>
             </div>
             }

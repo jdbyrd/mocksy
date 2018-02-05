@@ -39,7 +39,6 @@ class App extends React.Component {
   }
 
   isHomepage(bool) {
-    console.log('isHomepage running with bool: ', bool);
     this.setState({ homepage: bool });
   }
 

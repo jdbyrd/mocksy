@@ -194,26 +194,30 @@ class AppsTab extends React.Component {
     this.setState({
       confirmLoading: true
     });
-    Store.populateUser(this.props.name);
-    this.setState({
-      // toggles modal visibility
-      visible: false,
-      // form data
-      appURL: '',
-      githubURL: '',
-      tags: [],
-      title: '',
-      description: '',
-      // tags
-      inputVisible: false,
-      inputValue: '',
-      // contributors
-      data: [],
-      value: [],
-      fetching: false,
-      // spinner for submit button (doesn't work)
-      confirmLoading: false
-    });
+
+    Store.populateUser(this.props.name)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          // toggles modal visibility
+          visible: false,
+          // form data
+          appURL: '',
+          githubURL: '',
+          tags: [],
+          title: '',
+          description: '',
+          // tags
+          inputVisible: false,
+          inputValue: '',
+          // contributors
+          data: [],
+          value: [],
+          fetching: false,
+          // spinner for submit button (doesn't work)
+          confirmLoading: false
+        });
+      });
   }
 
   handleCancel() {

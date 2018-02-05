@@ -112,6 +112,7 @@ class Navbar extends React.Component {
             </div>
             }
             <ul className="nav-links">
+              <img src="./mocksylogo.png" className="mocksy-logo" />
               <Link to='/'>
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>

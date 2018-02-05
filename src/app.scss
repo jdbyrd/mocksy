@@ -80,6 +80,13 @@ a {
   grid-template-columns: 72% auto 27%;
 }
 
+.mocksy-logo {
+  position: fixed;
+  top: 7px;
+  left: 30px;
+  height: 45px;
+}
+
 .searchResults {
   width: 50%;
   margin: auto;
@@ -128,6 +135,7 @@ a {
   grid-column-start: 1;
   grid-column-end: 2;
   vertical-align: middle;
+  margin-left: 80px;
     li {
       display: inline-block;
       padding: 15px 50px;
@@ -276,7 +284,7 @@ a {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-top: 15px solid $background2;
-  margin-left: 57px;
+  margin-left: 137px;
   width: 0;
   height: 0;
   transition-property: transform -webkit-transform color;

@@ -16,8 +16,8 @@ class FeedbackItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: 0,
-      toggled: null,
+      total: this.props.item.up - this.props.item.down,
+      toggled: this.props.item.vote || null,
       component: 'feedback'
     };
 
@@ -33,7 +33,6 @@ class FeedbackItem extends React.Component {
         toggled: nextProps.item.vote
       });
     }
-    console.log('FUUUCKKK', this.props.item)
   }
   
   componentDidUpdate(prevProps, prevState) {

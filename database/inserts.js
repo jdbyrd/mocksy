@@ -43,12 +43,12 @@ const tags = (data) => {
     .catch(error => console.log('DID NOT ADD TAG: ', error));
 };
 
-const reviewType = (data) => {
-  const { option } = data;
-  knex('review_type').insert({ option })
-    .then(() => console.log('inserted reviewType into database'))
-    .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
-};
+// const reviewType = (data) => {
+//   const { option } = data;
+//   knex('review_type').insert({ option })
+//     .then(() => console.log('inserted reviewType into database'))
+//     .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
+// };
 
 const vote = (name, feedback_id, vote) => {
   knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
@@ -61,6 +61,6 @@ module.exports = {
   project,
   feedback,
   tags,
-  reviewType,
+  // reviewType,
   vote
 };

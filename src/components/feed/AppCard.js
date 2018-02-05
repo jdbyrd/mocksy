@@ -9,7 +9,7 @@ class AppCard extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.project.tags)
+    console.log(this.props.project.tags);
   }
 
   clickTag(e) {
@@ -33,9 +33,11 @@ class AppCard extends React.Component {
               <a href={`/project/${this.props.project.id}`}>
                 <div className="title">{this.props.project.title}</div>
               </a>
-              <a href={this.props.project.github} target="_blank">
-                <GitIcon className="git-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
-              </a>
+              { this.props.project.github ?
+                <a href={this.props.project.github} target="_blank">
+                  <GitIcon className="git-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
+                </a> : null
+              }
             </div>
 
             <Link to={`/user/${this.props.project.user}`}>

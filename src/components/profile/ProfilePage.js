@@ -22,6 +22,7 @@ class ProfilePage extends React.Component {
 
   componentDidMount() {
     populateUser(this.props.match.params.name);
+    this.props.isHomepage(false);
   }
 
   componentWillReceiveProps(nextprops) {

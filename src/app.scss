@@ -71,6 +71,11 @@ a {
 #screenshot-img {
   width: 100%;
 }
+
+.feedback-img {
+  width: 80%;
+  border: 1px solid #d6d6d6;
+}
 /*----------------------------
 ------------ NAV -------------
 ----------------------------*/
@@ -367,7 +372,7 @@ a {
     top: 0;
     left: 0;
     height: 100%;
-    border: 1px solid #cecece
+    border: 1px solid #d6d6d6
   }
   .project-details-container {
     width: 100%;
@@ -454,7 +459,7 @@ a {
 }
 
 .users-projects-image {
-  border: 1px solid black;
+  border: 1px solid #d6d6d6;
   margin: auto;
   width: 400px;
   height: 200px;

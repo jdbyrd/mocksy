@@ -39,13 +39,6 @@ a {
   margin-bottom: 10px;
 }
 
-// @mixin aspect-ratio($width, $height) {
-//   position: relative;
-//   display: block;
-//   content: " ";
-//   width: 100%;
-// }
-
 .hidden {
   display: none;
 }
@@ -58,15 +51,6 @@ a {
   border: 1px solid #d6d6d6;
   border-radius: 10px;
 }
-
-// #after-screenshot {
-//   @include aspect-ratio(16,9);
-//   width: 100%;
-//   border: 1px solid #d6d6d6;
-//   border-radius: 10px;
-//   position: relative;
-//   padding-top: 0;
-// }
 
 #screenshot-img {
   width: 100%;

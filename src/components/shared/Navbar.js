@@ -228,7 +228,8 @@ const Search = styled.input`
   font-size: 100%;
   color: #000;
   cursor: auto;
-  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 4px center;
+  background: #ffffff url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png) no-repeat 4px center;
+  background-size: 18px;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
   transition: all .5s;

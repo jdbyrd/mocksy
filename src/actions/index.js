@@ -14,8 +14,8 @@ Store.populateTags = () => {
     });
 };
 
-Store.populateFeed = () => {
-  axios('/api/projects')
+Store.populateFeed = (sort) => {
+  axios(`/api/projects?sort=${sort}`)
     .then((res) => {
       console.log('PROJECT', res.data);
       store.dispatch({

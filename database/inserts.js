@@ -50,6 +50,22 @@ const reviewType = (data) => {
     .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
 };
 
+const updateNumFeedback = (id) => {
+  knex('projects')
+    .where('id', id)
+    .increment('num_feedback', 1)
+    .then(() => console.log('added +1 to numFeedback'))
+    .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
+};
+
+const decreaseNumFeedback = (id) => {
+  knex('projects')
+    .where('id', id)
+    .decrement('num_feedback', 1)
+    .then(() => console.log('added -1 to numFeedback'))
+    .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
+};
+
 const vote = (name, feedback_id, vote) => {
   knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
     .then(() => console.log('inserted vote'))
@@ -62,5 +78,7 @@ module.exports = {
   feedback,
   tags,
   reviewType,
+  updateNumFeedback,
+  decreaseNumFeedback,
   vote
 };

@@ -84,6 +84,11 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/projects', (req, res) => {
   const { id } = req.query;
+  if (req.query.sort === 'true') {
+    query.sortProjects().then((projects) => {
+        res.send(projects);
+    });
+  }
   query.projects(id).then((projects) => {
     if (id) {
       const projectFeedback = { project: projects[0] };
@@ -175,6 +180,7 @@ app.post('/api/feedback', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
     insert.feedback(req.body);
+    insert.updateNumFeedback(req.body.projectId);
   }
   res.end();
 });
@@ -232,6 +238,8 @@ app.delete('/api/project', (req, res) => {
 app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
+    const { projectid } = req.query;
+    insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

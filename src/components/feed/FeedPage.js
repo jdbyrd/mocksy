@@ -12,10 +12,10 @@ const mapStateToProps = (state) => {
 };
 
 class FeedPage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      query: 'all',
+      query: 'all'
     };
     this.getQuery = this.getQuery.bind(this);
   }
@@ -32,10 +32,11 @@ class FeedPage extends React.Component {
     if (this.state.query === 'all' || project.tags.includes(this.state.query)) {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }
-    return <p key={index}>{index}</p>;
+    return null;
   }
 
   render() {
+    console.log('triangle: ', this.props.feed);
     return (
       <div>
         {this.props.projects.map((project, index) => (

@@ -18,7 +18,7 @@ class PostFeedbackModal extends React.Component {
     this.state = {
       visible: false,
       confirmLoading: false,
-      feedbackType: 0,
+      feedbackType: null,
       text: '',
     };
 
@@ -29,7 +29,7 @@ class PostFeedbackModal extends React.Component {
     this.textChange = this.textChange.bind(this);
   }
 
-  /******* MODAL FUNCTIONS ********/
+  /* ****** MODAL FUNCTIONS ******* */
   showModal() {
     this.setState({ visible: true });
   }
@@ -49,25 +49,24 @@ class PostFeedbackModal extends React.Component {
         }
       )
         .then(() => {
-          console.log('form added');
+          this.setState({confirmLoading: true}, () => {
+            // this is running just fine
+            setTimeout(() => {
+              populateFeedback(this.props.id);
+              this.setState({
+                // feedback type and text are not resetting
+                visible: false,
+                confirmLoading: false,
+                feedbackType: null,
+                text: '',
+              });
+            }, 1500);
+          });
         });
       // this is never setting the state to true
-      console.log('test')
       this.setState({
         confirmLoading: true
       });
-      console.log(this.state.confirmLoading);
-      // this is running just fine
-      setTimeout(() => {
-        populateFeedback(this.props.id);
-        this.setState({
-          // feedback type and text are not resetting
-          visible: false,
-          confirmLoading: false,
-          feedbackType: 0,
-          text: '',
-        });
-      }, 1500);
     }
   }
 
@@ -86,12 +85,13 @@ class PostFeedbackModal extends React.Component {
     });
   }
 
-  /********** DROPDOWN FUNCTIONS **********/
+  /* ********* DROPDOWN FUNCTIONS ********* */
   handleType(value) {
     this.setState({ feedbackType: value });
   }
 
   render() {
+    const {visible, confirmLoading} = this.state
     return (
       <div className="modal">
         {
@@ -109,8 +109,8 @@ class PostFeedbackModal extends React.Component {
 
         <Modal
           title="Post feedback"
-          visible={this.state.visible}
-          confirmLoading={this.state.confirmLoading}
+          visible={visible}
+          confirmLoading={confirmLoading}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           footer={[
@@ -118,7 +118,7 @@ class PostFeedbackModal extends React.Component {
             <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
           ]}
         >
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} id="form">
             <h4>What kind of feedback are you leaving?</h4>
             <Select
               style={{ width: 300 }}
@@ -135,7 +135,7 @@ class PostFeedbackModal extends React.Component {
 
             <br /><br />
             <h4>Say something constructive about this app:</h4>
-            <Input.TextArea rows={8} onChange={this.textChange} />
+            <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
           </form>
         </Modal>
       </div>

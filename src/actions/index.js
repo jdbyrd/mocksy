@@ -6,7 +6,6 @@ const Store = {};
 Store.populateTags = () => {
   axios('/api/tags')
     .then((res) => {
-      console.log('TAGS', res.data);
       store.dispatch({
         type: 'POPULATE_TAGS',
         payload: res.data
@@ -17,7 +16,6 @@ Store.populateTags = () => {
 Store.populateFeed = (sort) => {
   axios(`/api/projects?sort=${sort}`)
     .then((res) => {
-      console.log('PROJECT', res.data);
       store.dispatch({
         type: 'POPULATE_FEED',
         payload: res.data
@@ -37,7 +35,6 @@ Store.populateFeedback = (projectId) => {
 
 Store.populateUser = async (userName) => {
   const res = await axios(`/api/profile?name=${userName}`);
-  console.log('POPULATEUSERPOPULATEUSERPOPULATEUSER:', res.data);
   store.dispatch({
     type: 'POPULATE_USER',
     payload: res.data
@@ -48,7 +45,6 @@ Store.populateUser = async (userName) => {
 Store.checkAuth = () => {
   axios('/auth/verify')
     .then((res) => {
-      console.log(res);
       store.dispatch({
         type: 'CHECK_AUTH',
         payload: res.data

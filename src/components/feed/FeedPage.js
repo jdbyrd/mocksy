@@ -15,13 +15,14 @@ class FeedPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: 'all'
+      query: 'all',
     };
     this.getQuery = this.getQuery.bind(this);
   }
 
   componentDidMount() {
     populateFeed();
+    this.props.isHomepage(true);
   }
 
   getQuery(tag) {
@@ -36,7 +37,6 @@ class FeedPage extends React.Component {
   }
 
   render() {
-    console.log('triangle: ', this.props.feed);
     return (
       <div>
         {this.props.projects.map((project, index) => (

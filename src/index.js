@@ -19,9 +19,11 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      triangle: false
+      triangle: false,
+      homepage: true
     };
     this.changeTriangle = this.changeTriangle.bind(this);
+    this.isHomepage = this.isHomepage.bind(this);
   }
 
   componentDidMount() {
@@ -36,16 +38,21 @@ class App extends React.Component {
     populateFeed(this.state.triangle);
   }
 
+  isHomepage(bool) {
+    console.log('isHomepage running with bool: ', bool);
+    this.setState({ homepage: bool });
+  }
+
   render() {
     return (
       <div>
-        <Navbar changeTriangle={this.changeTriangle} />
+        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} />
         <Switch>
-          <Route exact={true} path="/" render={() => (<FeedPage feed={this.state.triangle} />)} />
-          <Route path="/project/:id" render={(props) => (<FeedbackPage {...props}/>)} />
-          <Route path="/user/:name" render={(props) => (<ProfilePage {...props}/>)} />
-          <Route path="/settings/:name" render={() => (<SettingsPage />)} />
-          <Route path="/login" render={() => (<Login />)} />
+          <Route exact={true} path="/" render={() => (<FeedPage feed={this.state.triangle} isHomepage={this.isHomepage} />)} />
+          <Route path="/project/:id" render={(props) => (<FeedbackPage {...props} isHomepage={this.isHomepage} />)} />
+          <Route path="/user/:name" render={(props) => (<ProfilePage {...props} isHomepage={this.isHomepage} />)} />
+          <Route path="/settings/:name" render={() => (<SettingsPage isHomepage={this.isHomepage} />)} />
+          <Route path="/login" render={() => (<Login isHomepage={this.isHomepage} />)} />
           <Route render={() => (<div>404 lol</div>)} />
         </Switch>
       </div>

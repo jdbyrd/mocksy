@@ -1,11 +1,14 @@
 const knex = require('./db');
 
-const user = data => {
-  return  knex('users').insert({ name: data.username, avatar: data.photos[0].value, display_name: data.displayName, github_profile: data.profileUrl });
-}
+const user = data => knex('users').insert({
+  name: data.username,
+  avatar: data.photos[0].value,
+  display_name: data.displayName,
+  github_profile: data.profileUrl,
+});
 
 const project = (data) => {
-  const { name, title, appURL, githubURL, description, tags, contributors } = data;
+  const { name, title, appURL, githubURL, description, contributors } = data;
   const userId = knex('users').where({ name }).select('id');
   return knex('projects').insert({
     title,
@@ -37,10 +40,12 @@ const feedback = (data) => {
 };
 
 const tags = (data) => {
-  const { name } = data;
-  knex('tags').insert({ name })
-    .then(() => console.log('inserted tag into database'))
-    .catch(error => console.log('DID NOT ADD TAG: ', error));
+  const { tags } = data;
+  tags.forEach((tag) => {
+    knex('tags').insert({ tag })
+      .then(() => console.log('inserted tag into database'))
+      .catch(error => console.log('DID NOT ADD TAG: ', error));
+  });
 };
 
 // const reviewType = (data) => {

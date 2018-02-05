@@ -172,6 +172,7 @@ app.post('/api/project', (req, res) => {
       .then((data) => {
         fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
       });
+    insert.tags(req.body);
   }
   res.end();
 });

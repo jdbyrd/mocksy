@@ -103,7 +103,11 @@ class Navbar extends React.Component {
                 <Link to={"/"}><li onClick={this.triangleRight}>Popular</li></Link>
                 <Link to={`/user/${this.props.auth.username}`}><li>Profile</li></Link>
                 <Link to={"/"}><li>Search</li></Link>
-                <Link to={"/login"}><li>Login</li></Link>
+                {this.props.auth ?
+                  <Link to={"/logout"}><li>Logout</li></Link>
+                :
+                  <Link to={"/login"}><li>Login</li></Link>
+                }
               </ul>
             </div>
             }

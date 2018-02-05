@@ -16,6 +16,7 @@ const mapStateToProps = state => (
 class FeedbackPage extends React.Component {
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
+    this.props.isHomepage(false);
   }
 
   render() {

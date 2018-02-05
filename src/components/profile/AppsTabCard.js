@@ -36,8 +36,6 @@ class AppsTabCard extends React.Component {
     if (this.props.auth) {
       id = this.props.auth.id;
     }
-    console.log(project);
-    console.log(this.props.auth);
     return (
       <Project className="users-projects">
           <Container>

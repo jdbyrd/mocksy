@@ -19,7 +19,8 @@ class Navbar extends React.Component {
       viewMenu: false,
       menu: false,
       query: '',
-      searchResults: []
+      searchResults: [],
+      showTriangle: true
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -27,6 +28,25 @@ class Navbar extends React.Component {
     this.displayResults = this.displayResults.bind(this);
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
+  }
+
+  componentDidMount() {
+    // if (window.location.href === 'http://127.0.0.1:3000/') {
+    //   console.log('if running')
+    //   this.setState({
+    //     showTriangle: true
+    //   });
+    // } else {
+    //   console.log('else running')
+    //   this.setState({
+    //     showTriangle: false
+    //   });
+    // }
+    // console.log(window.location.href);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ showTriangle: nextProps.homepage });
   }
 
   displayResults(result, index) {
@@ -155,7 +175,9 @@ class Navbar extends React.Component {
               }
             </div>
           </div>
-          <div id="triangle" />
+          {this.state.showTriangle ?
+            <div id="triangle" />
+          : null}
         </div>
       </div>
     );

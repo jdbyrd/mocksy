@@ -25,6 +25,8 @@ class Navbar extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.displayResults = this.displayResults.bind(this);
+    this.triangleLeft = this.triangleLeft.bind(this);
+    this.triangleRight = this.triangleRight.bind(this);
   }
 
   displayResults(result, index) {
@@ -67,11 +69,15 @@ class Navbar extends React.Component {
   triangleLeft() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
+    console.log('triangleLeft calling changeTriangle')
+    this.props.changeTriangle(false);
   }
 
   triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
+    console.log('triangleRight calling changeTriangle')
+    this.props.changeTriangle(true);
   }
 
   toggleMenu() {

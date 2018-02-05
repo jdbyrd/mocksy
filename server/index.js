@@ -83,17 +83,26 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/projects', (req, res) => {
   const { id } = req.query;
-  query.projects(id).then((projects) => {
-    if (id) {
-      const projectFeedback = { project: projects[0] };
-      query.feedback(id).then((feedback) => {
-        projectFeedback.list = feedback;
-        res.send(projectFeedback);
-      });
-    } else {
+  console.log('req.query.sort: ', req.query.sort);
+  if (req.query.sort === 'true') {
+    console.log('IF RUNNING')
+    query.sortProjects().then((projects) => {
       res.send(projects);
-    }
-  });
+    });
+  } else {
+    console.log('ELSE RUNNING')
+    query.projects(id).then((projects) => {
+      if (id) {
+        const projectFeedback = { project: projects[0] };
+        query.feedback(id).then((feedback) => {
+          projectFeedback.list = feedback;
+          res.send(projectFeedback);
+        });
+      } else {
+        res.send(projects);
+      }
+    });
+  }
 });
 
 app.get('/api/users', (req, res) => {

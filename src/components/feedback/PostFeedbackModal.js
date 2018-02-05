@@ -50,6 +50,7 @@ class PostFeedbackModal extends React.Component {
           console.log('form added');
         });
       // this is never setting the state to true
+      console.log('test')
       this.setState({
         confirmLoading: true
       });

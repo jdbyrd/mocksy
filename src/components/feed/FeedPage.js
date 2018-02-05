@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
 };
 
 class FeedPage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       query: 'all'
     };
@@ -36,6 +36,7 @@ class FeedPage extends React.Component {
   }
 
   render() {
+    console.log('triangle: ', this.props.feed);
     return (
       <div>
         {this.props.projects.map((project, index) => (

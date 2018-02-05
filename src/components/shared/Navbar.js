@@ -107,7 +107,9 @@ class Navbar extends React.Component {
               <Link to='/'>
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>
-              <li onClick={this.triangleRight}>Popular</li>
+              <Link to='/'>
+                <li onClick={this.triangleRight}>Popular</li>
+              </Link>
             </ul>
             <div className="right-container">
               <div className="search">

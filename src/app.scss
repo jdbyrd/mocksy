@@ -318,6 +318,9 @@ a {
         color: white;
         cursor: pointer;
       }
+      &:active {
+        color: black;
+      };
     }
   }
 }

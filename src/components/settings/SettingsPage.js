@@ -8,6 +8,10 @@ class Settings extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.isHomepage(false);
+  }
+
   render() {
 	  return (
       <div className="settings-container">

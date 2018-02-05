@@ -51,7 +51,6 @@ class PostFeedbackModal extends React.Component {
             // this is running just fine
             setTimeout(() => {
               populateFeedback(this.props.id);
-              console.log('hello');
               this.setState({
                 // feedback type and text are not resetting
                 visible: false,
@@ -60,9 +59,9 @@ class PostFeedbackModal extends React.Component {
                 text: '',
               });
             }, 1500);
+          });
         });
       // this is never setting the state to true
-      console.log('test')
       this.setState({
         confirmLoading: true
       });

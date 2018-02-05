@@ -70,7 +70,7 @@ const vote = (name, feedback_id, vote) => {
   knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
     .then(() => console.log('inserted vote'))
     .catch(error => console.log('did not add vote: ', error));
-}
+};
 
 module.exports = {
   user,

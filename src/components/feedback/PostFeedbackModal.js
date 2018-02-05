@@ -61,13 +61,10 @@ class PostFeedbackModal extends React.Component {
               });
             }, 1500);
         });
-<<<<<<< HEAD
-=======
       // this is never setting the state to true
       console.log('test')
       this.setState({
         confirmLoading: true
->>>>>>> master
       });
     }
   }

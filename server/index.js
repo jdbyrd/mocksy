@@ -14,8 +14,10 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const db = require('../database/db');
 const query = require('../database/queries');
 const insert = require('../database/inserts');
-const deletes = require('../database/deletes')
+const deletes = require('../database/deletes');
+const update = require('../database/updates');
 const screen = require('./screenshot_scraper');
+const fse = require('fs-extra');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -60,7 +62,6 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log(req.user.username);
     insert.user(req.user)
       .then(() => console.log(`inserted ${req.user.username} into database`))
       .catch(() => console.log(`didn't insert ${req.user.username} into db, probably cus they're already in there`));
@@ -83,26 +84,31 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/projects', (req, res) => {
   const { id } = req.query;
-  console.log('req.query.sort: ', req.query.sort);
   if (req.query.sort === 'true') {
-    console.log('IF RUNNING')
     query.sortProjects().then((projects) => {
-      res.send(projects);
+        res.send(projects);
     });
-  } else {
-    console.log('ELSE RUNNING')
-    query.projects(id).then((projects) => {
-      if (id) {
-        const projectFeedback = { project: projects[0] };
+  }
+  query.projects(id).then((projects) => {
+    if (id) {
+      const projectFeedback = { project: projects[0] };
+      if (req.user) {
+        query.users(req.user.username).then((user) => {
+          query.feedback(id, user[0].id).then((feedback) => {
+            projectFeedback.list = feedback;
+            res.send(projectFeedback);
+          });
+        });
+      } else {
         query.feedback(id).then((feedback) => {
           projectFeedback.list = feedback;
           res.send(projectFeedback);
         });
-      } else {
-        res.send(projects);
       }
-    });
-  }
+    } else {
+      res.send(projects);
+    }
+  });
 });
 
 app.get('/api/users', (req, res) => {
@@ -145,18 +151,27 @@ app.get('/api/search', (req, res) => {
   });
 });
 
-app.get('/api/screenshot', (req, res) => {
-  const tempId = req.user.username;
-  const { url } = req.query;
-  screen.getScreenshot(url, tempId)
-    .then(message => res.send(message));
+app.get('/api/screenshot', async (req, res) => {
+  const { url, tempId } = req.query;
+  const message = await screen.getScreenshot(url, tempId);
+  res.send(message);
+});
+
+app.delete('/user/screenshot', async (req, res) => {
+  console.log('request to delete screenshot!');
+  const files = await fse.readdir('./dist/images');
+  const targets = files.filter(file => file.includes(req.user.username));
+  targets.map(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  res.end();
 });
 
 app.post('/api/project', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
-    insert.project(req.body);
+    insert.project(req.body)
+      .then((data) => {
+        fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
+      });
   }
   res.end();
 });
@@ -164,9 +179,48 @@ app.post('/api/project', (req, res) => {
 app.post('/api/feedback', (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    console.log('POST REQUEST FOR PROJECT', req.body);
     insert.feedback(req.body);
     insert.updateNumFeedback(req.body.projectId);
+  }
+  res.end();
+});
+
+app.post('/api/votes', (req, res) => {
+  if (req.user) {
+    if (req.body.votes_id === null) {
+      query.users(req.user.username).then((user) => {
+        query.votes(user[0].id, req.body.feedback_id).then((vote) => {
+          console.log(vote);
+          if (vote.length === 0) {
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+          } else {
+            update.vote(vote[0].votes_id, req.body.vote);
+          }
+        });
+      });
+    } else {
+      update.vote(req.body.votes_id, req.body.vote);
+    }
+    const diff = req.body.difference;
+    if (diff > 0) {
+      if (req.body.vote === true) {
+        update.incrementFeedbackUp(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
+      if (diff > 1) {
+        update.decrementFeedbackDown(req.body.feedback_id);
+      }
+    } else if (diff < 0) {
+      if (req.body.vote === false) {
+        update.incrementFeedbackDown(req.body.feedback_id);
+      } else {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
+      if (diff < -1) {
+        update.decrementFeedbackUp(req.body.feedback_id);
+      }
+    }
   }
   res.end();
 });
@@ -185,10 +239,11 @@ app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    console.log('YOYOYOYOYO: ', req.query);
     insert.decreaseNumFeedback(projectid);
-    deletes.feedback(id)
-      .then(() => res.end());
+    deletes.feedbackVotes(id).then(() => {
+      deletes.feedback(id)
+        .then(() => res.end());
+    })
   }
 });
 

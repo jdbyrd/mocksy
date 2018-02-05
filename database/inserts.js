@@ -7,16 +7,19 @@ const user = data => {
 const project = (data) => {
   const { name, title, appURL, githubURL, description, tags, contributors } = data;
   const userId = knex('users').where({ name }).select('id');
-  knex('projects').insert({
+  return knex('projects').insert({
     title,
     url: appURL,
     github: githubURL,
     text: description,
     user_id: userId
   })
-    .then(() => { /* add tags to tags table? */ })
-    .then(() => { /* add contributors to contributors table? */ })
-    .then(() => console.log('inserted project into database'))
+    // .then(() => { /* add tags to tags table? */ })
+    // .then(() => { /* add contributors to contributors table? */ })
+    .then(() => {
+      console.log('inserted project into database');
+      return knex('projects').where({ url: appURL }).select('id');
+    })
     .catch(error => console.log('DID NOT ADD PROJECT: ', error));
 };
 
@@ -63,6 +66,12 @@ const decreaseNumFeedback = (id) => {
     .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
 };
 
+const vote = (name, feedback_id, vote) => {
+  knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
+    .then(() => console.log('inserted vote'))
+    .catch(error => console.log('did not add vote: ', error));
+}
+
 module.exports = {
   user,
   project,
@@ -70,5 +79,6 @@ module.exports = {
   tags,
   reviewType,
   updateNumFeedback,
-  decreaseNumFeedback
+  decreaseNumFeedback,
+  vote
 };

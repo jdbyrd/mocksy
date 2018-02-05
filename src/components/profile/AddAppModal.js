@@ -27,6 +27,7 @@ class AppsTab extends React.Component {
       data: [],
       value: [],
       fetching: false,
+      tempId: '',
       // spinner for submit button (doesn't work)
       confirmLoading: false
     };
@@ -71,20 +72,32 @@ class AppsTab extends React.Component {
 
   handleAppURL(e) {
     const url = e.target.value;
+    const tempId = `${this.props.name}_${Date.now()}`;
     const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
     if (!(regexp.test(url))) {
       message.error('Not a valid URL');
     } else if (url.includes('herokuapp.com')) {
       message.warning('Please note that Heroku apps may take up to a minute to load!', 10);
-      return;
     }
-    this.setState({ appURL: url });
-    axios.get('/api/screenshot', { params: { url } })
-      .then((res) => {
-        console.log('res:', res);
-        document.getElementById('screenshot-img').src = `/images/${this.props.name}.png`;
-        document.getElementById('before-screenshot').id = 'after-screenshot';
-      });
+    this.setState({
+      tempId,
+      appURL: url
+    });
+    this.updateScreenshot();
+    axios.get('/api/screenshot', {
+      params: { url, tempId }
+    }).then((res) => {
+      console.log(res.data);
+      this.updateScreenshot(tempId);
+    });
+  }
+
+  updateScreenshot(fileName) {
+    if (fileName) {
+      document.getElementById('screenshot-img').src = `/images/${fileName}.png`;
+    } else {
+      document.getElementById('screenshot-img').src = '/default_screenshot.png';
+    }
   }
 
   /* *********** CONTRIBUTOR HANDLERS ************ */
@@ -154,6 +167,7 @@ class AppsTab extends React.Component {
   projectFormSubmit(event) {
     event.preventDefault();
     const projectData = {
+      tempId: this.state.tempId,
       appURL: this.state.appURL,
       githubURL: this.state.githubURL,
       tags: this.state.tags,
@@ -172,7 +186,7 @@ class AppsTab extends React.Component {
       message.error('Please provide a description for your application');
       return;
     }
-
+    this.updateScreenshot();
     axios.post('/api/project', projectData)
       .then(() => {
         console.log(projectData);
@@ -180,28 +194,26 @@ class AppsTab extends React.Component {
     this.setState({
       confirmLoading: true
     });
-    setTimeout(() => {
-      Store.populateUser(this.props.name);
-      this.setState({
-        // toggles modal visibility
-        visible: false,
-        // form data
-        appURL: '',
-        githubURL: '',
-        tags: [],
-        title: '',
-        description: '',
-        // tags
-        inputVisible: false,
-        inputValue: '',
-        // contributors
-        data: [],
-        value: [],
-        fetching: false,
-        // spinner for submit button (doesn't work)
-        confirmLoading: false
-      });
-    }, 2000);
+    Store.populateUser(this.props.name);
+    this.setState({
+      // toggles modal visibility
+      visible: false,
+      // form data
+      appURL: '',
+      githubURL: '',
+      tags: [],
+      title: '',
+      description: '',
+      // tags
+      inputVisible: false,
+      inputValue: '',
+      // contributors
+      data: [],
+      value: [],
+      fetching: false,
+      // spinner for submit button (doesn't work)
+      confirmLoading: false
+    });
   }
 
   handleCancel() {
@@ -224,6 +236,8 @@ class AppsTab extends React.Component {
       // spinner for submit button (doesn't work)
       confirmLoading: false
     });
+    axios.delete('screenshot');
+    this.updateScreenshot();
   }
 
   render() {
@@ -250,8 +264,12 @@ class AppsTab extends React.Component {
           <Form onSubmit={this.projectFormSubmit}>
             <Row gutter={16}>
               <Col span={8}>
-                <div id="before-screenshot">
-                  <img id="screenshot-img" />
+                <div id="screenshot-wrapper">
+                  <img
+                    id="screenshot-img"
+                    src="/default_screenshot.png"
+                    alt="app screenshot"
+                  />
                 </div>
                 <Form.Item label="Application URL:">
                   <Input

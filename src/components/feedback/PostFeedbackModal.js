@@ -93,7 +93,7 @@ class PostFeedbackModal extends React.Component {
     return (
       <div className="modal">
         {
-          this.props.auth?
+          this.props.auth ?
             <Button
               type="primary"
               onClick={this.showModal}

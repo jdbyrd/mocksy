@@ -14,7 +14,7 @@ class FeedbackList extends React.Component {
   render() {
     const feedbackItems = this.props.feedbackItems;
     return (
-      <div>
+      <div className="feedback-list">
         {feedbackItems.map((item, index) =>
           <FeedbackItem key={index} item={item} />
         )}

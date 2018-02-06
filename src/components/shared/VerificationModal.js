@@ -48,8 +48,9 @@ class VerificationModal extends React.Component {
       <div>
         {(this.props.auth && this.props.auth.username === item.name) ?
           <Icon
-            type="close-circle"
+            type="delete"
             onClick={this.showConfirm}
+            className="icon-hover"
           /> : null
         }
       </div>

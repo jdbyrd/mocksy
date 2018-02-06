@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
 
 class FeedbackTabCard extends React.Component {
 
@@ -12,10 +13,12 @@ class FeedbackTabCard extends React.Component {
         <Row gutter={48}>
           <Col span={2} />
             <Col span={8}>
-              <img src={`/images/${project.id}.png`} className="feedback-img" />
-              <br /><br />
-              <h3>{project.title}</h3>
-              <p>{project.text}</p>
+              <Link to={`/project/${project.id}`}>
+                <img src={`/images/${project.id}.png`} className="feedback-img" />
+                <br /><br />
+                <h3>{project.title}</h3>
+                <p>{project.text}</p>
+              </Link>
             </Col>
           <Col span={12}>
             <p>{feedback.text}</p>

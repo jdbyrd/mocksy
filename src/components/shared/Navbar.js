@@ -139,7 +139,7 @@ class Navbar extends React.Component {
                {this.props.auth ?
                 <ul className="buttons-wrapper">
                   <li>
-                    <img className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+                    <img className="bell-icon" src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
                   </li>
                   <li className="img-dropdown-container">
                     <img

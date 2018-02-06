@@ -50,6 +50,7 @@ class VerificationModal extends React.Component {
           <Icon
             type="delete"
             onClick={this.showConfirm}
+            className="icon-hover"
           /> : null
         }
       </div>

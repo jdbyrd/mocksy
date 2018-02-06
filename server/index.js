@@ -102,6 +102,16 @@ app.get('/api/projects', async (req, res) => {
       res.send(projectFeedback);
     }
   } else {
+    const tags = await query.tags();
+    projects.forEach((project) => {
+      project.tags = tags.reduce((memo, tag) => {
+        if (tag.project_id === project.id) {
+          return [...memo, tag];
+        }
+        return memo;
+      }, []);
+    });
+    console.log('projects:', projects);
     res.send(projects);
   }
 });

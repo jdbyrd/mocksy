@@ -55,11 +55,18 @@ class AppCard extends React.Component {
             <Description>{this.props.project.text}</Description>
 
             <span>
-            {
-              this.props.project.tags ?
-              this.props.project.tags.map((tag) =>
-                <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) : <span />
-            }
+              {
+                this.props.project.tags && this.props.project.tags.length
+                ? this.props.project.tags.map(tag => (
+                  <Tag
+                    color="blue"
+                    onClick={e => this.clickTag(e)}
+                    key={`${tag.tag}_${tag.project_id}`}
+                  >{tag.tag}
+                  </Tag>
+                ))
+                : <span />
+              }
             </span>
             <br /><br />
             <span>

@@ -277,6 +277,7 @@ class AppsTab extends React.Component {
                 </div>
                 <Form.Item label="Application URL:">
                   <Input
+                    addonBefore="https://"
                     value={this.state.appURL}
                     onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)}
                     onBlur={this.handleAppURL}
@@ -284,7 +285,6 @@ class AppsTab extends React.Component {
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">
                   <Input
-                    addonBefore="https://"
                     value={this.state.githubURL}
                     onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)}
                   />

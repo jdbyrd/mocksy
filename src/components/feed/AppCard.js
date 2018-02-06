@@ -2,15 +2,19 @@ import React from 'react';
 import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import Store from '../../actions/index';
 
 import PostFeedbackModal from '../feedback/PostFeedbackModal';
 
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(this.props.project.tags)
   }
+
+  // componentDidMount() {
+  //   Store.populateTags();
+  //   console.log('this.props:', this.props);
+  // }
 
   clickTag(e) {
     const tag = e.currentTarget.textContent.slice();

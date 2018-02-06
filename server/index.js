@@ -82,33 +82,28 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/api/projects', (req, res) => {
+app.get('/api/projects', async (req, res) => {
   const { id } = req.query;
   if (req.query.sort === 'true') {
-    query.sortProjects().then((projects) => {
-      res.send(projects);
-    });
+    const sortedProjects = await query.sortProjects();
+    res.send(sortedProjects);
   }
-  query.projects(id).then((projects) => {
-    if (id) {
-      const projectFeedback = { project: projects[0] };
-      if (req.user) {
-        query.users(req.user.username).then((user) => {
-          query.feedback(id, user[0].id).then((feedback) => {
-            projectFeedback.list = feedback;
-            res.send(projectFeedback);
-          });
-        });
-      } else {
-        query.feedback(id).then((feedback) => {
-          projectFeedback.list = feedback;
-          res.send(projectFeedback);
-        });
-      }
+  const projects = await query.projects(id);
+  if (id) {
+    const projectFeedback = { project: projects[0] };
+    if (req.user) {
+      const user = await query.users(req.user.username)
+      const feedback = await query.feedback(id, user[0].id)
+      projectFeedback.list = feedback;
+      res.send(projectFeedback);
     } else {
-      res.send(projects);
+      const feedback = query.feedback(id)
+      projectFeedback.list = feedback;
+      res.send(projectFeedback);
     }
-  });
+  } else {
+    res.send(projects);
+  }
 });
 
 app.get('/api/users', (req, res) => {

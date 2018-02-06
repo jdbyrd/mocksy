@@ -27,7 +27,12 @@ const project = (data) => {
 };
 
 const feedback = (data) => {
-  const { name, text, projectId, type } = data;
+  const {
+    name,
+    text,
+    projectId,
+    type
+  } = data;
   const userId = knex('users').where({ name }).select('id');
   knex('feedback').insert({
     text,
@@ -40,20 +45,14 @@ const feedback = (data) => {
 };
 
 const tags = (data) => {
-  const { tags } = data;
-  tags.forEach((tag) => {
-    knex('tags').insert({ tag })
+  const tagList = data.tags;
+  const { projectId } = data;
+  tagList.forEach((tag) => {
+    knex('tags').insert({ tag, project_id: projectId })
       .then(() => console.log('inserted tag into database'))
       .catch(error => console.log('DID NOT ADD TAG: ', error));
   });
 };
-
-// const reviewType = (data) => {
-//   const { option } = data;
-//   knex('review_type').insert({ option })
-//     .then(() => console.log('inserted reviewType into database'))
-//     .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
-// };
 
 const updateNumFeedback = (id) => {
   knex('projects')
@@ -82,7 +81,6 @@ module.exports = {
   project,
   feedback,
   tags,
-  // reviewType,
   updateNumFeedback,
   decreaseNumFeedback,
   vote

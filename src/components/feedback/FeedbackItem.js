@@ -150,15 +150,46 @@ class FeedbackItem extends React.Component {
     return (
       <div id="feedback-item">
         <Row>
+          <Col span={2}>
+            <Row>
+              { (this.state.toggled === false) || (this.state.toggled === null) ?
+                <Icon
+                  type="up"
+                  value={1}
+                  onClick={this.upvote}
+                /> :
+                <Icon
+                  type="up-circle"
+                  onClick={this.upvote}
+                />
+              }
+            </Row>
+            <Row>
+              <h4>&nbsp;{this.state.total}</h4>
+            </Row>
+            <Row>
+              { (this.state.toggled === null) || (this.state.toggled === true) ?
+                <Icon
+                  type="down"
+                  value={-1}
+                  onClick={this.downvote}
+                /> :
+                <Icon
+                  type="down-circle"
+                  onClick={this.downvote}
+                />
+              }
+            </Row>
+          </Col>
           <Col span={18}>
             <h2>{item.options} by
               <Link to={`/user/${item.name}`}>
                 &nbsp;{item.display_name}
               </Link>
             </h2>
-          </Col>
-          <Col span={1}>
-            <h4>{this.state.total}</h4>
+            <Row>
+              <p>{item.text}</p>
+            </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === item.name) ?
             <Col>
@@ -192,45 +223,20 @@ class FeedbackItem extends React.Component {
                 }
                 </Tooltip>
               </Col>
-            </Col> :
-            <Col>
-              <Col span={1}>
-                { (this.state.toggled === false) || (this.state.toggled === null) ?
-                  <Icon
-                    type="up"
-                    value={1}
-                    onClick={this.upvote}
-                  /> :
-                  <Icon
-                    type="up-circle"
-                    onClick={this.upvote}
-                  />
-                }
-              </Col>
-              <Col span={1}>
-                { (this.state.toggled === null) || (this.state.toggled === true) ?
-                  <Icon
-                    type="down"
-                    value={-1}
-                    onClick={this.downvote}
-                  /> :
-                  <Icon
-                    type="down-circle"
-                    onClick={this.downvote}
-                  />
-                }
-              </Col>
-            </Col>
+            </Col> : null
           }
           <Col span={1}>
-            <EditModal name={item.name} text={item.text} id={item.id} project_id={item.project_id} component="Feedback" />
+            <EditModal
+              name={item.name}
+              text={item.text}
+              id={item.id}
+              project_id={item.project_id}
+              component="Feedback"
+            />
           </Col>
           <Col span={1}>
             <VerificationModal item={item} component={this.state.component} />
           </Col>
-        </Row>
-        <Row>
-          <p>{item.text}</p>
         </Row>
       </div>
     );

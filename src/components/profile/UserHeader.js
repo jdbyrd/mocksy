@@ -3,7 +3,7 @@ import React from 'react';
 import { Input } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-
+import axios from 'axios';
 /* eslint-disable */
 
 const mapStateToProps = state => (
@@ -18,12 +18,16 @@ class UserHeader extends React.Component {
     super(props);
 
     this.state = {
-      bio: '',
-      editable: true
+      bio: this.props.user.bio || '',
+      editable: this.props.user.bio ? false : true
     }
 
     this.handleBio = this.handleBio.bind(this);
     this.toggleEditable = this.toggleEditable.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ bio: nextProps.user.bio });
   }
 
   handleBio(e) {
@@ -36,7 +40,10 @@ class UserHeader extends React.Component {
     if (!this.state.bio.length) {
       return;
     } else {
-      this.setState({editable: !this.state.editable})
+      this.setState({editable: !this.state.editable});
+      axios.post('/api/bio', {
+        text: this.state.bio
+      });
     }
   }
 

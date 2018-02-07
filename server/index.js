@@ -34,9 +34,7 @@ passport.use(new GitHubStrategy(
     callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => {
-      return done(null, profile);
-    });
+    process.nextTick(() => done(null, profile));
   }
 ));
 
@@ -177,6 +175,11 @@ app.delete('/user/screenshot', async (req, res) => {
   res.end();
 });
 
+app.post('/api/bio', async (req, res) => {
+  await update.bio(req.user.username, req.body.text);
+  res.end();
+});
+
 app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
@@ -226,7 +229,7 @@ app.post('/api/votes', (req, res) => {
       query.users(req.user.username).then((user) => {
         query.votes(user[0].id, req.body.feedback_id).then((vote) => {
           if (vote.length === 0) {
-            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote, req.body.project_id);
             differenceIncrementer(req.body.difference);
             res.end();
           } else if (vote[0].vote !== req.body.vote) {
@@ -255,12 +258,22 @@ app.post('/api/feedback/update', (req, res) => {
   res.end();
 });
 
+app.post('/api/project/update', (req, res) => {
+  console.log(req.body);
+  if(req.user) {
+    update.project(req.body);
+  }
+  res.end();
+});
+
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectFeedback(id).then(() => {
-      deletes.project(id)
-        .then(() => res.end());
+    deletes.projectVotes(id).then(() => {
+      deletes.projectFeedback(id).then(() => {
+        deletes.project(id)
+          .then(() => res.end());
+      });
     });
   }
 });

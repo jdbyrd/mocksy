@@ -12,21 +12,19 @@ const mapStateToProps = (state) => {
   };
 };
 
-class PostFeedbackModal extends React.Component {
+class EditFeedbackModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       visible: false,
       confirmLoading: false,
-      feedbackType: null,
-      text: '',
+      text: this.props.text,
     };
 
     this.showModal = this.showModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
   }
 
@@ -36,17 +34,14 @@ class PostFeedbackModal extends React.Component {
   }
 
   handleSubmit() {
-    if (!this.state.feedbackType) {
-      message.error('Please select a feedback option');
-    } else if (this.state.text === '') {
+    if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
       axios.post(
-        '/api/feedback',
+        '/api/feedback/update',
         {
           text: this.state.text,
-          type: this.state.feedbackType,
-          projectId: this.props.id
+          feedbackId: this.props.id
         }
       )
         .then(() => {
@@ -58,10 +53,8 @@ class PostFeedbackModal extends React.Component {
                 // feedback type and text are not resetting
                 visible: false,
                 confirmLoading: false,
-                feedbackType: null,
-                text: '',
               });
-            }, 500);
+            }, 1500);
           });
         });
       // this is never setting the state to true
@@ -75,7 +68,6 @@ class PostFeedbackModal extends React.Component {
     this.setState({
       visible: false,
       confirmLoading: false,
-      feedbackType: 0,
       text: '',
     });
   }
@@ -87,10 +79,6 @@ class PostFeedbackModal extends React.Component {
   }
 
   /* ********* DROPDOWN FUNCTIONS ********* */
-  handleType(value) {
-    this.setState({ feedbackType: value });
-  }
-
   render() {
     const { visible, confirmLoading } = this.state;
     return (
@@ -107,7 +95,7 @@ class PostFeedbackModal extends React.Component {
         }
 
         <Modal
-          title="Post feedback"
+          title="Edit feedback"
           visible={visible}
           confirmLoading={confirmLoading}
           onOk={this.handleSubmit}
@@ -118,20 +106,6 @@ class PostFeedbackModal extends React.Component {
           ]}
         >
           <form onSubmit={this.handleSubmit} id="form">
-            <h4>What kind of feedback are you leaving?</h4>
-            <Select
-              style={{ width: 300 }}
-              placeholder="Select feedback type"
-              onChange={this.handleType}
-            >
-              <Select.Option value={1}>General feedback</Select.Option>
-              <Select.Option value={2}>Feature suggestion</Select.Option>
-              <Select.Option value={3}>Bug report</Select.Option>
-              <Select.Option value={4}>Code review</Select.Option>
-              <Select.Option value={5}>Design critique</Select.Option>
-              <Select.Option value={6}>Other...</Select.Option>
-            </Select>
-
             <br /><br />
             <h4>Say something constructive about this app:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
@@ -142,4 +116,4 @@ class PostFeedbackModal extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(PostFeedbackModal);
+export default connect(mapStateToProps)(EditFeedbackModal);

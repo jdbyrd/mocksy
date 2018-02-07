@@ -248,6 +248,13 @@ app.post('/api/votes', (req, res) => {
   }
 });
 
+app.post('/api/feedback/update', (req, res) => {
+  if (req.user) {
+    update.feedback(req.body);
+  }
+  res.end();
+});
+
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;

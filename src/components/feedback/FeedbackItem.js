@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Row, Col, Icon, message } from 'antd';
 import { populateFeedback } from '../../actions/index';
 import VerificationModal from '../shared/VerificationModal';
+import EditFeedbackModal from './EditFeedbackModal';
 
 const mapStateToProps = (state) => {
   return {
@@ -154,6 +155,10 @@ class FeedbackItem extends React.Component {
           </Col>
           <Col span={1}>
             <VerificationModal item={item} component={this.state.component} />
+            {this.props.auth ?
+              <EditFeedbackModal text={item.text} id={item.id}/>
+              : null
+            }
           </Col>
         </Row>
         <Row>

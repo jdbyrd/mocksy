@@ -52,11 +52,11 @@ class UserHeader extends React.Component {
           <UserJob>
             { this.state.editable && this.props.auth ? 
               <Input 
-                placeholder="Tell us about yourself"
+                placeholder="Tell us about yourself!"
                 onChange={this.handleBio}
                 value={this.state.bio}
                 onBlur={this.toggleEditable}
-                width={200}
+                size="small"
               /> :
               <h4 onClick={this.toggleEditable}>{this.state.bio}</h4>
             }
@@ -93,6 +93,7 @@ const UserName = styled.div`
 
 const UserJob = styled.div`
   margin-top: -5px;
+  width: 500px;
 `;
 
 const UserGithub = styled.img`

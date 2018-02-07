@@ -48,7 +48,8 @@ class EditFeedbackModal extends React.Component {
           this.setState({confirmLoading: true}, () => {
             // this is running just fine
             setTimeout(() => {
-              populateFeedback(this.props.id);
+              console.log('PROJECT ID', this.props.project_id);
+              populateFeedback(this.props.project_id);
               this.setState({
                 // feedback type and text are not resetting
                 visible: false,

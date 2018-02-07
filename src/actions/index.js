@@ -3,15 +3,15 @@ import store from '../store';
 
 const Store = {};
 
-Store.populateTags = () => {
-  axios('/api/tags')
-    .then((res) => {
-      store.dispatch({
-        type: 'POPULATE_TAGS',
-        payload: res.data
-      });
-    });
-};
+// Store.populateTags = () => {
+//   axios('/api/tags')
+//     .then((res) => {
+//       store.dispatch({
+//         type: 'POPULATE_TAGS',
+//         payload: res.data
+//       });
+//     });
+// };
 
 Store.populateFeed = (sort) => {
   axios(`/api/projects?sort=${sort}`)

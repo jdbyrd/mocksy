@@ -29,7 +29,7 @@ const users = name => name
   ? knex('users').where('name', name).select()
   : knex('users').select();
 
-const tags = () => knex('tags').select('tag');
+const tags = () => knex('tags').select('tag', 'project_id');
 
 const userProjects = name => knex('projects')
   .select()

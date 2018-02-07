@@ -229,7 +229,7 @@ app.post('/api/votes', (req, res) => {
       query.users(req.user.username).then((user) => {
         query.votes(user[0].id, req.body.feedback_id).then((vote) => {
           if (vote.length === 0) {
-            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote, req.body.project_id);
             differenceIncrementer(req.body.difference);
             res.end();
           } else if (vote[0].vote !== req.body.vote) {
@@ -269,9 +269,11 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectFeedback(id).then(() => {
-      deletes.project(id)
-        .then(() => res.end());
+    deletes.projectVotes(id).then(() => {
+      deletes.projectFeedback(id).then(() => {
+        deletes.project(id)
+          .then(() => res.end());
+      });
     });
   }
 });

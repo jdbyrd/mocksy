@@ -8,9 +8,12 @@ const feedback = id => knex('feedback').where({ id }).del();
 
 const feedbackVotes = feedback_id => knex('votes').where({ feedback_id }).del();
 
+const projectVotes = id_project => knex('votes').where({ id_project }).del();
+
 module.exports = {
   project,
   projectFeedback,
   feedback,
-  feedbackVotes
+  feedbackVotes,
+  projectVotes
 };

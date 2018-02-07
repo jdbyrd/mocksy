@@ -269,9 +269,11 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectFeedback(id).then(() => {
-      deletes.project(id)
-        .then(() => res.end());
+    deletes.projectVotes(id).then(() => {
+      deletes.projectFeedback(id).then(() => {
+        deletes.project(id)
+          .then(() => res.end());
+      });
     });
   }
 });

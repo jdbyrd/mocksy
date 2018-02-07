@@ -19,8 +19,8 @@ class PostFeedbackModal extends React.Component {
     this.state = {
       visible: false,
       confirmLoading: false,
-      feedbackType: null,
-      text: '',
+      feedbackType: this.props.type || null,
+      text: this.props.text || '',
     };
 
     this.showModal = this.showModal.bind(this);
@@ -40,7 +40,36 @@ class PostFeedbackModal extends React.Component {
       message.error('Please select a feedback option');
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
-    } else {
+    } else if(this.props.feedback_id) {
+      axios.post(
+        '/api/feedback/update',
+        {
+          text: this.state.text,
+          type: this.state.feedbackType,
+          feedbackId: this.props.feedback_id
+        }
+      )
+        .then(() => {
+          this.setState({confirmLoading: true}, () => {
+            // this is running just fine
+            setTimeout(() => {
+              populateFeedback(this.props.id);
+              this.setState({
+                // feedback type and text are not resetting
+                visible: false,
+                confirmLoading: false,
+                feedbackType: null,
+                text: '',
+              });
+            }, 1500);
+          });
+        });
+      // this is never setting the state to true
+      this.setState({
+        confirmLoading: true
+      });
+    } 
+    else {
       axios.post(
         '/api/feedback',
         {

@@ -34,9 +34,7 @@ passport.use(new GitHubStrategy(
     callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => {
-      return done(null, profile);
-    });
+    process.nextTick(() => done(null, profile));
   }
 ));
 
@@ -174,6 +172,11 @@ app.delete('/user/screenshot', async (req, res) => {
   const files = await fse.readdir('./dist/images');
   const targets = files.filter(file => file.includes(req.user.username));
   targets.map(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  res.end();
+});
+
+app.post('/api/bio', async (req, res) => {
+  await update.bio(req.user.username, req.body.text);
   res.end();
 });
 

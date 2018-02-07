@@ -2,14 +2,13 @@ import React from 'react';
 import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import Store from '../../actions/index';
 
 import PostFeedbackModal from '../feedback/PostFeedbackModal';
 
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(this.props.project.tags);
   }
 
   clickTag(e) {
@@ -53,11 +52,18 @@ class AppCard extends React.Component {
             <Description>{this.props.project.text}</Description>
 
             <span>
-            {
-              this.props.project.tags ?
-              this.props.project.tags.map((tag) =>
-                <Tag color="blue" onClick={e => this.clickTag(e)} key={tag}>{tag}</Tag>) : <span />
-            }
+              {
+                this.props.project.tags && this.props.project.tags.length
+                ? this.props.project.tags.map(tag => (
+                  <Tag
+                    color="blue"
+                    onClick={e => this.clickTag(e)}
+                    key={`${tag.tag}_${tag.project_id}`}
+                  >{tag.tag}
+                  </Tag>
+                ))
+                : <span />
+              }
             </span>
             <br /><br />
             <span>

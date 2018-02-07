@@ -106,7 +106,19 @@ app.get('/api/projects', (req, res) => {
         });
       }
     } else {
-      res.send(projects);
+      query.tags()
+        .then((tags) => {
+          projects.forEach((project) => {
+            project.tags = tags.reduce((memo, tag) => {
+              if (tag.project_id === project.id) {
+                return [...memo, tag];
+              }
+              return memo;
+            }, []);
+          });
+          console.log('projects:', projects);
+          res.send(projects);
+        });
     }
   });
 });
@@ -165,13 +177,14 @@ app.delete('/user/screenshot', async (req, res) => {
   res.end();
 });
 
-app.post('/api/project', (req, res) => {
+app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    insert.project(req.body)
-      .then((data) => {
-        fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
-      });
+    const data = await insert.project(req.body);
+    console.log('data[0].id:', data[0].id);
+    await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
+    req.body.projectId = data[0].id;
+    insert.tags(req.body);
   }
   res.end();
 });

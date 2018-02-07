@@ -70,8 +70,8 @@ const decreaseNumFeedback = (id) => {
     .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
 };
 
-const vote = (name, feedback_id, vote) => {
-  knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
+const vote = (name, feedback_id, vote, id_project) => {
+  knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote, id_project })
     .then(() => console.log('inserted vote'))
     .catch(error => console.log('did not add vote: ', error));
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Row, Col, Icon, message } from 'antd';
+import { Row, Col, Icon, Tooltip, message } from 'antd';
 import { populateFeedback } from '../../actions/index';
 import VerificationModal from '../shared/VerificationModal';
 import EditFeedbackModal from './EditFeedbackModal';
@@ -19,12 +19,15 @@ class FeedbackItem extends React.Component {
     this.state = {
       total: this.props.item.up - this.props.item.down,
       toggled: this.props.item.vote || null,
-      component: 'feedback'
+      component: 'feedback',
+      marked: null
     };
 
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.vote = this.vote.bind(this);
+    this.check = this.check.bind(this);
+    this.close = this.close.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,6 +46,7 @@ class FeedbackItem extends React.Component {
     }
   }
 
+  /* ***************** VOTING ***************** */
   vote(difference) {
     axios.post('/api/votes',
       {
@@ -103,9 +107,46 @@ class FeedbackItem extends React.Component {
     }
   }
 
+  /* ***************** RESOLVING ISSUES ***************** */
+
+  check() {
+    if (this.props.auth) {
+      if (this.state.marked) {
+        this.setState({
+          marked: null,
+        });
+      } else if (this.state.marked === false) {
+        this.setState({
+          marked: true,
+        });
+      } else if (this.state.marked === null) {
+        this.setState({
+          marked: true,
+        });
+      }
+    }
+  }
+
+  close() {
+    if (this.props.auth) {
+      if (this.state.marked) {
+        this.setState({
+          marked: false,
+        });
+      } else if (this.state.marked === false) {
+        this.setState({
+          marked: null,
+        });
+      } else if (this.state.marked === null) {
+        this.setState({
+          marked: false,
+        });
+      }
+    }
+  }
+ 
   render() {
     const { item } = this.props;
-    console.log(item);
     return (
       <div id="feedback-item">
         <Row>
@@ -116,13 +157,35 @@ class FeedbackItem extends React.Component {
               </Link>
             </h2>
           </Col>
-          <Col span={2}>
-            <Icon
-              type="check-circle-o"
-            />
-            <Icon
-              type="close-circle-o"
-            />
+          <Col span={1}>
+            <Tooltip title="Mark as completed">
+            { (this.state.marked === false) || (this.state.marked === null) ?
+                <Icon
+                  type="check-circle-o"
+                  onClick={this.check}
+                /> :
+                <Icon
+                  type="check-circle"
+                  onClick={this.check}
+                  style={{ color: '#00d01f' }}
+                />
+            }
+            </Tooltip>
+          </Col>
+          <Col span={1}>
+            <Tooltip title="Mark as unresolvable">
+            { (this.state.marked === null) || (this.state.marked === true) ?
+                <Icon
+                  type="close-circle-o"
+                  onClick={this.close}
+                /> :
+                <Icon
+                  type="close-circle"
+                  onClick={this.close}
+                  style={{ color: '#ff0000' }}
+                />
+            }
+            </Tooltip>
           </Col>
           <Col span={1}>
             <h4>{this.state.total}</h4>

@@ -54,9 +54,9 @@ class AppsTab extends React.Component {
     };
   }
 
-  componentDidMount() {
-    Store.populateTags();
-  }
+  // componentDidMount() {
+  //   Store.populateTags();
+  // }
 
   showModal() {
     this.setState({ visible: true });

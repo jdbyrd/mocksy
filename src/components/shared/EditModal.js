@@ -36,7 +36,7 @@ class EditModal extends React.Component {
   handleSubmit() {
     if (this.state.text === '') {
       message.error('Please provide a description');
-    } else if(this.props.component === 'feedback') {
+    } else if(this.props.component === 'Feedback') {
       axios.post(
         '/api/feedback/update',
         {
@@ -93,7 +93,6 @@ class EditModal extends React.Component {
     this.setState({
       visible: false,
       confirmLoading: false,
-      text: '',
     });
   }
 
@@ -127,8 +126,7 @@ class EditModal extends React.Component {
           ]}
         >
           <form onSubmit={this.handleSubmit} id="form">
-            <br /><br />
-            <h4>Say something constructive about this app:</h4>
+            <h4>Change your description here:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
           </form>
         </Modal>

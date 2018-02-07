@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Button, Divider } from 'antd';
+import { Modal, Button, Divider, Icon } from 'antd';
 // import image from '../../../dist/github.png';
 
 const mapStateToProps = (state) => {
@@ -51,7 +51,13 @@ class LoginModal extends React.Component {
           title={null}
           visible={this.state.visible}
           footer={null}
+          closable={false}
         >
+          <Icon
+            type="close"
+            onClick={this.handleCancel}
+            style={{ fontSize: 16, color: '#a8a8a8' }}
+          />
           <center>
             <h2>Want to share your opinion?</h2>
             <h4>Sign up with Github:</h4><br />
@@ -61,7 +67,8 @@ class LoginModal extends React.Component {
                 size="large"
                 shape="circle"
               >
-                  <img src="../../../dist/github.png" />
+                <Icon type="code-o" />
+                {/*<img src="../../../dist/github.png" />*/}
               </Button>
             </a>
             <Divider />

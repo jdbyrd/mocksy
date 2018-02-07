@@ -41,7 +41,7 @@ class EditFeedbackModal extends React.Component {
         '/api/feedback/update',
         {
           text: this.state.text,
-          feedbackId: this.props.feedback_id
+          feedbackId: this.props.id
         }
       )
         .then(() => {
@@ -95,7 +95,7 @@ class EditFeedbackModal extends React.Component {
         }
 
         <Modal
-          title="Post feedback"
+          title="Edit feedback"
           visible={visible}
           confirmLoading={confirmLoading}
           onOk={this.handleSubmit}

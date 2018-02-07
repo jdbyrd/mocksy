@@ -148,7 +148,7 @@ class FeedbackItem extends React.Component {
           <Col span={1}>
             <VerificationModal item={item} component={this.state.component} />
             {this.props.auth ?
-              <EditFeedbackModal text={item.text} />
+              <EditFeedbackModal text={item.text} id={item.id}/>
               : null
             }
           </Col>

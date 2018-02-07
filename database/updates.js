@@ -35,7 +35,8 @@ const decrementFeedbackDown = (feedbackId) => {
     .then(() => console.log('updated feedback Down'));
 };
 
-const feedback = (feedbackId, text) => {
+const feedback = (update) => {
+  const { feedbackId, text } = update;
   knex('feedback')
     .where('id', '=', feedbackId)
     .update({ text })

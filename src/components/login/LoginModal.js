@@ -62,14 +62,10 @@ class LoginModal extends React.Component {
             <h2>Want to share your opinion?</h2>
             <h4>Sign up with Github:</h4><br />
             <a href="/auth/github">
-              <Button
-                type="primary"
-                size="large"
-                shape="circle"
-              >
-                <Icon type="code-o" />
-                {/*<img src="../../../dist/github.png" />*/}
-              </Button>
+              <Icon
+                type="github"
+                style={{ fontSize: 36 }}
+              />
             </a>
             <Divider />
             <span>Already have an account? <a id="link" href="/auth/github">Sign in.</a></span>

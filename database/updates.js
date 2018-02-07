@@ -35,10 +35,18 @@ const decrementFeedbackDown = (feedbackId) => {
     .then(() => console.log('updated feedback Down'));
 };
 
+const wasNotified = (feedbackId, notified) => {
+  knex('feedback')
+    .where('id', '=', feedbackId)
+    .update({ notified })
+    .then(() => console.log('user read push notification'));
+};
+
 module.exports = {
   vote,
   incrementFeedbackUp,
   incrementFeedbackDown,
   decrementFeedbackUp,
-  decrementFeedbackDown
+  decrementFeedbackDown,
+  wasNotified
 };

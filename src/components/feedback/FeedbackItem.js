@@ -109,7 +109,7 @@ class FeedbackItem extends React.Component {
     return (
       <div id="feedback-item">
         <Row>
-          <Col span={20}>
+          <Col span={19}>
             <h2>{item.options} by
               <Link to={`/user/${item.name}`}>
                 &nbsp;{item.display_name}
@@ -146,8 +146,10 @@ class FeedbackItem extends React.Component {
             }
           </Col>
           <Col span={1}>
-            <VerificationModal item={item} component={this.state.component} />
             <EditModal name={item.name} text={item.text} id={item.id} project_id={item.project_id} component="feedback" />
+          </Col>
+          <Col span={1}>
+            <VerificationModal item={item} component={this.state.component} />
           </Col>
         </Row>
         <Row>

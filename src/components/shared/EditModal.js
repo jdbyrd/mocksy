@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
-import { Modal, Select, Input, Button, message } from 'antd';
+import { Modal, Select, Input, Button, message, Icon } from 'antd';
 import LoginModal from '../login/LoginModal';
 import { populateFeedback, populateUser } from '../../actions/index';
 
@@ -107,14 +107,10 @@ class EditModal extends React.Component {
   render() {
     const { visible, confirmLoading } = this.state;
     return (
-      <div className="modal">
+      <div>
         {
           (this.props.auth && this.props.auth.username === this.props.name)?
-            <Button
-              type="primary"
-              onClick={this.showModal}
-            >Post feedback
-            </Button>
+            <Icon type="edit" onClick={this.showModal} />
             :
             null
         }

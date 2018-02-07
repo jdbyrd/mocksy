@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
-import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';

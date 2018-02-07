@@ -274,12 +274,10 @@ io.on('connection', (socket) => {
   console.log('socket.id: ', socket.id);
 
   app.post('/api/sockets', (req, res) => {
-    console.log('req.body.username: ', req.body.username);
     const { username } = req.body;
     const { socketid } = req.body;
     socket.socketid = socketid;
     allSockets[username] = socket;
-    console.log('please work: ', allSockets['MaybeTed'].socketid);
     res.end();
   });
 

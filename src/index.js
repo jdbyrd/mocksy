@@ -28,6 +28,7 @@ class App extends React.Component {
     this.state = {
       triangle: false,
       homepage: true,
+      notifications: [],
       endpoint: 'http://127.0.0.1:3000' // this is where we are connecting to with sockets
     };
     this.changeTriangle = this.changeTriangle.bind(this);
@@ -57,6 +58,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ')
     this.socket.on('connect', () => {
       this.getUser().then((data) => {
         axios.post('/api/sockets', {
@@ -67,12 +69,19 @@ class App extends React.Component {
     });
 
     this.socket.on('notification', (fromUser, project) => {
-      console.log('push notification FROM: ', fromUser, ' to: ', project);
+      const newMessage = {
+        project,
+        fromUser,
+      };
+      this.setState({
+        notifications: [...this.state.notifications, newMessage]
+      });
+      console.log('push notification FROM: ', fromUser, ', project: ', project);
     });
 
     return (
       <div>
-        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} />
+        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} notifications={this.state.notifications} />
         <Switch>
           <Route exact={true} path="/" render={() => (<FeedPage feed={this.state.triangle} isHomepage={this.isHomepage} />)} />
           <Route path="/project/:id" render={(props) => (<FeedbackPage {...props} isHomepage={this.isHomepage} />)} />

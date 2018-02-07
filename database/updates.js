@@ -35,10 +35,27 @@ const decrementFeedbackDown = (feedbackId) => {
     .then(() => console.log('updated feedback Down'));
 };
 
+const feedback = (update) => {
+  const { feedbackId, text } = update;
+  knex('feedback')
+    .where('id', '=', feedbackId)
+    .update({ text })
+    .then(() => console.log('updated feedback text'));
+};
+
+const project = (projectId, text) => {
+  knex('projects')
+    .where('id', '=', projectId)
+    .update({ text })
+    .then(() => console.log('updated project text'));
+};
+
 module.exports = {
   vote,
   incrementFeedbackUp,
   incrementFeedbackDown,
   decrementFeedbackUp,
-  decrementFeedbackDown
+  decrementFeedbackDown,
+  feedback,
+  project
 };

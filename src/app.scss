@@ -43,6 +43,14 @@ a {
   margin-bottom: 10px;
 }
 
+.feedback-icon {
+  width: 25px;
+  border-radius: 25px;
+  border: 1px solid #ededed;
+  height: auto;
+  float: left;
+}
+
 /*
   doesn't work lol
   #feedback-item:hover + .feedback-list .icon-hover {

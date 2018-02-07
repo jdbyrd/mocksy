@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Icon, Tooltip, message } from 'antd';
-import { populateFeedback } from '../../actions/index';
 import VerificationModal from '../shared/VerificationModal';
 import EditModal from '../shared/EditModal';
 
@@ -38,7 +37,7 @@ class FeedbackItem extends React.Component {
       });
     }
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.toggled !== this.state.toggled) {
       const difference = this.state.total - prevState.total;
@@ -144,7 +143,7 @@ class FeedbackItem extends React.Component {
       }
     }
   }
- 
+
   render() {
     const { item } = this.props;
     return (
@@ -182,11 +181,19 @@ class FeedbackItem extends React.Component {
             </Row>
           </Col>
           <Col span={18}>
-            <h2>{item.options} by
-              <Link to={`/user/${item.name}`}>
-                &nbsp;{item.display_name}
-              </Link>
-            </h2>
+            <Row>
+              <img
+                className="feedback-icon"
+                alt="profile-pic"
+                src={item.avatar}
+              />
+              <h2>
+                &nbsp;{item.options} by
+                <Link to={`/user/${item.name}`}>
+                  &nbsp;{item.display_name}
+                </Link>
+              </h2>
+            </Row>
             <Row>
               <p>{item.text}</p>
             </Row>

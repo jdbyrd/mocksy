@@ -18,12 +18,16 @@ class UserHeader extends React.Component {
     super(props);
 
     this.state = {
-      bio: '',
-      editable: true
+      bio: this.props.user.bio || '',
+      editable: this.props.user.bio ? false : true
     }
 
     this.handleBio = this.handleBio.bind(this);
     this.toggleEditable = this.toggleEditable.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ bio: nextProps.user.bio });
   }
 
   handleBio(e) {

@@ -54,7 +54,7 @@ class PostFeedbackModal extends React.Component {
         }
       )
         .then(() => {
-          this.setState({confirmLoading: true}, () => {
+          this.setState({ confirmLoading: true }, () => {
             // this is running just fine
             setTimeout(() => {
               populateFeedback(this.props.id);
@@ -68,7 +68,11 @@ class PostFeedbackModal extends React.Component {
             }, 500);
           });
         });
+      if (this.props.name) {
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name);
+      } else {
         this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid);
+      }
       // this is never setting the state to true
       this.setState({
         confirmLoading: true

@@ -345,6 +345,27 @@ a {
   display: inline-block;
 }
 
+.notifications-container {
+  .notifications-triangle {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid red;
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 83px;
+    top: 60px;
+  }
+
+  .notifications {
+    position: absolute;
+    right: 60px;
+    top: 75px;
+    width: 225px;
+    background: red;
+  }
+}
+
 
 /*----------------------------
 -------- END OF NAV ----------

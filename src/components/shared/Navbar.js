@@ -20,12 +20,14 @@ class Navbar extends React.Component {
       menu: false,
       query: '',
       searchResults: [],
-      showTriangle: true
+      showTriangle: true,
+      showNotifications: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.displayResults = this.displayResults.bind(this);
+    this.readNotifications = this.readNotifications.bind(this);
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
   }
@@ -67,6 +69,16 @@ class Navbar extends React.Component {
     }
   }
 
+  readNotifications() {
+    console.log('NOTIFICATIONS: ', this.props.notifications);
+    if (this.props.notifications.length) {
+      this.setState({ showNotifications: !this.state.showNotifications });
+    }
+    axios.post('/api/notified', {
+      notifications: this.props.notifications
+    })
+  }
+
   toggleDropdown() {
     this.setState({ viewMenu: !this.state.viewMenu });
   }
@@ -90,6 +102,7 @@ class Navbar extends React.Component {
   }
 
   render() {
+    console.log(this.props.notifications)
     return (
       <div>
         <div className="nav-wrapper">
@@ -126,6 +139,17 @@ class Navbar extends React.Component {
               </Link>
             </ul>
 
+            {this.state.showNotifications && this.props.notifications.length ?
+            <div className="notifications-container">
+              <div className="notifications-triangle"></div>
+              <div className="notifications">
+                {this.props.notifications.map((notification) => {
+                  return <p>{notification.fromUser} has commented on {notification.project}</p>
+                })}
+              </div>
+            </div>
+            : null }
+
             <div className="right-container">
               <div className="search">
                 <input onChange={this.handleSearch} id="search" className="search-input" />
@@ -139,7 +163,7 @@ class Navbar extends React.Component {
                {this.props.auth ?
                 <ul className="buttons-wrapper">
                   <li>
-                    <img className="bell-icon" src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
+                    <img className="bell-icon" onClick={this.readNotifications} src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
                   </li>
                   <li className="img-dropdown-container">
                     <img

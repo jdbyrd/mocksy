@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ')
+    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ');
     this.socket.on('connect', () => {
       this.getUser().then((data) => {
         axios.post('/api/sockets', {
@@ -69,6 +69,7 @@ class App extends React.Component {
     });
 
     this.socket.on('notification', (fromUser, project) => {
+      console.log('NOTIFICATIONS COMING IN FROM SOCKET');
       const newMessage = {
         project,
         fromUser,

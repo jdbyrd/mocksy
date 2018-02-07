@@ -20,6 +20,7 @@ class AppCard extends React.Component {
   }
 
   render() {
+    console.log('this.props.project RIGHT HERE: ', this.props.project);
     return (
       <div className="project-container">
         <a className="img-link" href={this.props.project.url}>
@@ -59,7 +60,7 @@ class AppCard extends React.Component {
             </span>
             <br /><br />
             <span>
-              <PostFeedbackModal id={this.props.project.id} />
+              <PostFeedbackModal id={this.props.project.id} title={this.props.project.title} name={this.props.project.name} />
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>

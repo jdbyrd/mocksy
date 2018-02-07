@@ -88,10 +88,12 @@ app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   if (req.query.sort === 'true') {
     query.sortProjects().then((projects) => {
+      console.log('projects: ', projects)
       res.send(projects);
     });
   }
   query.projects(id).then((projects) => {
+    console.log('projects: ', projects)
     if (id) {
       const projectFeedback = { project: projects[0] };
       if (req.user) {
@@ -183,6 +185,13 @@ app.post('/api/feedback', (req, res) => {
     req.body.name = req.user.username;
     insert.feedback(req.body);
     insert.updateNumFeedback(req.body.projectId);
+  }
+  res.end();
+});
+
+app.post('/api/notified', (req, res) => {
+  if (req.user) {
+    console.log('Finish this later. I need to figure out the feedback ID so I can update the database')
   }
   res.end();
 });
@@ -282,10 +291,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('post feedback', (fromUser, project, userid) => {
-    query.getUserFromId(userid).then((data) => {
-      const socketId = allSockets[data.name].socketid;
+    if (typeof userid === 'number') {
+      query.getUserFromId(userid).then((data) => {
+        const socketId = allSockets[data.name].socketid;
+        socket.broadcast.to(socketId).emit('notification', fromUser, project);
+      });
+    } else {
+      const socketId = allSockets[userid].socketid;
       socket.broadcast.to(socketId).emit('notification', fromUser, project);
-    });
+    }
   });
 
   socket.on('disconnect', function(){

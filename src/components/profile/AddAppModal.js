@@ -166,6 +166,7 @@ class AppsTab extends React.Component {
   /* *********** FORM SUBMISSION ************ */
   projectFormSubmit(event) {
     event.preventDefault();
+    setTimeout(() => {}, 3000);
     const projectData = {
       tempId: this.state.tempId,
       appURL: this.state.appURL,
@@ -186,37 +187,38 @@ class AppsTab extends React.Component {
       message.error('Please provide a description for your application');
       return;
     }
-    this.updateScreenshot();
+    this.setState({
+      confirmLoading: true
+    });
+    setTimeout(() => {
+      this.updateScreenshot();
+      this.setState({
+        // toggles modal visibility
+        visible: false,
+        // form data
+        appURL: '',
+        githubURL: '',
+        tags: [],
+        title: '',
+        description: '',
+        // tags
+        inputVisible: false,
+        inputValue: '',
+        // contributors
+        data: [],
+        value: [],
+        fetching: false,
+        // spinner for submit button (doesn't work)
+        confirmLoading: true
+      });
+    }, 1000);
     axios.post('/api/project', projectData)
       .then(() => {
         console.log(projectData);
       });
-    this.setState({
-      confirmLoading: true
-    });
-
     Store.populateUser(this.props.name)
       .then((res) => {
         console.log(res);
-        this.setState({
-          // toggles modal visibility
-          visible: false,
-          // form data
-          appURL: '',
-          githubURL: '',
-          tags: [],
-          title: '',
-          description: '',
-          // tags
-          inputVisible: false,
-          inputValue: '',
-          // contributors
-          data: [],
-          value: [],
-          fetching: false,
-          // spinner for submit button (doesn't work)
-          confirmLoading: false
-        });
       });
   }
 
@@ -277,6 +279,7 @@ class AppsTab extends React.Component {
                 </div>
                 <Form.Item label="Application URL:">
                   <Input
+                    addonBefore="https://"
                     value={this.state.appURL}
                     onChange={(e, i, val) => this.handleInputChange('appURL', e, i, val)}
                     onBlur={this.handleAppURL}
@@ -284,7 +287,6 @@ class AppsTab extends React.Component {
                 </Form.Item>
                 <Form.Item label="Github URL (optional):">
                   <Input
-                    addonBefore="https://"
                     value={this.state.githubURL}
                     onChange={(e, i, val) => this.handleInputChange('githubURL', e, i, val)}
                   />

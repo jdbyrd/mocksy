@@ -6,10 +6,12 @@ import { populateFeedback } from '../../actions/index';
 import AppSidebar from './AppSidebar';
 import FeedbackList from './FeedbackList';
 import PostFeedbackModal from './PostFeedbackModal';
+import LoginModal from '../login/LoginModal';
 
 const mapStateToProps = state => (
   {
-    project: state.feedback.project
+    project: state.feedback.project,
+    auth: state.auth
   }
 );
 
@@ -34,7 +36,10 @@ class FeedbackPage extends React.Component {
           <Col span={2} />
           <Col span={8}><AppSidebar /></Col>
           <Col span={12}>
-            <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} />
+            { this.props.auth ?
+              <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
+              <LoginModal />
+            }
             <Select
               style={{ width: 200 }}
               placeholder="Sort by"

@@ -64,7 +64,7 @@ class LoginModal extends React.Component {
             <a href="/auth/github">
               <Icon
                 type="github"
-                style={{ fontSize: 36 }}
+                style={{ fontSize: 36, color: 'blue' }}
               />
             </a>
             <Divider />

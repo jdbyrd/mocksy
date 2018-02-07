@@ -108,12 +108,20 @@ class FeedbackItem extends React.Component {
     return (
       <div id="feedback-item">
         <Row>
-          <Col span={20}>
+          <Col span={18}>
             <h2>{item.options} by
               <Link to={`/user/${item.name}`}>
                 &nbsp;{item.display_name}
               </Link>
             </h2>
+          </Col>
+          <Col span={2}>
+            <Icon
+              type="check-circle-o"
+            />
+            <Icon
+              type="close-circle-o"
+            />
           </Col>
           <Col span={1}>
             <h4>{this.state.total}</h4>

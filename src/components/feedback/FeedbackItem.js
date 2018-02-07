@@ -49,6 +49,7 @@ class FeedbackItem extends React.Component {
         votes_id: this.props.item.votes_id,
         feedback_id: this.props.item.id,
         vote: this.state.toggled,
+        project_id: this.props.item.project_id,
         difference
       }
     )

@@ -94,8 +94,12 @@ class Navbar extends React.Component {
       <div>
         <div className="nav-wrapper">
           <div className="nav-inner-wrapper">
+
             <img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />
-            <img className="bell-icon mobile-view-bell-icon" alt="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+            <div className="mobile-logo">
+              <img src="./mocksylogo.png" className="mocksy-img" />ocksy
+            </div>
+
             {this.state.menu &&
             <div className="menu-dropdown-container">
               <ul onClick={this.toggleMenu}>
@@ -111,7 +115,9 @@ class Navbar extends React.Component {
               </ul>
             </div>
             }
+
             <ul className="nav-links">
+              <img src="./mocksylogo.png" className="mocksy-logo" />
               <Link to='/'>
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>
@@ -119,12 +125,10 @@ class Navbar extends React.Component {
                 <li onClick={this.triangleRight}>Popular</li>
               </Link>
             </ul>
+
             <div className="right-container">
               <div className="search">
-                <Search onChange={this.handleSearch} id="search" />
-                {/*<Button shape="circle" icon="search" />
-                <input id="search" name="search" type="text" placeholder="What're we looking for ?" onChange={this.handleSearch} />
-                <input id="search_submit" value="Rechercher" type="submit" id="search" />*/}
+                <input onChange={this.handleSearch} id="search" className="search-input" />
                 {this.state.query &&
                 <ul className={this.props.auth ? "search-results logged-in" : "search-results"}>
                   {this.state.searchResults.map((result, index) => this.displayResults(result, index))}
@@ -135,7 +139,7 @@ class Navbar extends React.Component {
                {this.props.auth ?
                 <ul className="buttons-wrapper">
                   <li>
-                    <img className="bell-icon" src="https://www.materialui.co/materialIcons/social/notifications_grey_192x192.png" />
+                    <img className="bell-icon" src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
                   </li>
                   <li className="img-dropdown-container">
                     <img
@@ -202,26 +206,7 @@ export default connect(mapStateToProps)(Navbar);
 //   }
 // `;
 
-const Search = styled.input`
-  padding-right: 10px;
-  outline: none;
-  width: 130px;
-  height: 20px;
-  border-radius: 15px;
-  border: 1px solid white;
-  padding-left: 27px;
-  -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
-  font-family: "Nunito";
-  font-size: 100%;
-  color: #000;
-  cursor: auto;
-  background: #ffffff url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png) no-repeat 4px center;
-  background-size: 18px;
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-  transition: all .5s;
-`;
+
 
 // const ImgContainer = styled.div`
 //   background: white;

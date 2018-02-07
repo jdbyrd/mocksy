@@ -29,8 +29,8 @@ passport.deserializeUser((obj, cb) => {
 
 passport.use(new GitHubStrategy(
   {
-    clientID: config.GITHUB_CLIENT_ID,
-    clientSecret: config.GITHUB_CLIENT_SECRET,
+    clientID: process.env.GITHUB_CLIENT_ID || config.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || config.GITHUB_CLIENT_SECRET,
     callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -262,7 +262,7 @@ app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    insert.decreaseNumFeedback(projectid);
+    insert.decreaseNumFeedback(projectid);5
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

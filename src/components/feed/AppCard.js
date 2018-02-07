@@ -11,11 +11,6 @@ class AppCard extends React.Component {
     super(props);
   }
 
-  // componentDidMount() {
-  //   Store.populateTags();
-  //   console.log('this.props:', this.props);
-  // }
-
   clickTag(e) {
     const tag = e.currentTarget.textContent.slice();
     this.props.getQuery(tag);
@@ -37,9 +32,11 @@ class AppCard extends React.Component {
               <a href={`/project/${this.props.project.id}`}>
                 <div className="title">{this.props.project.title}</div>
               </a>
-              <a href={this.props.project.github} target="_blank">
-                <GitIcon className="git-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
-              </a>
+              { this.props.project.github ?
+                <a href={this.props.project.github} target="_blank">
+                  <GitIcon className="git-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
+                </a> : null
+              }
             </div>
 
             <Link to={`/user/${this.props.project.user}`}>

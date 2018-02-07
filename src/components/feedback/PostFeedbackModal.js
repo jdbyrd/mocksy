@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
+// import { Link } from 'react-router-dom';
+import { Modal, Select, Input, Button, message } from 'antd';
+import LoginModal from '../login/LoginModal';
 import { populateFeedback } from '../../actions/index';
 
 const mapStateToProps = (state) => {
@@ -60,7 +61,7 @@ class PostFeedbackModal extends React.Component {
                 feedbackType: null,
                 text: '',
               });
-            }, 1500);
+            }, 500);
           });
         });
       // this is never setting the state to true
@@ -91,7 +92,7 @@ class PostFeedbackModal extends React.Component {
   }
 
   render() {
-    const {visible, confirmLoading} = this.state
+    const { visible, confirmLoading } = this.state;
     return (
       <div className="modal">
         {
@@ -102,9 +103,7 @@ class PostFeedbackModal extends React.Component {
             >Post feedback
             </Button>
             :
-            <Link to='/login'>
-              <Button type="primary">Post feedback</Button>
-            </Link>
+            <LoginModal />
         }
 
         <Modal

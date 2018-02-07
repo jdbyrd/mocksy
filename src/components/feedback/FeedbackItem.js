@@ -158,64 +158,70 @@ class FeedbackItem extends React.Component {
             </h2>
           </Col>
           <Col span={1}>
-            <Tooltip title="Mark as completed">
-            { (this.state.marked === false) || (this.state.marked === null) ?
-                <Icon
-                  type="check-circle-o"
-                  onClick={this.check}
-                /> :
-                <Icon
-                  type="check-circle"
-                  onClick={this.check}
-                  style={{ color: '#00d01f' }}
-                />
-            }
-            </Tooltip>
-          </Col>
-          <Col span={1}>
-            <Tooltip title="Mark as unresolvable">
-            { (this.state.marked === null) || (this.state.marked === true) ?
-                <Icon
-                  type="close-circle-o"
-                  onClick={this.close}
-                /> :
-                <Icon
-                  type="close-circle"
-                  onClick={this.close}
-                  style={{ color: '#ff0000' }}
-                />
-            }
-            </Tooltip>
-          </Col>
-          <Col span={1}>
             <h4>{this.state.total}</h4>
           </Col>
-          <Col span={1}>
-            { (this.state.toggled === false) || (this.state.toggled === null) ?
-              <Icon
-                type="up"
-                value={1}
-                onClick={this.upvote}
-              /> :
-              <Icon
-                type="up-circle"
-                onClick={this.upvote}
-              />
-            }
-          </Col>
-          <Col span={1}>
-            { (this.state.toggled === null) || (this.state.toggled === true) ?
-              <Icon
-                type="down"
-                value={-1}
-                onClick={this.downvote}
-              /> :
-              <Icon
-                type="down-circle"
-                onClick={this.downvote}
-              />
-            }
-          </Col>
+          { (this.props.auth && this.props.auth.username === item.name) ?
+            <Col>
+              <Col span={1}>
+                <Tooltip title="Mark as completed">
+                { (this.state.marked === false) || (this.state.marked === null) ?
+                    <Icon
+                      type="check-circle-o"
+                      onClick={this.check}
+                    /> :
+                    <Icon
+                      type="check-circle"
+                      onClick={this.check}
+                      style={{ color: '#00d01f' }}
+                    />
+                }
+                </Tooltip>
+              </Col>
+              <Col span={1}>
+                <Tooltip title="Mark as unresolvable">
+                { (this.state.marked === null) || (this.state.marked === true) ?
+                    <Icon
+                      type="close-circle-o"
+                      onClick={this.close}
+                    /> :
+                    <Icon
+                      type="close-circle"
+                      onClick={this.close}
+                      style={{ color: '#ff0000' }}
+                    />
+                }
+                </Tooltip>
+              </Col>
+            </Col> :
+            <Col>
+              <Col span={1}>
+                { (this.state.toggled === false) || (this.state.toggled === null) ?
+                  <Icon
+                    type="up"
+                    value={1}
+                    onClick={this.upvote}
+                  /> :
+                  <Icon
+                    type="up-circle"
+                    onClick={this.upvote}
+                  />
+                }
+              </Col>
+              <Col span={1}>
+                { (this.state.toggled === null) || (this.state.toggled === true) ?
+                  <Icon
+                    type="down"
+                    value={-1}
+                    onClick={this.downvote}
+                  /> :
+                  <Icon
+                    type="down-circle"
+                    onClick={this.downvote}
+                  />
+                }
+              </Col>
+            </Col>
+          }
           <Col span={1}>
             <VerificationModal item={item} component={this.state.component} />
             {this.props.auth ?

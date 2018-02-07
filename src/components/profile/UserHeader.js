@@ -1,6 +1,6 @@
 /* Header with Github photo, name, bio, and Github link. */
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Input } from 'antd';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 
@@ -8,11 +8,38 @@ import styled, { css } from 'styled-components';
 
 const mapStateToProps = state => (
   {
-    user: state.user.user
+    user: state.user.user,
+    auth: state.auth
   }
 );
 
 class UserHeader extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bio: '',
+      editable: true
+    }
+
+    this.handleBio = this.handleBio.bind(this);
+    this.toggleEditable = this.toggleEditable.bind(this);
+  }
+
+  handleBio(e) {
+    this.setState({
+      bio: e.target.value
+    });
+  }
+
+  toggleEditable() {
+    if (!this.state.bio.length) {
+      return;
+    } else {
+      this.setState({editable: !this.state.editable})
+    }
+  }
+
   render() {
     const user = this.props.user;
     return (
@@ -22,7 +49,18 @@ class UserHeader extends React.Component {
         </div>
         <UserInfo>
           <UserName>{user.display_name}</UserName>
-          <UserJob>Software Engineer @ Hack Reactor</UserJob>
+          <UserJob>
+            { this.state.editable && this.props.auth ? 
+              <Input 
+                placeholder="Tell us about yourself!"
+                onChange={this.handleBio}
+                value={this.state.bio}
+                onBlur={this.toggleEditable}
+                size="small"
+              /> :
+              <h4 onClick={this.toggleEditable}>{this.state.bio}</h4>
+            }
+          </UserJob>
         </UserInfo>
         <a href={user.github_profile} target="_blank">
           <UserGithub src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ei-sc-github.svg/768px-Ei-sc-github.svg.png" />
@@ -55,6 +93,7 @@ const UserName = styled.div`
 
 const UserJob = styled.div`
   margin-top: -5px;
+  width: 500px;
 `;
 
 const UserGithub = styled.img`

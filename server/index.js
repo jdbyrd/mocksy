@@ -258,6 +258,14 @@ app.post('/api/feedback/update', (req, res) => {
   res.end();
 });
 
+app.post('/api/project/update', (req, res) => {
+  console.log(req.body);
+  if(req.user) {
+    update.project(req.body);
+  }
+  res.end();
+});
+
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;

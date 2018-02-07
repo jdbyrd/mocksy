@@ -43,7 +43,8 @@ const feedback = (update) => {
     .then(() => console.log('updated feedback text'));
 };
 
-const project = (projectId, text) => {
+const project = (update) => {
+  const { projectId, text } = update;
   knex('projects')
     .where('id', '=', projectId)
     .update({ text })

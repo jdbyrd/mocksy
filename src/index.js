@@ -47,18 +47,7 @@ class App extends React.Component {
 
   componentWillUpdate() {
     populateFeed(this.state.triangle);
-  }
 
-  isHomepage(bool) {
-    this.setState({ homepage: bool });
-  }
-
-  getUser() {
-    return checkAuth().then(user => user.username);
-  }
-
-  render() {
-    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ');
     this.socket.on('connect', () => {
       this.getUser().then((data) => {
         axios.post('/api/sockets', {
@@ -79,7 +68,18 @@ class App extends React.Component {
       });
       console.log('push notification FROM: ', fromUser, ', project: ', project);
     });
+  }
 
+  isHomepage(bool) {
+    this.setState({ homepage: bool });
+  }
+
+  getUser() {
+    return checkAuth().then(user => user.username);
+  }
+
+  render() {
+    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ');
     return (
       <div>
         <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} notifications={this.state.notifications} />

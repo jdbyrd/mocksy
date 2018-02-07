@@ -102,7 +102,6 @@ class Navbar extends React.Component {
   }
 
   render() {
-    console.log(this.props.notifications)
     return (
       <div>
         <div className="nav-wrapper">
@@ -149,6 +148,8 @@ class Navbar extends React.Component {
               </div>
             </div>
             : null }
+
+            {this.props.notifications.length ? <div className="dot" /> : null}
 
             <div className="right-container">
               <div className="search">

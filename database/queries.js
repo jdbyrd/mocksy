@@ -2,7 +2,7 @@ const knex = require('./db');
 
 const projects = id => id
   ? knex('projects').select().where('id', id)
-  : knex('projects').select('projects.title', 'projects.url', 'projects.github', 'projects.text', 'projects.id', 'projects.text', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'users.id')
+  : knex('projects').select('projects.title', 'projects.url', 'projects.github', 'projects.text', 'projects.id', 'projects.text', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
     .join('users', 'projects.user_id', '=', 'users.id')
     .orderBy('projects.created_at', 'desc');
 

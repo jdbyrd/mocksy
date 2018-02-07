@@ -372,6 +372,17 @@ a {
   }
 }
 
+$dot-size: 6px;
+.dot {
+  width: $dot-size;
+  height: $dot-size;
+  border-radius: $dot-size;
+  background: red;
+  position: absolute;
+  top: 20px;
+  right: 83px;
+}
+
 
 /*----------------------------
 -------- END OF NAV ----------

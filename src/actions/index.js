@@ -43,12 +43,13 @@ Store.populateUser = async (userName) => {
 };
 
 Store.checkAuth = () => {
-  axios('/auth/verify')
+  return axios('/auth/verify')
     .then((res) => {
       store.dispatch({
         type: 'CHECK_AUTH',
         payload: res.data
       });
+      return res.data;
     });
 };
 

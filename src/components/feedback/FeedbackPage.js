@@ -34,7 +34,7 @@ class FeedbackPage extends React.Component {
           <Col span={2} />
           <Col span={8}><AppSidebar /></Col>
           <Col span={12}>
-            <PostFeedbackModal id={this.props.match.params.id} />
+            <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} />
             <Select
               style={{ width: 200 }}
               placeholder="Sort by"

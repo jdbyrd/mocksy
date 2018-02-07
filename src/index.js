@@ -2,10 +2,11 @@ import 'babel-polyfill';
 import React from 'react';
 import 'antd/dist/antd.css';
 import ReactDOM from 'react-dom';
+import io from 'socket.io-client';
+import axios from 'axios';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from './store';
-
 import FeedPage from './components/feed/FeedPage';
 import FeedbackPage from './components/feedback/FeedbackPage';
 import ProfilePage from './components/profile/ProfilePage';
@@ -15,15 +16,24 @@ import SettingsPage from './components/settings/SettingsPage';
 import { checkAuth, populateFeed } from './actions/index';
 import './app.scss';
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       triangle: false,
-      homepage: true
+      homepage: true,
+      endpoint: 'http://127.0.0.1:3000' // this is where we are connecting to with sockets
     };
     this.changeTriangle = this.changeTriangle.bind(this);
     this.isHomepage = this.isHomepage.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.socket = io(this.state.endpoint);
   }
 
   componentDidMount() {
@@ -34,7 +44,7 @@ class App extends React.Component {
     this.setState({ triangle: bool });
   }
 
-  componentDidUpdate() {
+  componentWillUpdate() {
     populateFeed(this.state.triangle);
   }
 
@@ -42,7 +52,24 @@ class App extends React.Component {
     this.setState({ homepage: bool });
   }
 
+  getUser() {
+    return checkAuth().then(user => user.username);
+  }
+
   render() {
+    this.socket.on('connect', () => {
+      this.getUser().then((data) => {
+        axios.post('/api/sockets', {
+          socketid: this.socket.id,
+          username: data
+        });
+      });
+    });
+
+    this.socket.on('notification', (fromUser, project) => {
+      console.log('push notification FROM: ', fromUser, ' to: ', project);
+    });
+
     return (
       <div>
         <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} />
@@ -68,3 +95,5 @@ ReactDOM.render(
     </Provider>
   ), document.getElementById('app')
 );
+
+export default connect(mapStateToProps)(App);

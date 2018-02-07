@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
 import axios from 'axios';
@@ -20,6 +21,7 @@ class PostFeedbackModal extends React.Component {
       confirmLoading: false,
       feedbackType: null,
       text: '',
+      endpoint: 'http://127.0.0.1:3000'
     };
 
     this.showModal = this.showModal.bind(this);
@@ -27,6 +29,7 @@ class PostFeedbackModal extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
+    this.socket = io(this.state.endpoint);
   }
 
   /* ****** MODAL FUNCTIONS ******* */
@@ -63,6 +66,7 @@ class PostFeedbackModal extends React.Component {
             }, 1500);
           });
         });
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid);
       // this is never setting the state to true
       this.setState({
         confirmLoading: true

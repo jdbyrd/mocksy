@@ -57,6 +57,10 @@ const searchUsers = q => knex('users')
   .where(knex.raw(`lower(name) like lower('${q}')`))
   .orWhere(knex.raw(`lower(display_name) like lower('${q}')`));
 
+const getUserFromId = id => knex('users')
+  .where({ id })
+  .first();
+
 module.exports = {
   projects,
   feedback,
@@ -68,5 +72,6 @@ module.exports = {
   votesById,
   searchProjects,
   searchUsers,
-  sortProjects
+  sortProjects,
+  getUserFromId
 };

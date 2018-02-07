@@ -104,7 +104,6 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
-    console.log(item);
     return (
       <div id="feedback-item">
         <Row>

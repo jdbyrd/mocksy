@@ -7,7 +7,8 @@ import { populateFeed } from '../../actions/index';
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.projects
+    projects: state.projects,
+    auth: state.auth
   };
 };
 

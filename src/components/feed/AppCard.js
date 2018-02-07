@@ -8,8 +8,6 @@ import PostFeedbackModal from '../feedback/PostFeedbackModal';
 class AppCard extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(this.props.project.tags)
   }
 
   clickTag(e) {

@@ -34,9 +34,7 @@ passport.use(new GitHubStrategy(
     callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => {
-      return done(null, profile);
-    });
+    process.nextTick(() => done(null, profile));
   }
 ));
 
@@ -177,6 +175,11 @@ app.delete('/user/screenshot', async (req, res) => {
   res.end();
 });
 
+app.post('/api/bio', async (req, res) => {
+  await update.bio(req.user.username, req.body.text);
+  res.end();
+});
+
 app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
@@ -251,6 +254,14 @@ app.post('/api/votes', (req, res) => {
 app.post('/api/feedback/update', (req, res) => {
   if (req.user) {
     update.feedback(req.body);
+  }
+  res.end();
+});
+
+app.post('/api/project/update', (req, res) => {
+  console.log(req.body);
+  if(req.user) {
+    update.project(req.body);
   }
   res.end();
 });

@@ -7,7 +7,7 @@ import Button from '../shared/button';
 import { populateUser } from '../../actions/index';
 import { Icon } from 'antd';
 import VerificationModal from '../shared/VerificationModal';
-
+import EditModal from '../shared/EditModal';
 
 const mapStateToProps = (state) => {
   return {
@@ -42,6 +42,7 @@ class AppsTabCard extends React.Component {
             <ProjectImage src={`/images/${this.props.project.id}.png`} className="users-projects-image" />
             <TopRight className="top-right">
               <VerificationModal item={this.props} component={this.state.component} />
+              <EditModal name={this.props.name} text={project.text} id={project.id} component="Project" />
             </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>

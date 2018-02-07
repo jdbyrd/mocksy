@@ -51,6 +51,11 @@ const project = (update) => {
     .then(() => console.log('updated project text'));
 };
 
+const bio = (name, text) => {
+  knex('users').update('bio', text)
+    .then(() => console.log('updated bio'));
+};
+
 module.exports = {
   vote,
   incrementFeedbackUp,
@@ -58,5 +63,6 @@ module.exports = {
   decrementFeedbackUp,
   decrementFeedbackDown,
   feedback,
-  project
+  project,
+  bio
 };

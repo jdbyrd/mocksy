@@ -4,7 +4,7 @@ import axios from 'axios';
 // import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
 import LoginModal from '../login/LoginModal';
-import { populateFeedback } from '../../actions/index';
+import { populateFeedback, populateUser } from '../../actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class EditFeedbackModal extends React.Component {
+class EditModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,8 +35,8 @@ class EditFeedbackModal extends React.Component {
 
   handleSubmit() {
     if (this.state.text === '') {
-      message.error('Please provide feedback');
-    } else {
+      message.error('Please provide a description');
+    } else if(this.props.component === 'feedback') {
       axios.post(
         '/api/feedback/update',
         {
@@ -48,8 +48,32 @@ class EditFeedbackModal extends React.Component {
           this.setState({confirmLoading: true}, () => {
             // this is running just fine
             setTimeout(() => {
-              console.log('PROJECT ID', this.props.project_id);
               populateFeedback(this.props.project_id);
+              this.setState({
+                // feedback type and text are not resetting
+                visible: false,
+                confirmLoading: false,
+              });
+            }, 1500);
+          });
+        });
+      // this is never setting the state to true
+      this.setState({
+        confirmLoading: true
+      });
+    } else {
+      axios.post(
+        '/api/project/update',
+        {
+          text: this.state.text,
+          projectId: this.props.id
+        }
+      )
+        .then(() => {
+          this.setState({confirmLoading: true}, () => {
+            // this is running just fine
+            setTimeout(() => {
+              populateUser(this.props.name);
               this.setState({
                 // feedback type and text are not resetting
                 visible: false,
@@ -85,18 +109,18 @@ class EditFeedbackModal extends React.Component {
     return (
       <div className="modal">
         {
-          this.props.auth ?
+          (this.props.auth && this.props.auth.username === this.props.name)?
             <Button
               type="primary"
               onClick={this.showModal}
             >Post feedback
             </Button>
             :
-            <LoginModal />
+            null
         }
 
         <Modal
-          title="Edit feedback"
+          title={'Edit '.concat(this.props.component)}
           visible={visible}
           confirmLoading={confirmLoading}
           onOk={this.handleSubmit}
@@ -117,4 +141,4 @@ class EditFeedbackModal extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(EditFeedbackModal);
+export default connect(mapStateToProps)(EditModal);

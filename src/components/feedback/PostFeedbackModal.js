@@ -61,7 +61,7 @@ class PostFeedbackModal extends React.Component {
                 feedbackType: null,
                 text: '',
               });
-            }, 1500);
+            }, 500);
           });
         });
       // this is never setting the state to true

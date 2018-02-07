@@ -82,38 +82,45 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/api/projects', async (req, res) => {
+app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   if (req.query.sort === 'true') {
-    const sortedProjects = await query.sortProjects();
-    res.send(sortedProjects);
-  }
-  const projects = await query.projects(id);
-  if (id) {
-    const projectFeedback = { project: projects[0] };
-    if (req.user) {
-      const user = await query.users(req.user.username)
-      const feedback = await query.feedback(id, user[0].id)
-      projectFeedback.list = feedback;
-      res.send(projectFeedback);
-    } else {
-      const feedback = query.feedback(id)
-      projectFeedback.list = feedback;
-      res.send(projectFeedback);
-    }
-  } else {
-    const tags = await query.tags();
-    projects.forEach((project) => {
-      project.tags = tags.reduce((memo, tag) => {
-        if (tag.project_id === project.id) {
-          return [...memo, tag];
-        }
-        return memo;
-      }, []);
+    query.sortProjects().then((projects) => {
+      res.send(projects);
     });
-    console.log('projects:', projects);
-    res.send(projects);
   }
+  query.projects(id).then((projects) => {
+    if (id) {
+      const projectFeedback = { project: projects[0] };
+      if (req.user) {
+        query.users(req.user.username).then((user) => {
+          query.feedback(id, user[0].id).then((feedback) => {
+            projectFeedback.list = feedback;
+            res.send(projectFeedback);
+          });
+        });
+      } else {
+        query.feedback(id).then((feedback) => {
+          projectFeedback.list = feedback;
+          res.send(projectFeedback);
+        });
+      }
+    } else {
+      query.tags()
+        .then((tags) => {
+          projects.forEach((project) => {
+            project.tags = tags.reduce((memo, tag) => {
+              if (tag.project_id === project.id) {
+                return [...memo, tag];
+              }
+              return memo;
+            }, []);
+          });
+          console.log('projects:', projects);
+          res.send(projects);
+        });
+    }
+  });
 });
 
 app.get('/api/users', (req, res) => {

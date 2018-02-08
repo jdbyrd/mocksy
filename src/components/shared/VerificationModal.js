@@ -25,9 +25,9 @@ class VerificationModal extends React.Component {
       title: 'Are you sure you want to delete this?',
       content: 'Your data cannot be recovered after deleting.',
       onOk() {
-        console.log("inside onOK (that)", that);
-        console.log(that.props);
-        console.log(that.props.component);
+        // console.log("inside onOK (that)", that);
+        // console.log(that.props);
+        // console.log(that.props.component);
         if ( that.props.component === 'feedback' ) {
           axios.delete(`/api/feedback?id=${that.props.item.id}`)
             .then(() => populateFeedback(that.props.item.project_id));

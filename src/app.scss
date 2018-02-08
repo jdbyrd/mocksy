@@ -36,11 +36,25 @@ a {
   height: 50px;
 }
 
-#feedback-item {
-  border: 2px solid #d6d6d6;
+.feedback-item {
+  border: 1px solid #d6d6d6;
   border-radius: 15px;
   padding: 10px 5px 5px 20px;
   margin-bottom: 10px;
+}
+
+.fade {
+  opacity: 0.6;
+  background: #f4f4f4;
+  transition: opacity .3s ease-in-out;
+}
+
+.feedback-icon {
+  width: 25px;
+  border-radius: 25px;
+  border: 1px solid #ededed;
+  height: auto;
+  float: left;
 }
 
 /*

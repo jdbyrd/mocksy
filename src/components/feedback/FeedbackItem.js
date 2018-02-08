@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Icon, Tooltip, message } from 'antd';
-import { populateFeedback } from '../../actions/index';
 import VerificationModal from '../shared/VerificationModal';
 import EditModal from '../shared/EditModal';
 
@@ -28,6 +27,25 @@ class FeedbackItem extends React.Component {
     this.close = this.close.bind(this);
   }
 
+<<<<<<< HEAD
+=======
+  componentWillReceiveProps(nextProps) {
+    this.setState({ total: nextProps.item.up - nextProps.item.down });
+    if (nextProps.auth) {
+      this.setState({
+        toggled: nextProps.item.vote
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.toggled !== this.state.toggled) {
+      const difference = this.state.total - prevState.total;
+      this.vote(difference);
+    }
+  }
+
+>>>>>>> master
   /* ***************** VOTING ***************** */
   vote(difference, vote) {
     axios.post('/api/votes',
@@ -108,11 +126,11 @@ class FeedbackItem extends React.Component {
       }
     }
   }
- 
+
   render() {
     const { item } = this.props;
     return (
-      <div id="feedback-item">
+      <div className={"feedback-item " + (this.state.marked !== null ? 'fade' : 'feedback-item')}>
         <Row>
           <Col span={2}>
             <Row>
@@ -146,13 +164,29 @@ class FeedbackItem extends React.Component {
             </Row>
           </Col>
           <Col span={18}>
-            <h2>{item.options} by
+            <Row>
               <Link to={`/user/${item.name}`}>
-                &nbsp;{item.display_name}
+                <img
+                  className="feedback-icon"
+                  alt="profile-pic"
+                  src={item.avatar}
+                />
               </Link>
-            </h2>
+              <h2>
+                &nbsp;&nbsp;{item.options} by
+                <Link to={`/user/${item.name}`}>
+                  &nbsp;{item.display_name}
+                </Link>
+              </h2>
+            </Row>
             <Row>
               <p>{item.text}</p>
+              { this.state.marked ?
+                <h6>The developer has marked this issue as resolved.</h6> : null
+              }
+              { this.state.marked === false ?
+                <h6>The developer has marked this issue as unresolvable.</h6> : null
+              }
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === item.name) ?

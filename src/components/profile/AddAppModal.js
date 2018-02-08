@@ -71,7 +71,7 @@ class AppsTab extends React.Component {
   }
 
   handleAppURL(e) {
-    const url = e.target.value;
+    let url = e.target.value;
     const tempId = `${this.props.name}_${Date.now()}`;
     const regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
     if (!(regexp.test(url))) {
@@ -83,6 +83,9 @@ class AppsTab extends React.Component {
       tempId,
       appURL: url
     });
+    if (!url.includes('https://') && !url.includes('http://')) {
+      url = `http://${url}`;
+    }
     this.updateScreenshot();
     axios.get('/api/screenshot', {
       params: { url, tempId }
@@ -145,13 +148,11 @@ class AppsTab extends React.Component {
   }
 
   handleInputConfirm() {
-    const state = this.state;
-    const inputValue = this.state.inputValue;
-    let tags = this.state.tags;
-    if (this.state.inputValue && tags.indexOf(this.state.inputValue) === -1) {
-      tags = [...tags, this.state.inputValue];
+    const { inputValue } = this.state;
+    let { tags } = this.state;
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      tags = [...tags, inputValue];
     }
-    console.log(tags);
     this.setState({
       tags,
       inputVisible: false,
@@ -214,11 +215,10 @@ class AppsTab extends React.Component {
     }, 1000);
     axios.post('/api/project', projectData)
       .then(() => {
-        console.log(projectData);
-      });
-    Store.populateUser(this.props.name)
-      .then((res) => {
-        console.log(res);
+        Store.populateUser(this.props.name)
+          .then((res) => {
+            console.log(res);
+          });
       });
   }
 

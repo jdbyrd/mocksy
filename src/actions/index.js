@@ -42,7 +42,7 @@ Store.checkAuth = () => {
     });
 };
 
-Store.sortProjectsBy = (sort) => {
+Store.filterProjects = (sort) => {
   store.dispatch({
     type: 'SORT_BY',
     payload: sort

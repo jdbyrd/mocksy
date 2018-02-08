@@ -5,19 +5,18 @@ import AppCard from './AppCard';
 import { populateFeed } from '../../actions/index';
 
 
-const mapStateToProps = (state) => {
-  return {
-    projects: state.projects
-  };
-};
+const mapStateToProps = state => ({
+  projects: state.projects,
+  filterProjects: state.filterProjects
+});
 
 class FeedPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: 'all',
+      // query: 'all',
     };
-    this.getQuery = this.getQuery.bind(this);
+    // this.getQuery = this.getQuery.bind(this);
   }
 
   componentDidMount() {
@@ -25,13 +24,14 @@ class FeedPage extends React.Component {
     this.props.isHomepage(true);
   }
 
-  getQuery(tag) {
-    this.setState({ query: tag });
-  }
+  // getQuery(tag) {
+  //   this.setState({ query: tag });
+  // }
 
   filterByTag(project, index) {
-    const containsQuery = !!project.tags.filter(tag => tag.tag === this.state.query).length;
-    if (this.state.query === 'all' || containsQuery) {
+    const containsQuery = !!project.tags.filter(tag =>
+      tag.tag === this.props.filterProjects).length;
+    if (this.props.filterProjects === 'all' || containsQuery) {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }
     return null;

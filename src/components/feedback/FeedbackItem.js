@@ -27,25 +27,6 @@ class FeedbackItem extends React.Component {
     this.close = this.close.bind(this);
   }
 
-<<<<<<< HEAD
-=======
-  componentWillReceiveProps(nextProps) {
-    this.setState({ total: nextProps.item.up - nextProps.item.down });
-    if (nextProps.auth) {
-      this.setState({
-        toggled: nextProps.item.vote
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.toggled !== this.state.toggled) {
-      const difference = this.state.total - prevState.total;
-      this.vote(difference);
-    }
-  }
-
->>>>>>> master
   /* ***************** VOTING ***************** */
   vote(difference, vote) {
     axios.post('/api/votes',

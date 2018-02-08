@@ -20,7 +20,7 @@ const feedback = (id, userId) => userId
       this.on('votes.feedback_id', '=', 'feedback.id').andOn('votes.user_id', '=', knex.raw(userId))
     })
     .where('project_id', id)
-  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
+  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.type_id')
     .where('project_id', id);

@@ -111,11 +111,11 @@ class FeedbackItem extends React.Component {
   render() {
     const { item } = this.props;
     return (
-      <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>
+      <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>         
         <Row>
           <Col span={2}>
             <Row>
-              { ((item.vote || null )=== false) || ((item.vote || null) === null) ?
+              { ((item.vote) === false) || ((item.vote) === null) ?
                 <Icon
                   type="up"
                   value={1}
@@ -131,7 +131,7 @@ class FeedbackItem extends React.Component {
               <h4>&nbsp;{item.up - item.down}</h4>
             </Row>
             <Row>
-              { ((item.vote || null) === null) || ((item.vote || null) === true) ?
+              { ((item.vote) === null) || ((item.vote) === true) ?
                 <Icon
                   type="down"
                   value={-1}

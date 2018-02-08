@@ -40,42 +40,6 @@ class App extends React.Component {
 
   componentDidMount() {
     checkAuth();
-    this.socket.on('connect', () => {
-      this.getUser().then((data) => {
-        axios.post('/api/sockets', {
-          socketid: this.socket.id,
-          username: data
-        });
-      });
-    });
-
-    this.socket.on('notification', (fromUser, project, feedbackInfo, collection) => {
-      console.log('NOTIFICATIONS COMING IN FROM SOCKET');
-      const newMessage = {
-        project,
-        fromUser,
-        feedbackInfo,
-        collection
-      };
-      console.log('THIS IS THE NEW MESSAGE: ', newMessage)
-      this.setState({
-        notifications: [newMessage]
-      });
-      console.log('push notification FROM: ', fromUser, ', project: ', project);
-    });
-  }
-
-  changeTriangle(bool) {
-    this.setState({ triangle: bool });
-  }
-
-  componentWillMount() {
-    this.socket.removeAllListeners();
-  }
-
-  componentWillUpdate() {
-    populateFeed(this.state.triangle);
-
     // this.socket.on('connect', () => {
     //   this.getUser().then((data) => {
     //     axios.post('/api/sockets', {
@@ -94,11 +58,47 @@ class App extends React.Component {
     //     collection
     //   };
     //   console.log('THIS IS THE NEW MESSAGE: ', newMessage)
-    //   this.setState({
-    //     notifications: [newMessage]
-    //   });
+    //   // this.setState({
+    //   //   notifications: [newMessage]
+    //   // });
     //   console.log('push notification FROM: ', fromUser, ', project: ', project);
     // });
+  }
+
+  changeTriangle(bool) {
+    this.setState({ triangle: bool });
+  }
+
+  // componentWillMount() {
+  //   this.socket.removeAllListeners();
+  // }
+
+  componentWillUpdate() {
+    populateFeed(this.state.triangle);
+
+    this.socket.on('connect', () => {
+      this.getUser().then((data) => {
+        axios.post('/api/sockets', {
+          socketid: this.socket.id,
+          username: data
+        });
+      });
+    });
+
+    this.socket.on('notification', (fromUser, project, feedbackInfo, collection) => {
+      console.log('NOTIFICATIONS COMING IN FROM SOCKET');
+      // const newMessage = {
+      //   project,
+      //   fromUser,
+      //   feedbackInfo,
+      //   collection
+      // };
+      //console.log('THIS IS THE NEW MESSAGE: ', newMessage)
+      this.setState({
+        notifications: collection
+      });
+      console.log('push notification FROM: ', fromUser, ', project: ', project);
+    });
   }
 
   // deleteNotification(projectid) {

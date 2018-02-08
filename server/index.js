@@ -160,16 +160,13 @@ app.get('/api/screenshot', async (req, res) => {
 });
 
 app.get('/api/notifications', (req, res) => {
-  console.log('looking for the user: ', req.user);
   query.getNotifications(req.user.username).then((data) => {
     res.send(data);
   });
 });
 
 app.post('/api/notifications', (req, res) => {
-  console.log('req.body: ', req.body)
   const { feedbackid } = req.body;
-  console.log('feedbackid: ', feedbackid)
   update.wasNotified(feedbackid, 't')
     .then(() => {
       query.getNotifications(req.user.username).then((data) => {
@@ -301,25 +298,32 @@ io.on('connection', (socket) => {
   });
 
   socket.on('post feedback', (fromUser, project, userid, feedback, projectid) => {
-    console.log('typeof userid: ', typeof userid)
-    // if (typeof userid === 'number') {
-    //   console.log('RUNNING')
-    //   query.getUserFromId(userid).then((data) => {
-    //     const socketId = allSockets[data.name].socketid;
-    //     query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
-    //       console.log('THE RESPONSE ########: ', res[0]);
-    //       socket.broadcast.to(socketId).emit('notification', fromUser, project);
-    //     });
-    //   });
-    // } else {
-      console.log('allSockets: ', allSockets);
-      const socketId = allSockets[userid].socketid;
-      query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
-        query.getNotifications(userid).then((data) => {
-          socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+    console.log('userid: ', userid)
+    if (typeof userid === 'number') {
+      console.log('RUNNING')
+      query.getUserFromId(userid).then((data) => {
+        const username = data.name;
+        const socketId = allSockets[data.name].socketid;
+        query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+          console.log('THE RESPONSE ########: ', res[0]);
+          query.getNotifications(username).then((data) => {
+            console.log('getNotifications query running')
+            socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+            console.log('logging this after emit')
+          });
         });
       });
-    // }
+    } else {
+      const socketId = allSockets[userid].socketid;
+      query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+        console.log('getFeedbackId query running')
+        query.getNotifications(userid).then((data) => {
+          console.log('getNotifications query running')
+          socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+          console.log('logging this after emit')
+        });
+      });
+    }
   });
 
   socket.on('disconnect', function(){

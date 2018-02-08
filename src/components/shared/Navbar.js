@@ -41,7 +41,25 @@ class Navbar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ showTriangle: nextProps.homepage });
+    console.log('this.state.notifications: ', this.state.notifications)
+    console.log('nextProps: ', nextProps)
+    if (nextProps.notifications.length) {
+      console.log('if running in WillReceiveProps')
+      // const oldNotifications = this.state.notifications.slice();
+      // oldNotifications.shift({
+      //   id: nextProps.notifications[0].feedbackInfo.id,
+      //   name: nextProps.notifications[0].fromUser,
+      //   title: nextProps.notifications[0].project,
+      //   project_id: nextProps.notifications[0].feedbackInfo.project_id,
+      // });
+      this.setState({
+        notifications: nextProps.notifications,
+        showTriangle: nextProps.homepage
+      });
+    } else {
+      console.log('else running in WillReceiveProps')
+      this.setState({ showTriangle: nextProps.homepage });
+    }
   }
 
   deleteNotification(feedbackid) {
@@ -158,13 +176,14 @@ class Navbar extends React.Component {
               <div className="notifications-triangle"></div>
               <div className="notifications">
                 {this.state.notifications.map((notification, index) => {
+                  {console.log('project_id: ', notification.project_id)}
                   return <Link to={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></Link>
                 })}
               </div>
             </div>
             : null }
 
-            {this.props.notifications.length ? <div className="dot" /> : null}
+            {this.state.notifications.length ? <div className="dot" /> : null}
 
             <div className="right-container">
               <div className="search">

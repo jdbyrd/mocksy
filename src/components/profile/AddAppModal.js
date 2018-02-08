@@ -214,11 +214,10 @@ class AppsTab extends React.Component {
     }, 1000);
     axios.post('/api/project', projectData)
       .then(() => {
-        console.log(projectData);
-      });
-    Store.populateUser(this.props.name)
-      .then((res) => {
-        console.log(res);
+        Store.populateUser(this.props.name)
+          .then((res) => {
+            console.log(res);
+          });
       });
   }
 

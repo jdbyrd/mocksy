@@ -272,7 +272,10 @@ app.delete('/api/project', (req, res) => {
     deletes.projectVotes(id).then(() => {
       deletes.projectFeedback(id).then(() => {
         deletes.project(id)
-          .then(() => res.end());
+          .then(() => {
+            fse.remove(`./dist/images/${id}.png`);
+            res.end();
+          });
       });
     });
   }
@@ -286,7 +289,7 @@ app.delete('/api/feedback', (req, res) => {
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());
-    })
+    });
   }
 });
 

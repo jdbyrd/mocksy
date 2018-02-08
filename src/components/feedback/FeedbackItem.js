@@ -17,68 +17,52 @@ class FeedbackItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: this.props.item.up - this.props.item.down,
-      toggled: this.props.item.vote || null,
       component: 'feedback',
-      marked: null
     };
 
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.vote = this.vote.bind(this);
+    this.mark = this.mark.bind(this);
     this.check = this.check.bind(this);
     this.close = this.close.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ total: nextProps.item.up - nextProps.item.down });
-    if (nextProps.auth) {
-      this.setState({
-        toggled: nextProps.item.vote
-      });
-    }
-  }
-  
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.toggled !== this.state.toggled) {
-      const difference = this.state.total - prevState.total;
-      this.vote(difference);
-    }
-  }
-
   /* ***************** VOTING ***************** */
-  vote(difference) {
+  vote(difference, vote) {
     axios.post('/api/votes',
       {
         votes_id: this.props.item.votes_id,
         feedback_id: this.props.item.id,
-        vote: this.state.toggled,
+        vote,
         project_id: this.props.item.project_id,
         difference
       }
     )
       .then(() => {
-        console.log('form added');
+        populateFeedback(this.props.item.project_id);
+      });
+  }
+
+  mark(marked) {
+    axios.post('/api/issues', {
+      issue_id: this.props.item.issue_id,
+      feedback_id: this.props.item.id,
+      marked
+    })
+      .then(() => {
+        populateFeedback(this.props.item.project_id);
       });
   }
 
   upvote() {
     if (this.props.auth) {
-      if (this.state.toggled) {
-        this.setState({
-          toggled: null,
-          total: this.state.total - 1,
-        });
-      } else if (this.state.toggled === false) {
-        this.setState({
-          toggled: true,
-          total: this.state.total + 2,
-        });
-      } else if (this.state.toggled === null) {
-        this.setState({
-          toggled: true,
-          total: this.state.total + 1,
-        });
+      if (this.props.item.vote) {
+        this.vote(-1, null);
+      } else if (this.props.item.vote === false) {
+        this.vote(2, true);
+      } else if (this.props.item.vote === null) {
+        this.vote(1, true);
       }
     } else {
       message.warning('Please log in to vote!');
@@ -87,21 +71,12 @@ class FeedbackItem extends React.Component {
 
   downvote() {
     if (this.props.auth) {
-      if (this.state.toggled) {
-        this.setState({
-          toggled: false,
-          total: this.state.total - 2,
-        });
-      } else if (this.state.toggled === false) {
-        this.setState({
-          toggled: null,
-          total: this.state.total + 1,
-        });
-      } else if (this.state.toggled === null) {
-        this.setState({
-          toggled: false,
-          total: this.state.total - 1,
-        });
+      if (this.props.item.vote) {
+        this.vote(-2, false);
+      } else if (this.props.item.vote === false) {
+        this.vote(1, null);
+      } else if (this.props.item.vote === null) {
+        this.vote(-1, false);
       }
     } else {
       message.warning('Please log in to vote!');
@@ -112,36 +87,24 @@ class FeedbackItem extends React.Component {
 
   check() {
     if (this.props.auth) {
-      if (this.state.marked) {
-        this.setState({
-          marked: null,
-        });
-      } else if (this.state.marked === false) {
-        this.setState({
-          marked: true,
-        });
-      } else if (this.state.marked === null) {
-        this.setState({
-          marked: true,
-        });
+      if (this.props.item.marked) {
+        this.mark(null);
+      } else if (this.props.item.marked === false) {
+        this.mark(true);
+      } else if (this.props.item.marked === null) {
+        this.mark(true);
       }
     }
   }
 
   close() {
     if (this.props.auth) {
-      if (this.state.marked) {
-        this.setState({
-          marked: false,
-        });
-      } else if (this.state.marked === false) {
-        this.setState({
-          marked: null,
-        });
-      } else if (this.state.marked === null) {
-        this.setState({
-          marked: false,
-        });
+      if (this.props.item.marked) {
+        this.mark(false);
+      } else if (this.props.item.marked === false) {
+        this.mark(null);
+      } else if (this.props.item.marked === null) {
+        this.mark(false);
       }
     }
   }
@@ -153,7 +116,7 @@ class FeedbackItem extends React.Component {
         <Row>
           <Col span={2}>
             <Row>
-              { (this.state.toggled === false) || (this.state.toggled === null) ?
+              { ((item.vote || null )=== false) || ((item.vote || null) === null) ?
                 <Icon
                   type="up"
                   value={1}
@@ -166,10 +129,10 @@ class FeedbackItem extends React.Component {
               }
             </Row>
             <Row>
-              <h4>&nbsp;{this.state.total}</h4>
+              <h4>&nbsp;{item.up - item.down}</h4>
             </Row>
             <Row>
-              { (this.state.toggled === null) || (this.state.toggled === true) ?
+              { ((item.vote || null) === null) || ((item.vote || null) === true) ?
                 <Icon
                   type="down"
                   value={-1}
@@ -196,7 +159,7 @@ class FeedbackItem extends React.Component {
             <Col>
               <Col span={1}>
                 <Tooltip title="Mark as completed">
-                { (this.state.marked === false) || (this.state.marked === null) ?
+                  { (item.marked === false) || (item.marked === null) ?
                     <Icon
                       type="check-circle-o"
                       onClick={this.check}
@@ -211,7 +174,7 @@ class FeedbackItem extends React.Component {
               </Col>
               <Col span={1}>
                 <Tooltip title="Mark as unresolvable">
-                { (this.state.marked === null) || (this.state.marked === true) ?
+                  { (item.marked === null) || (item.marked === true) ?
                     <Icon
                       type="close-circle-o"
                       onClick={this.close}

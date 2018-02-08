@@ -36,10 +36,9 @@ const decrementFeedbackDown = (feedbackId) => {
 };
 
 const wasNotified = (feedbackId, notified) => {
-  knex('feedback')
+  return knex('feedback')
     .where('id', '=', feedbackId)
     .update({ notified })
-    .then(() => console.log('user read push notification'));
 };
 
 module.exports = {

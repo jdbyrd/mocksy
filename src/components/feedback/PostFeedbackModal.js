@@ -67,12 +67,16 @@ class PostFeedbackModal extends React.Component {
               });
             }, 500);
           });
+          if (this.props.name) {
+            console.log('if running')
+            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
+          } else {
+            console.log('else running')
+            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
+          }
         });
-      if (this.props.name) {
-        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name);
-      } else {
-        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid);
-      }
+        console.log('this.props.id: ', this.props.id)
+
       // this is never setting the state to true
       this.setState({
         confirmLoading: true

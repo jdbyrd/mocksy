@@ -88,12 +88,10 @@ app.get('/api/projects', (req, res) => {
   const { id } = req.query;
   if (req.query.sort === 'true') {
     query.sortProjects().then((projects) => {
-      console.log('projects: ', projects)
       res.send(projects);
     });
   }
   query.projects(id).then((projects) => {
-    console.log('projects: ', projects)
     if (id) {
       const projectFeedback = { project: projects[0] };
       if (req.user) {
@@ -161,6 +159,25 @@ app.get('/api/screenshot', async (req, res) => {
   res.send(message);
 });
 
+app.get('/api/notifications', (req, res) => {
+  console.log('looking for the user: ', req.user);
+  query.getNotifications(req.user.username).then((data) => {
+    res.send(data);
+  });
+});
+
+app.post('/api/notifications', (req, res) => {
+  console.log('req.body: ', req.body)
+  const { feedbackid } = req.body;
+  console.log('feedbackid: ', feedbackid)
+  update.wasNotified(feedbackid, 't')
+    .then(() => {
+      query.getNotifications(req.user.username).then((data) => {
+        res.send(data);
+      });
+    });
+});
+
 app.delete('/user/screenshot', async (req, res) => {
   console.log('request to delete screenshot!');
   const files = await fse.readdir('./dist/images');
@@ -185,13 +202,6 @@ app.post('/api/feedback', (req, res) => {
     req.body.name = req.user.username;
     insert.feedback(req.body);
     insert.updateNumFeedback(req.body.projectId);
-  }
-  res.end();
-});
-
-app.post('/api/notified', (req, res) => {
-  if (req.user) {
-    console.log('Finish this later. I need to figure out the feedback ID so I can update the database')
   }
   res.end();
 });
@@ -290,16 +300,26 @@ io.on('connection', (socket) => {
     res.end();
   });
 
-  socket.on('post feedback', (fromUser, project, userid) => {
-    if (typeof userid === 'number') {
-      query.getUserFromId(userid).then((data) => {
-        const socketId = allSockets[data.name].socketid;
-        socket.broadcast.to(socketId).emit('notification', fromUser, project);
-      });
-    } else {
+  socket.on('post feedback', (fromUser, project, userid, feedback, projectid) => {
+    console.log('typeof userid: ', typeof userid)
+    // if (typeof userid === 'number') {
+    //   console.log('RUNNING')
+    //   query.getUserFromId(userid).then((data) => {
+    //     const socketId = allSockets[data.name].socketid;
+    //     query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+    //       console.log('THE RESPONSE ########: ', res[0]);
+    //       socket.broadcast.to(socketId).emit('notification', fromUser, project);
+    //     });
+    //   });
+    // } else {
+      console.log('allSockets: ', allSockets);
       const socketId = allSockets[userid].socketid;
-      socket.broadcast.to(socketId).emit('notification', fromUser, project);
-    }
+      query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+        query.getNotifications(userid).then((data) => {
+          socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+        });
+      });
+    // }
   });
 
   socket.on('disconnect', function(){

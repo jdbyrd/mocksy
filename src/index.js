@@ -31,6 +31,7 @@ class App extends React.Component {
       notifications: [],
       endpoint: 'http://127.0.0.1:3000' // this is where we are connecting to with sockets
     };
+    //this.deleteNotification = this.deleteNotification.bind(this);
     this.changeTriangle = this.changeTriangle.bind(this);
     this.isHomepage = this.isHomepage.bind(this);
     this.getUser = this.getUser.bind(this);
@@ -39,15 +40,6 @@ class App extends React.Component {
 
   componentDidMount() {
     checkAuth();
-  }
-
-  changeTriangle(bool) {
-    this.setState({ triangle: bool });
-  }
-
-  componentWillUpdate() {
-    populateFeed(this.state.triangle);
-
     this.socket.on('connect', () => {
       this.getUser().then((data) => {
         axios.post('/api/sockets', {
@@ -57,18 +49,68 @@ class App extends React.Component {
       });
     });
 
-    this.socket.on('notification', (fromUser, project) => {
+    this.socket.on('notification', (fromUser, project, feedbackInfo, collection) => {
       console.log('NOTIFICATIONS COMING IN FROM SOCKET');
       const newMessage = {
         project,
         fromUser,
+        feedbackInfo,
+        collection
       };
+      console.log('THIS IS THE NEW MESSAGE: ', newMessage)
       this.setState({
-        notifications: [...this.state.notifications, newMessage]
+        notifications: [newMessage]
       });
       console.log('push notification FROM: ', fromUser, ', project: ', project);
     });
   }
+
+  changeTriangle(bool) {
+    this.setState({ triangle: bool });
+  }
+
+  componentWillMount() {
+    this.socket.removeAllListeners();
+  }
+
+  componentWillUpdate() {
+    populateFeed(this.state.triangle);
+
+    // this.socket.on('connect', () => {
+    //   this.getUser().then((data) => {
+    //     axios.post('/api/sockets', {
+    //       socketid: this.socket.id,
+    //       username: data
+    //     });
+    //   });
+    // });
+
+    // this.socket.on('notification', (fromUser, project, feedbackInfo, collection) => {
+    //   console.log('NOTIFICATIONS COMING IN FROM SOCKET');
+    //   const newMessage = {
+    //     project,
+    //     fromUser,
+    //     feedbackInfo,
+    //     collection
+    //   };
+    //   console.log('THIS IS THE NEW MESSAGE: ', newMessage)
+    //   this.setState({
+    //     notifications: [newMessage]
+    //   });
+    //   console.log('push notification FROM: ', fromUser, ', project: ', project);
+    // });
+  }
+
+  // deleteNotification(projectid) {
+  //   console.log('DELETE NOTIFCATION running');
+  //   // const notificationsCopy = this.state.notifications.slice();
+  //   // for (var i = 0; i < notificationsCopy.length; i++) {
+  //   //   if (notificationsCopy[i].feedbackInfo.project_id === projectid) {
+  //   //     notificationsCopy.splice(i, 1);
+  //   //   }
+  //   // }
+  //   // this.setState({ notifications: notificationsCopy });
+  // }
 
   isHomepage(bool) {
     this.setState({ homepage: bool });
@@ -79,10 +121,9 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('RENDERING RENDERING RENDERING RENDERING RENDERING RENDERING ');
     return (
       <div>
-        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} notifications={this.state.notifications} />
+        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} notifications={this.state.notifications} checkAuth={checkAuth} />
         <Switch>
           <Route exact={true} path="/" render={() => (<FeedPage feed={this.state.triangle} isHomepage={this.isHomepage} />)} />
           <Route path="/project/:id" render={(props) => (<FeedbackPage {...props} isHomepage={this.isHomepage} />)} />

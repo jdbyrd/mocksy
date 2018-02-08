@@ -21,7 +21,8 @@ class Navbar extends React.Component {
       query: '',
       searchResults: [],
       showTriangle: true,
-      showNotifications: false
+      showNotifications: false,
+      notifications: []
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -30,10 +31,24 @@ class Navbar extends React.Component {
     this.readNotifications = this.readNotifications.bind(this);
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
+    this.deleteNotification = this.deleteNotification.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount running');
+    axios.get('/api/notifications')
+      .then(data => this.setState({ notifications: data.data }));
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ showTriangle: nextProps.homepage });
+  }
+
+  deleteNotification(feedbackid) {
+    console.log('DELETE feedback_id: ', feedbackid);
+    axios.post('/api/notifications', {
+      feedbackid
+    }).then((data) => this.setState({ notifications: data.data }));
   }
 
   displayResults(result, index) {
@@ -70,13 +85,13 @@ class Navbar extends React.Component {
   }
 
   readNotifications() {
-    console.log('NOTIFICATIONS: ', this.props.notifications);
-    if (this.props.notifications.length) {
+    console.log('NOTIFICATIONS: ', this.state.notifications);
+    if (this.state.notifications.length) {
       this.setState({ showNotifications: !this.state.showNotifications });
+      // axios.post('/api/notified', {
+      //   notifications: this.props.notifications
+      // });
     }
-    axios.post('/api/notified', {
-      notifications: this.props.notifications
-    })
   }
 
   toggleDropdown() {
@@ -138,12 +153,12 @@ class Navbar extends React.Component {
               </Link>
             </ul>
 
-            {this.state.showNotifications && this.props.notifications.length ?
+            {this.state.showNotifications && this.state.notifications.length ?
             <div className="notifications-container">
               <div className="notifications-triangle"></div>
               <div className="notifications">
-                {this.props.notifications.map((notification) => {
-                  return <p>{notification.fromUser} has commented on {notification.project}</p>
+                {this.state.notifications.map((notification, index) => {
+                  return <Link to={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></Link>
                 })}
               </div>
             </div>

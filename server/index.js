@@ -114,7 +114,6 @@ app.get('/api/projects', (req, res) => {
               return memo;
             }, []);
           });
-          console.log('projects:', projects);
           res.send(projects);
         });
     }
@@ -251,6 +250,27 @@ app.post('/api/votes', (req, res) => {
   }
 });
 
+app.post('/api/issues', (req, res) => {
+  if (req.user) {
+    if (req.body.issue_id === null) {
+      query.users(req.user.username).then((user) => {
+        query.issues(user[0].id, req.body.feedback_id).then((issue) => {
+          if (issue.length === 0) {
+            insert.issue(user[0].id, req.body.feedback_id, req.body.marked);
+            res.end();
+          } else if (issue[0].marked !== req.body.marked) {
+            update.issue(issue[0].issue_id, req.body.marked);
+            res.end();
+          }
+        });
+      });
+    } else {
+      update.issue(req.body.issue_id, req.body.marked);
+      res.end();
+    }
+  }
+});
+
 app.post('/api/feedback/update', (req, res) => {
   if (req.user) {
     update.feedback(req.body);
@@ -259,7 +279,6 @@ app.post('/api/feedback/update', (req, res) => {
 });
 
 app.post('/api/project/update', (req, res) => {
-  console.log(req.body);
   if(req.user) {
     update.project(req.body);
   }
@@ -285,7 +304,7 @@ app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    insert.decreaseNumFeedback(projectid);5
+    insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

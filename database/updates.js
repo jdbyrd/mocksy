@@ -56,6 +56,13 @@ const bio = (name, text) => {
     .then(() => console.log('updated bio'));
 };
 
+const issue = (issue_id, marked) => {
+  knex('issues')
+    .where('issue_id', '=', issue_id)
+    .update({ marked })
+    .then(() => console.log('updated issue'));
+};
+
 module.exports = {
   vote,
   incrementFeedbackUp,
@@ -64,5 +71,6 @@ module.exports = {
   decrementFeedbackDown,
   feedback,
   project,
-  bio
+  bio,
+  issue
 };

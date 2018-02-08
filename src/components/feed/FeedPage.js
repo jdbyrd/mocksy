@@ -30,13 +30,15 @@ class FeedPage extends React.Component {
   }
 
   filterByTag(project, index) {
-    if (this.state.query === 'all' || project.tags.includes(this.state.query)) {
+    const containsQuery = !!project.tags.filter(tag => tag.tag === this.state.query).length;
+    if (this.state.query === 'all' || containsQuery) {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }
     return null;
   }
 
   render() {
+    console.log(this.props.projects);
     return (
       <div>
         {this.props.projects.map((project, index) => (

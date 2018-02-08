@@ -54,7 +54,7 @@ class EditModal extends React.Component {
                 visible: false,
                 confirmLoading: false,
               });
-            }, 1500);
+            }, 500);
           });
         });
       // this is never setting the state to true
@@ -110,8 +110,7 @@ class EditModal extends React.Component {
         {
           (this.props.auth && this.props.auth.username === this.props.name)?
             <Icon type="edit" onClick={this.showModal} />
-            :
-            null
+            : null
         }
 
         <Modal
@@ -126,7 +125,7 @@ class EditModal extends React.Component {
           ]}
         >
           <form onSubmit={this.handleSubmit} id="form">
-            <h4>Change your description here:</h4>
+            <h4>Change your text here:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
           </form>
         </Modal>

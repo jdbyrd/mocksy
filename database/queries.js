@@ -13,17 +13,14 @@ const sortProjects = id => id
     .orderBy('num_feedback', 'desc');
 
 const feedback = (id, userId) => userId
-  ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'types.type_id', 'votes.vote', 'votes.votes_id', 'issues.issue_id', 'issues.marked')
+  ? knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'types.type_id', 'votes.vote', 'votes.votes_id')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.type_id')
     .leftJoin('votes', function() {
       this.on('votes.feedback_id', '=', 'feedback.id').andOn('votes.user_id', '=', knex.raw(userId))
     })
-    .leftJoin('issues', function() {
-      this.on('issues.feedback_id', '=', 'feedback.id').andOn('issues.user_id', '=', knex.raw(userId))
-    })
     .where('project_id', id)
-  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
+  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.type_id')
     .where('project_id', id);

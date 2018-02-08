@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Icon, Tooltip, message } from 'antd';
 import VerificationModal from '../shared/VerificationModal';
+import { populateFeedback } from '../../actions/index';
 import EditModal from '../shared/EditModal';
 
 const mapStateToProps = (state) => {
@@ -111,7 +112,7 @@ class FeedbackItem extends React.Component {
   render() {
     const { item } = this.props;
     return (
-      <div className={"feedback-item " + (this.state.marked !== null ? 'fade' : 'feedback-item')}>
+      <div className={"feedback-item " + ((item.marked !== null ? 'fade' : 'feedback-item')}>
         <Row>
           <Col span={2}>
             <Row>
@@ -162,10 +163,10 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row>
               <p>{item.text}</p>
-              { this.state.marked ?
+              { item.marked ?
                 <h6>The developer has marked this issue as resolved.</h6> : null
               }
-              { this.state.marked === false ?
+              { item.marked === false ?
                 <h6>The developer has marked this issue as unresolvable.</h6> : null
               }
             </Row>

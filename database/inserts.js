@@ -76,12 +76,6 @@ const vote = (name, feedback_id, vote, id_project) => {
     .catch(error => console.log('did not add vote: ', error));
 };
 
-const issue = (user_id, feedback_id, marked) => {
-  knex('issues').insert({ user_id, feedback_id, marked })
-    .then(() => console.log('inserted issue'))
-    .catch(error =>  console.log('did not insert issue', error));
-};
-
 module.exports = {
   user,
   project,
@@ -89,6 +83,5 @@ module.exports = {
   tags,
   updateNumFeedback,
   decreaseNumFeedback,
-  vote,
-  issue
+  vote
 };

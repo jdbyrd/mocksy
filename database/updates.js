@@ -56,9 +56,9 @@ const bio = (name, text) => {
     .then(() => console.log('updated bio'));
 };
 
-const issue = (issue_id, marked) => {
-  knex('issues')
-    .where('issue_id', '=', issue_id)
+const issue = (feedback_id, marked) => {
+  knex('feedback')
+    .where('id', '=', feedback_id)
     .update({ marked })
     .then(() => console.log('updated issue'));
 };

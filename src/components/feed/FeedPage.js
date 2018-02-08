@@ -14,9 +14,7 @@ class FeedPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // query: 'all',
     };
-    // this.getQuery = this.getQuery.bind(this);
   }
 
   componentDidMount() {
@@ -24,14 +22,10 @@ class FeedPage extends React.Component {
     this.props.isHomepage(true);
   }
 
-  // getQuery(tag) {
-  //   this.setState({ query: tag });
-  // }
-
   filterByTag(project, index) {
     const containsQuery = !!project.tags.filter(tag =>
       tag.tag === this.props.filterProjects).length;
-    if (this.props.filterProjects === 'all' || containsQuery) {
+    if (this.props.filterProjects === null || containsQuery) {
       return <AppCard key={index} project={project} getQuery={this.getQuery} />;
     }
     return null;

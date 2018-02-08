@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
+import Store from '../../actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -75,6 +76,7 @@ class Navbar extends React.Component {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
     this.props.changeTriangle(false);
+    Store.filterProjects(null);
   }
 
   triangleRight() {

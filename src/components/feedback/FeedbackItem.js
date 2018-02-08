@@ -183,11 +183,13 @@ class FeedbackItem extends React.Component {
           </Col>
           <Col span={18}>
             <Row>
-              <img
-                className="feedback-icon"
-                alt="profile-pic"
-                src={item.avatar}
-              />
+              <Link to={`/user/${item.name}`}>
+                <img
+                  className="feedback-icon"
+                  alt="profile-pic"
+                  src={item.avatar}
+                />
+              </Link>
               <h2>
                 &nbsp;&nbsp;{item.options} by
                 <Link to={`/user/${item.name}`}>

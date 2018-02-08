@@ -189,7 +189,7 @@ class FeedbackItem extends React.Component {
                 src={item.avatar}
               />
               <h2>
-                &nbsp;{item.options} by
+                &nbsp;&nbsp;{item.options} by
                 <Link to={`/user/${item.name}`}>
                   &nbsp;{item.display_name}
                 </Link>
@@ -197,6 +197,12 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row>
               <p>{item.text}</p>
+              { this.state.marked ?
+                <h6>The developer has marked this issue as resolved.</h6> : null
+              }
+              { this.state.marked === false ?
+                <h6>The developer has marked this issue as unresolvable.</h6> : null
+              }
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === item.name) ?

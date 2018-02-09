@@ -1,5 +1,5 @@
 const FilterProjectsReducer = (state = null, action) => {
-  if (action.type === 'SORT_BY') {
+  if (action.type === 'FILTER') {
     return action.payload;
   }
   return state;

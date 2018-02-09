@@ -4,6 +4,7 @@ import FeedbackReducer from './FeedbackReducer';
 import UserReducer from './UserReducer';
 import AuthReducer from './AuthReducer';
 import FilterProjectsReducer from './FilterProjectsReducer';
+import SortProjectsReducer from './SortProjectsReducer';
 
 const reducer = combineReducers({
   auth: AuthReducer,
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   feedback: FeedbackReducer,
   user: UserReducer,
   filterProjects: FilterProjectsReducer,
+  sortProjects: SortProjectsReducer,
 });
 
 export default reducer;

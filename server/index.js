@@ -290,6 +290,7 @@ app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
+    console.log('RIGHT HERE: ', projectid)
     insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)

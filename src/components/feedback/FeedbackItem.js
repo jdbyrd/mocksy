@@ -83,7 +83,6 @@ class FeedbackItem extends React.Component {
   }
 
   /* ***************** RESOLVING ISSUES ***************** */
-
   check() {
     if (this.props.auth) {
       if (this.props.item.marked) {
@@ -110,8 +109,9 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
+    console.log(item.created, item.updated)
     return (
-      <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>         
+      <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>       
         <Row>
           <Col span={2}>
             <Row>
@@ -162,6 +162,9 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row>
               <p>{item.text}</p>
+              { item.created_at !== item.updated_at ?
+                <h6>This user has edited their feedback.</h6> : null
+              }
               { item.marked ?
                 <h6>The developer has marked this issue as resolved.</h6> : null
               }

@@ -20,10 +20,15 @@ const feedback = (id, userId) => userId
       this.on('votes.feedback_id', '=', 'feedback.id').andOn('votes.user_id', '=', knex.raw(userId))
     })
     .where('project_id', id)
-  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options')
+    .orderBy(knex.raw('feedback.up - feedback.down'), 'desc')
+  : knex('feedback').select('feedback.id', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote')
     .join('users', 'feedback.user_id', '=', 'users.id')
     .join('types', 'feedback.type_id', '=', 'types.type_id')
-    .where('project_id', id);
+    .leftJoin('votes', function() {
+      this.on('votes.feedback_id', '=', 'feedback.id').andOn('votes.user_id', '=', knex.raw(-1))
+    })
+    .where('project_id', id)
+    .orderBy(knex.raw('feedback.up - feedback.down'), 'desc');
 
 const users = name => name
   ? knex('users').where('name', name).select()

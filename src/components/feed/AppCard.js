@@ -11,9 +11,9 @@ class AppCard extends React.Component {
     super(props);
   }
 
-  clickTag(e) {
+  handleTagClick(e) {
     const tag = e.currentTarget.textContent.slice();
-    this.props.getQuery(tag);
+    Store.filterProjects(tag);
   }
 
   github() {
@@ -57,7 +57,7 @@ class AppCard extends React.Component {
                 ? this.props.project.tags.map(tag => (
                   <Tag
                     color="blue"
-                    onClick={e => this.clickTag(e)}
+                    onClick={e => this.handleTagClick(e)}
                     key={`${tag.tag}_${tag.project_id}`}
                   >{tag.tag}
                   </Tag>

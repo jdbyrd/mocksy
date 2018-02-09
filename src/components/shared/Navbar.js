@@ -188,7 +188,7 @@ class Navbar extends React.Component {
               <div className="notifications-triangle"></div>
               <div className="notifications">
                 {this.state.notifications.map((notification, index) => {
-                  return <Link to={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></Link>
+                  return <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></a>
                 })}
               </div>
             </div>

@@ -35,8 +35,8 @@ class ProfilePage extends React.Component {
         <UserHeader />
         <TabsContainer className="tabs-container">
           <Tabs>
-            <TabPane tab="Apps" key="1"><AppsTab name={this.props.match.params.name}/></TabPane>
-            <TabPane tab="Feedback given" key="2"><FeedbackGivenTab /></TabPane>
+            <TabPane tab="Apps" key="1"><AppsTab name={this.props.match.params.name} /></TabPane>
+            <TabPane tab="Feedback given" key="2"><FeedbackGivenTab name={this.props.match.params.name} /></TabPane>
           </Tabs>
         </TabsContainer>
       </div>

@@ -247,11 +247,14 @@ class FeedbackItem extends React.Component {
               text={item.text}
               id={item.id}
               project_id={item.project_id}
-              component="Feedback"
+              component="feedback"
             />
           </Col>
           <Col span={1}>
-            <VerificationModal item={item} component={this.state.component} />
+            <VerificationModal
+              item={item}
+              component={this.state.component}
+            />
           </Col>
         </Row>
       </div>

@@ -38,7 +38,8 @@ const decrementFeedbackDown = (feedbackId) => {
 const wasNotified = (feedbackId, notified) => {
   return knex('feedback')
     .where('id', '=', feedbackId)
-    .update({ notified })
+    .update({ notified });
+};
 
 const feedback = (update) => {
   const { feedbackId, text } = update;
@@ -66,7 +67,6 @@ const issue = (feedback_id, marked) => {
     .where('id', '=', feedback_id)
     .update({ marked })
     .then(() => console.log('updated issue'));
-
 };
 
 module.exports = {

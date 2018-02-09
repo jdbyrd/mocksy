@@ -23,7 +23,8 @@ class Navbar extends React.Component {
       searchResults: [],
       showTriangle: true,
       showNotifications: false,
-      notifications: []
+      notifications: [],
+      bool: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -36,48 +37,41 @@ class Navbar extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount running');
     axios.get('/api/notifications')
       .then(data => this.setState({ notifications: data.data }));
   }
 
   componentDidUpdate() {
-    axios.get('/api/notifications')
-      .then(data => this.setState({ notifications: data.data }));
+    console.log('componentDidUpdate running')
+    if (this.state.bool) {
+      axios.get('/api/notifications')
+        .then(data => this.setState({
+          notifications: data.data,
+          bool: false
+        }));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('this.state.notifications: ', this.state.notifications)
-    console.log('nextProps: ', nextProps)
     if (nextProps.notifications.length) {
-      console.log('if running in WillReceiveProps')
-      // const oldNotifications = this.state.notifications.slice();
-      // oldNotifications.shift({
-      //   id: nextProps.notifications[0].feedbackInfo.id,
-      //   name: nextProps.notifications[0].fromUser,
-      //   title: nextProps.notifications[0].project,
-      //   project_id: nextProps.notifications[0].feedbackInfo.project_id,
-      // });
       this.setState({
         notifications: nextProps.notifications,
         showTriangle: nextProps.homepage
       });
     } else {
-      console.log('else running in WillReceiveProps')
       this.setState({ showTriangle: nextProps.homepage });
     }
   }
 
   deleteNotification(feedbackid) {
-    console.log('DELETE feedback_id: ', feedbackid);
     axios.post('/api/notifications', {
       feedbackid
     }).then((data) => {
-      console.log('deleteNotification data.data: ', data.data)
       this.setState({
         notifications: data.data,
-        showNotifications: false
-      }).then(() => console.log(this.state.showNotifications))
+        showNotifications: false,
+        bool: true
+      });
     });
   }
 
@@ -115,12 +109,8 @@ class Navbar extends React.Component {
   }
 
   readNotifications() {
-    console.log('NOTIFICATIONS: ', this.state.notifications);
     if (this.state.notifications.length) {
       this.setState({ showNotifications: !this.state.showNotifications });
-      // axios.post('/api/notified', {
-      //   notifications: this.props.notifications
-      // });
     }
   }
 
@@ -148,7 +138,6 @@ class Navbar extends React.Component {
   }
 
   render() {
-    console.log(this.state.showNotifications);
     return (
       <div>
         <div className="nav-wrapper">

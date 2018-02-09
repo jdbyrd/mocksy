@@ -40,6 +40,11 @@ class Navbar extends React.Component {
       .then(data => this.setState({ notifications: data.data }));
   }
 
+  componentDidUpdate() {
+    axios.get('/api/notifications')
+      .then(data => this.setState({ notifications: data.data }));
+  }
+
   componentWillReceiveProps(nextProps) {
     console.log('this.state.notifications: ', this.state.notifications)
     console.log('nextProps: ', nextProps)

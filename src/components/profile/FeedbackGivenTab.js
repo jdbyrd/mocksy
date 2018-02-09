@@ -9,14 +9,14 @@ const mapStateToProps = state => (
   }
 );
 
-class FeedbackList extends React.Component { 
+class FeedbackList extends React.Component {
   render() {
     return (
       <div>
-        {this.props.feedback.map((project, index) => 
-          <FeedbackTabCard 
-            key={index} 
-            data={project} 
+        {this.props.feedback.map((project, index) =>
+          <FeedbackTabCard
+            key={index}
+            data={project}
             name={this.props.name}
           />)}
       </div>

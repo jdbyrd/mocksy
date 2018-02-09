@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import EditModal from '../shared/EditModal';
+import VerificationModal from '../shared/VerificationModal';
 
 class FeedbackTabCard extends React.Component {
   render() {
@@ -21,10 +22,10 @@ class FeedbackTabCard extends React.Component {
               <p>{project.text}</p>
             </Link>
           </Col>
-          <Col span={11}>
+          <Col span={10}>
             <p>{feedback.text}</p>
           </Col>
-          <Col span={1}>
+          <Col span={2}>
             <EditModal
               name={this.props.name}
               text={feedback.text}
@@ -33,6 +34,7 @@ class FeedbackTabCard extends React.Component {
               parent="userPage"
               component="feedback"
             />
+            <VerificationModal />
           </Col>
           <Col span={2} />
         </Row>

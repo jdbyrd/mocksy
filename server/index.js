@@ -161,6 +161,7 @@ app.get('/api/screenshot', async (req, res) => {
 
 app.get('/api/notifications', (req, res) => {
   query.getNotifications(req.user.username).then((data) => {
+    console.log('get data: ', data)
     res.send(data);
   });
 });
@@ -170,6 +171,7 @@ app.post('/api/notifications', (req, res) => {
   update.wasNotified(feedbackid, 't')
     .then(() => {
       query.getNotifications(req.user.username).then((data) => {
+        console.log('post data: ', data);
         res.send(data);
       });
     });

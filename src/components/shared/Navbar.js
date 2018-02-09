@@ -66,7 +66,13 @@ class Navbar extends React.Component {
     console.log('DELETE feedback_id: ', feedbackid);
     axios.post('/api/notifications', {
       feedbackid
-    }).then((data) => this.setState({ notifications: data.data }));
+    }).then((data) => {
+      console.log('deleteNotification data.data: ', data.data)
+      this.setState({
+        notifications: data.data,
+        showNotifications: false
+      }).then(() => console.log(this.state.showNotifications))
+    });
   }
 
   displayResults(result, index) {
@@ -135,6 +141,7 @@ class Navbar extends React.Component {
   }
 
   render() {
+    console.log(this.state.showNotifications);
     return (
       <div>
         <div className="nav-wrapper">
@@ -176,7 +183,6 @@ class Navbar extends React.Component {
               <div className="notifications-triangle"></div>
               <div className="notifications">
                 {this.state.notifications.map((notification, index) => {
-                  {console.log('project_id: ', notification.project_id)}
                   return <Link to={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></Link>
                 })}
               </div>

@@ -28,8 +28,8 @@ class VerificationModal extends React.Component {
         // console.log("inside onOK (that)", that);
         // console.log(that.props);
         // console.log(that.props.component);
-        if ( that.props.component === 'feedback' ) {
-          axios.delete(`/api/feedback?id=${that.props.item.id}`)
+        if (that.props.component === 'feedback') {
+          axios.delete(`/api/feedback?id=${that.props.item.id}&projectid=${that.props.item.project_id}`)
             .then(() => populateFeedback(that.props.item.project_id));
         } else if ( that.props.component === 'project' ) {
           axios.delete(`/api/project?id=${that.props.item.project.id}`)

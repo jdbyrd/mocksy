@@ -121,14 +121,15 @@ class Navbar extends React.Component {
   triangleLeft() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
-    this.props.changeTriangle(false);
-    Store.filterProjects(null);
+    // this.props.changeTriangle(false);
+    Store.filterKey(null);
   }
 
   triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
-    this.props.changeTriangle(true);
+    // this.props.changeTriangle(true);
+    Store.sortKey('feedback');
   }
 
   toggleMenu() {

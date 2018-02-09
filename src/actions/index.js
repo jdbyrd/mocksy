@@ -43,14 +43,14 @@ Store.checkAuth = () => {
     });
 };
 
-Store.filterProjects = (filter) => {
+Store.filterKey = (filter) => {
   store.dispatch({
     type: 'FILTER',
     payload: filter
   });
 };
 
-Store.sortProjects = (sort) => {
+Store.sortKey = (sort) => {
   store.dispatch({
     type: 'SORT',
     payload: sort

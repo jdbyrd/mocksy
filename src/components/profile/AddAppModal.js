@@ -53,11 +53,7 @@ class AppsTab extends React.Component {
       description: value => this.setState({ description: value })
     };
   }
-
-  // componentDidMount() {
-  //   Store.populateTags();
-  // }
-
+  
   showModal() {
     this.setState({ visible: true });
   }

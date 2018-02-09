@@ -39,6 +39,34 @@ const wasNotified = (feedbackId, notified) => {
   return knex('feedback')
     .where('id', '=', feedbackId)
     .update({ notified })
+
+const feedback = (update) => {
+  const { feedbackId, text } = update;
+  knex('feedback')
+    .where('id', '=', feedbackId)
+    .update({ text })
+    .then(() => console.log('updated feedback text'));
+};
+
+const project = (update) => {
+  const { projectId, text } = update;
+  knex('projects')
+    .where('id', '=', projectId)
+    .update({ text })
+    .then(() => console.log('updated project text'));
+};
+
+const bio = (name, text) => {
+  knex('users').update('bio', text)
+    .then(() => console.log('updated bio'));
+};
+
+const issue = (feedback_id, marked) => {
+  knex('feedback')
+    .where('id', '=', feedback_id)
+    .update({ marked })
+    .then(() => console.log('updated issue'));
+
 };
 
 module.exports = {
@@ -47,5 +75,9 @@ module.exports = {
   incrementFeedbackDown,
   decrementFeedbackUp,
   decrementFeedbackDown,
-  wasNotified
+  wasNotified,
+  feedback,
+  project,
+  bio,
+  issue
 };

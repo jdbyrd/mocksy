@@ -34,9 +34,7 @@ passport.use(new GitHubStrategy(
     callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => {
-      return done(null, profile);
-    });
+    process.nextTick(() => done(null, profile));
   }
 ));
 
@@ -108,7 +106,18 @@ app.get('/api/projects', (req, res) => {
         });
       }
     } else {
-      res.send(projects);
+      query.tags()
+        .then((tags) => {
+          projects.forEach((project) => {
+            project.tags = tags.reduce((memo, tag) => {
+              if (tag.project_id === project.id) {
+                return [...memo, tag];
+              }
+              return memo;
+            }, []);
+          });
+          res.send(projects);
+        });
     }
   });
 });
@@ -185,13 +194,19 @@ app.delete('/user/screenshot', async (req, res) => {
   res.end();
 });
 
-app.post('/api/project', (req, res) => {
+app.post('/api/bio', async (req, res) => {
+  await update.bio(req.user.username, req.body.text);
+  res.end();
+});
+
+app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
-    insert.project(req.body)
-      .then((data) => {
-        fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
-      });
+    const data = await insert.project(req.body);
+    console.log('data[0].id:', data[0].id);
+    await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
+    req.body.projectId = data[0].id;
+    insert.tags(req.body);
   }
   res.end();
 });
@@ -233,7 +248,7 @@ app.post('/api/votes', (req, res) => {
       query.users(req.user.username).then((user) => {
         query.votes(user[0].id, req.body.feedback_id).then((vote) => {
           if (vote.length === 0) {
-            insert.vote(req.user.username, req.body.feedback_id, req.body.vote);
+            insert.vote(req.user.username, req.body.feedback_id, req.body.vote, req.body.project_id);
             differenceIncrementer(req.body.difference);
             res.end();
           } else if (vote[0].vote !== req.body.vote) {
@@ -255,12 +270,38 @@ app.post('/api/votes', (req, res) => {
   }
 });
 
+app.post('/api/issues', (req, res) => {
+  if (req.user) {
+    update.issue(req.body.feedback_id, req.body.marked);
+    res.end();
+  }
+});
+
+app.post('/api/feedback/update', (req, res) => {
+  if (req.user) {
+    update.feedback(req.body);
+  }
+  res.end();
+});
+
+app.post('/api/project/update', (req, res) => {
+  if (req.user) {
+    update.project(req.body);
+  }
+  res.end();
+});
+
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectFeedback(id).then(() => {
-      deletes.project(id)
-        .then(() => res.end());
+    deletes.projectVotes(id).then(() => {
+      deletes.projectFeedback(id).then(() => {
+        deletes.project(id)
+          .then(() => {
+            fse.remove(`./dist/images/${id}.png`);
+            res.end();
+          });
+      });
     });
   }
 });

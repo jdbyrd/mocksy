@@ -1,11 +1,14 @@
 const knex = require('./db');
 
-const user = data => {
-  return  knex('users').insert({ name: data.username, avatar: data.photos[0].value, display_name: data.displayName, github_profile: data.profileUrl });
-}
+const user = data => knex('users').insert({
+  name: data.username,
+  avatar: data.photos[0].value,
+  display_name: data.displayName,
+  github_profile: data.profileUrl,
+});
 
 const project = (data) => {
-  const { name, title, appURL, githubURL, description, tags, contributors } = data;
+  const { name, title, appURL, githubURL, description, contributors } = data;
   const userId = knex('users').where({ name }).select('id');
   return knex('projects').insert({
     title,
@@ -24,7 +27,12 @@ const project = (data) => {
 };
 
 const feedback = (data) => {
-  const { name, text, projectId, type } = data;
+  const {
+    name,
+    text,
+    projectId,
+    type
+  } = data;
   const userId = knex('users').where({ name }).select('id');
   knex('feedback').insert({
     text,
@@ -37,18 +45,14 @@ const feedback = (data) => {
 };
 
 const tags = (data) => {
-  const { name } = data;
-  knex('tags').insert({ name })
-    .then(() => console.log('inserted tag into database'))
-    .catch(error => console.log('DID NOT ADD TAG: ', error));
+  const tagList = data.tags;
+  const { projectId } = data;
+  tagList.forEach((tag) => {
+    knex('tags').insert({ tag, project_id: projectId })
+      .then(() => console.log('inserted tag into database'))
+      .catch(error => console.log('DID NOT ADD TAG: ', error));
+  });
 };
-
-// const reviewType = (data) => {
-//   const { option } = data;
-//   knex('review_type').insert({ option })
-//     .then(() => console.log('inserted reviewType into database'))
-//     .catch(error => console.log('DID NOT ADD REVIEWTYPE: ', error));
-// };
 
 const updateNumFeedback = (id) => {
   knex('projects')
@@ -66,8 +70,8 @@ const decreaseNumFeedback = (id) => {
     .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
 };
 
-const vote = (name, feedback_id, vote) => {
-  knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote })
+const vote = (name, feedback_id, vote, id_project) => {
+  knex('votes').insert({user_id: knex('users').where({ name }).select('id'), feedback_id, vote, id_project })
     .then(() => console.log('inserted vote'))
     .catch(error => console.log('did not add vote: ', error));
 };
@@ -77,7 +81,6 @@ module.exports = {
   project,
   feedback,
   tags,
-  // reviewType,
   updateNumFeedback,
   decreaseNumFeedback,
   vote

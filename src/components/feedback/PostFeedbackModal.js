@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 import { Modal, Select, Input, Button, message } from 'antd';
@@ -21,6 +23,7 @@ class PostFeedbackModal extends React.Component {
       confirmLoading: false,
       feedbackType: null,
       text: '',
+      endpoint: 'http://127.0.0.1:3000'
     };
 
     this.showModal = this.showModal.bind(this);
@@ -28,6 +31,7 @@ class PostFeedbackModal extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
+    this.socket = io(this.state.endpoint);
   }
 
   /* ****** MODAL FUNCTIONS ******* */
@@ -50,7 +54,7 @@ class PostFeedbackModal extends React.Component {
         }
       )
         .then(() => {
-          this.setState({confirmLoading: true}, () => {
+          this.setState({ confirmLoading: true }, () => {
             // this is running just fine
             setTimeout(() => {
               populateFeedback(this.props.id);
@@ -63,7 +67,16 @@ class PostFeedbackModal extends React.Component {
               });
             }, 500);
           });
+          if (this.props.name) {
+            console.log('if running')
+            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
+          } else {
+            console.log('else running')
+            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
+          }
         });
+        console.log('this.props.id: ', this.props.id)
+
       // this is never setting the state to true
       this.setState({
         confirmLoading: true

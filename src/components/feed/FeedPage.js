@@ -7,7 +7,8 @@ import { populateFeed } from '../../actions/index';
 
 const mapStateToProps = state => ({
   projects: state.projects,
-  filterProjects: state.filterProjects
+  filterProjects: state.filterProjects,
+  auth: state.auth
 });
 
 class FeedPage extends React.Component {

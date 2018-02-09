@@ -23,6 +23,7 @@ class FeedbackPage extends React.Component {
 
   render() {
     const project = this.props.project;
+    console.log('this.props.project: ', this.props.project);
     return (
       <div>
         <div id="feedback-padding"></div>
@@ -37,7 +38,7 @@ class FeedbackPage extends React.Component {
           <Col span={8}><AppSidebar /></Col>
           <Col span={12}>
             { this.props.auth ?
-              <PostFeedbackModal id={this.props.match.params.id} /> :
+              <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
               <LoginModal />
             }
             <Select

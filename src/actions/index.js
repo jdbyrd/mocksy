@@ -33,18 +33,26 @@ Store.populateUser = async (userName) => {
 };
 
 Store.checkAuth = () => {
-  axios('/auth/verify')
+  return axios('/auth/verify')
     .then((res) => {
       store.dispatch({
         type: 'CHECK_AUTH',
         payload: res.data
       });
+      return res.data;
     });
 };
 
-Store.filterProjects = (sort) => {
+Store.filterKey = (filter) => {
   store.dispatch({
-    type: 'SORT_BY',
+    type: 'FILTER',
+    payload: filter
+  });
+};
+
+Store.sortKey = (sort) => {
+  store.dispatch({
+    type: 'SORT',
     payload: sort
   });
 };

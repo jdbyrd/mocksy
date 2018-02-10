@@ -21,18 +21,58 @@ class Navbar extends React.Component {
       menu: false,
       query: '',
       searchResults: [],
-      showTriangle: true
+      showTriangle: true,
+      showNotifications: false,
+      notifications: [],
+      bool: false
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.displayResults = this.displayResults.bind(this);
+    this.readNotifications = this.readNotifications.bind(this);
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
+    this.deleteNotification = this.deleteNotification.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/api/notifications')
+      .then(data => this.setState({ notifications: data.data }));
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate running')
+    if (this.state.bool) {
+      axios.get('/api/notifications')
+        .then(data => this.setState({
+          notifications: data.data,
+          bool: false
+        }));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ showTriangle: nextProps.homepage });
+    if (nextProps.notifications.length) {
+      this.setState({
+        notifications: nextProps.notifications,
+        showTriangle: nextProps.homepage
+      });
+    } else {
+      this.setState({ showTriangle: nextProps.homepage });
+    }
+  }
+
+  deleteNotification(feedbackid) {
+    axios.post('/api/notifications', {
+      feedbackid
+    }).then((data) => {
+      this.setState({
+        notifications: data.data,
+        showNotifications: false,
+        bool: true
+      });
+    });
   }
 
   displayResults(result, index) {
@@ -68,6 +108,12 @@ class Navbar extends React.Component {
     }
   }
 
+  readNotifications() {
+    if (this.state.notifications.length) {
+      this.setState({ showNotifications: !this.state.showNotifications });
+    }
+  }
+
   toggleDropdown() {
     this.setState({ viewMenu: !this.state.viewMenu });
   }
@@ -75,14 +121,17 @@ class Navbar extends React.Component {
   triangleLeft() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
-    this.props.changeTriangle(false);
-    Store.filterProjects(null);
+    // this.props.changeTriangle(false);
+    Store.filterKey(null);
+    Store.sortKey('chron');
   }
 
   triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
-    this.props.changeTriangle(true);
+    // this.props.changeTriangle(true);
+    Store.filterKey(null);
+    Store.sortKey('feedback');
   }
 
   toggleMenu() {
@@ -128,6 +177,19 @@ class Navbar extends React.Component {
               </Link>
             </ul>
 
+            {this.state.showNotifications && this.state.notifications.length ?
+            <div className="notifications-container">
+              <div className="notifications-triangle"></div>
+              <div className="notifications">
+                {this.state.notifications.map((notification, index) => {
+                  return <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></a>
+                })}
+              </div>
+            </div>
+            : null }
+
+            {this.state.notifications.length ? <div className="dot" /> : null}
+
             <div className="right-container">
               <div className="search">
                 <input onChange={this.handleSearch} id="search" className="search-input" />
@@ -141,7 +203,7 @@ class Navbar extends React.Component {
                {this.props.auth ?
                 <ul className="buttons-wrapper">
                   <li>
-                    <img className="bell-icon" src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
+                    <img className="bell-icon" onClick={this.readNotifications} src="https://cdn1.iconfinder.com/data/icons/freeline/32/bell_sound_notification_remind_reminder_ring_ringing_schedule-32.png" />
                   </li>
                   <li className="img-dropdown-container">
                     <img

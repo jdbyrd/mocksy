@@ -13,7 +13,7 @@ class AppCard extends React.Component {
 
   handleTagClick(e) {
     const tag = e.currentTarget.textContent.slice();
-    Store.filterProjects(tag);
+    Store.filterKey(tag);
   }
 
   github() {
@@ -67,7 +67,7 @@ class AppCard extends React.Component {
             </span>
             <br /><br />
             <span>
-              <PostFeedbackModal id={this.props.project.id} />
+              <PostFeedbackModal id={this.props.project.id} title={this.props.project.title} name={this.props.project.name} />
                 <Link to={`/project/${this.props.project.id}`}>
                   <Button>Read feedback</Button>
                 </Link>

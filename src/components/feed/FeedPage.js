@@ -7,7 +7,9 @@ import { populateFeed } from '../../actions/index';
 
 const mapStateToProps = state => ({
   projects: state.projects,
-  filterProjects: state.filterProjects
+  filterKey: state.filterKey,
+  sortKey: state.sortKey,
+  auth: state.auth
 });
 
 class FeedPage extends React.Component {
@@ -22,20 +24,29 @@ class FeedPage extends React.Component {
     this.props.isHomepage(true);
   }
 
+  sortProjects(projects, sort) {
+    return sort === 'feedback'
+      ?  [...projects].sort((p1, p2) => p2.num_feedback - p1.num_feedback)
+      : sort === 'chron'
+      ? [...projects].sort((p1, p2) => p1.created_at - p2.created_at)
+      : projects;
+  }
+
   filterByTag(project, index) {
-    const containsQuery = !!project.tags.filter(tag =>
-      tag.tag === this.props.filterProjects).length;
-    if (this.props.filterProjects === null || containsQuery) {
-      return <AppCard key={index} project={project} getQuery={this.getQuery} />;
+    const containsTag = !!project.tags.filter(tag =>
+      tag.tag === this.props.filterKey).length;
+    if (this.props.filterKey === null || containsTag) {
+      return <AppCard key={index} project={project} />;
     }
     return null;
   }
 
   render() {
-    console.log(this.props.projects);
+    const sort = this.props.sortKey;
+    const projects = this.sortProjects(this.props.projects, sort); 
     return (
       <div>
-        {this.props.projects.map((project, index) => (
+        {projects.map((project, index) => (
           this.filterByTag(project, index)
         ))}
       </div>

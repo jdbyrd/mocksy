@@ -35,11 +35,17 @@ const decrementFeedbackDown = (feedbackId) => {
     .then(() => console.log('updated feedback Down'));
 };
 
+const wasNotified = (feedbackId, notified) => {
+  return knex('feedback')
+    .where('id', '=', feedbackId)
+    .update({ notified });
+};
+
 const feedback = (update) => {
   const { feedbackId, text } = update;
   knex('feedback')
     .where('id', '=', feedbackId)
-    .update({ text })
+    .update({ text, updated_at: knex.raw('now()') })
     .then(() => console.log('updated feedback text'));
 };
 
@@ -69,6 +75,7 @@ module.exports = {
   incrementFeedbackDown,
   decrementFeedbackUp,
   decrementFeedbackDown,
+  wasNotified,
   feedback,
   project,
   bio,

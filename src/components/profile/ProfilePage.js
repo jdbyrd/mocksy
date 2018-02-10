@@ -31,7 +31,7 @@ class ProfilePage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="profile">
         <UserHeader />
         <TabsContainer className="tabs-container">
           <Tabs>

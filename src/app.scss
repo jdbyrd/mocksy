@@ -501,6 +501,7 @@ $dot-size: 6px;
   display: inline-block;
   margin-top: 15px;
   padding: 0;
+  overflow: visible !important;
 }
 
 .user-add-projects-button {
@@ -693,3 +694,12 @@ $dot-size: 6px;
 /*----------------------------
 ------ END OF SETTINGS -------
 ----------------------------*/
+
+.route-wrapper {
+  position: relative;
+}
+
+.route-wrapper > div {
+  position: absolute;
+  width: 100%;
+}

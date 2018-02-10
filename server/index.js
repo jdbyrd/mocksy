@@ -47,6 +47,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
+const allSockets = {};
+
 app.get(
   '/auth/github',
   passport.authenticate('github', { scope: ['user:email'] }),
@@ -164,6 +166,24 @@ app.get('/api/screenshot', async (req, res) => {
   const { url, tempId } = req.query;
   const message = await screen.getScreenshot(url, tempId);
   res.send(message);
+});
+
+app.get('/api/notifications', (req, res) => {
+  query.getNotifications(req.user.username).then((data) => {
+    console.log('get data: ', data)
+    res.send(data);
+  });
+});
+
+app.post('/api/notifications', (req, res) => {
+  const { feedbackid } = req.body;
+  update.wasNotified(feedbackid, 't')
+    .then(() => {
+      query.getNotifications(req.user.username).then((data) => {
+        console.log('post data: ', data);
+        res.send(data);
+      });
+    });
 });
 
 app.delete('/user/screenshot', async (req, res) => {
@@ -306,4 +326,60 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../dist/index.html'));
 });
 
-app.listen(3000, () => console.log('Mocksy listening on port 3000!'));
+const server = app.listen(3000, () => {
+  console.log('Mocksy listening on port 3000!');
+});
+
+const io = require('socket.io').listen(server);
+
+io.on('connection', (socket) => {
+  console.log('User connected!!!!');
+  console.log('socket.id: ', socket.id);
+
+  app.post('/api/sockets', (req, res) => {
+    const { username } = req.body;
+    const { socketid } = req.body;
+    socket.socketid = socketid;
+    allSockets[username] = socket;
+    res.end();
+  });
+
+  socket.on('post feedback', (fromUser, project, userid, feedback, projectid) => {
+    console.log('userid: ', userid)
+    if (typeof userid === 'number') {
+      console.log('RUNNING')
+      query.getUserFromId(userid).then((data) => {
+        const username = data.name;
+        const socketId = allSockets[data.name].socketid;
+        query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+          console.log('THE RESPONSE ########: ', res[0]);
+          query.getNotifications(username).then((data) => {
+            console.log('getNotifications query running')
+            socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+            console.log('logging this after emit')
+          });
+        });
+      });
+    } else {
+      const socketId = allSockets[userid].socketid;
+      query.getFeedbackId(fromUser, project, feedback, projectid).then((res) => {
+        console.log('getFeedbackId query running')
+        query.getNotifications(userid).then((data) => {
+          console.log('getNotifications query running')
+          socket.broadcast.to(socketId).emit('notification', fromUser, project, res[0], data);
+          console.log('logging this after emit')
+        });
+      });
+    }
+  });
+
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+
+  // handle a new message
+  socket.on('new:message', (msgObject) => {
+    io.emit('new:message', msgObject);
+  });
+});
+

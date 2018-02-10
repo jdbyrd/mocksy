@@ -23,7 +23,6 @@ class FeedbackPage extends React.Component {
 
   render() {
     const project = this.props.project;
-    console.log('this.props.project: ', this.props.project);
     return (
       <div>
         <div id="feedback-padding"></div>

@@ -12,25 +12,47 @@ const mapStateToProps = state => (
 class GraphSection extends React.Component {
   constructor() {
     super();
+    this.state = {
+      amountFeedback: []
+    };
   }
 
-  amountOfFeedbackByType() {
-    const feedbackCopy = this.props.feedbackItems.slice();
-    // feedbackCopy = feedbackCopy.reduce((acc, item) => {
-    //   if (acc[item]) {
-    //     acc[item] = acc[item] + 1;
-    //   } else {
-    //     acc[item] = 1;
-    //   }
-    //   return acc;
-    // }, {});
+  componentWillReceiveProps(nextProps) {
+    let feedbackCopy = nextProps.feedbackItems.slice();
+    feedbackCopy = feedbackCopy.reduce((acc, item) => {
+      if (acc[item.options]) {
+        acc[item.options] = acc[item.options] + 1;
+      } else {
+        acc[item.options] = 1;
+      }
+      return acc;
+    }, {});
+    console.log('feedbackCopy: ', feedbackCopy)
+    this.setState({
+      amountFeedback: feedbackCopy
+    });
+  }
+
+  componentWillUpdate() {
+  	console.log('will update: ', this.state.amountFeedback)
+  }
+
+  mapOverObject() {
+    for (var key in this.state.amountFeedback) {
+      return (<div>key: {key}, val: {this.state.amountFeedback[key]}</div>);
+    }
   }
 
   render() {
-  	console.log('feedbackItems: ', this.props.feedbackItems)
+  	console.log('feedbackItems: ', this.props.feedbackItems);
+  	console.log('amountFeedback: ', this.state.amountFeedback);
     return (
       <div>
-        <div>Graph Section</div>
+        {Object.keys(this.state.amountFeedback).map((key, index) => {
+          return (
+            <div key={index}>key: {key}, val: {this.state.amountFeedback[key]}</div>
+          );
+        })}
       </div>
     );
   }

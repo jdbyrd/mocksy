@@ -59,13 +59,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      triangle: false,
+      // triangle: false,
       homepage: true,
       notifications: [],
       endpoint: 'http://127.0.0.1:3000' // this is where we are connecting to with sockets
     };
     //this.deleteNotification = this.deleteNotification.bind(this);
-    this.changeTriangle = this.changeTriangle.bind(this);
+    // this.changeTriangle = this.changeTriangle.bind(this);
     this.isHomepage = this.isHomepage.bind(this);
     this.getUser = this.getUser.bind(this);
     this.socket = io(this.state.endpoint);
@@ -98,9 +98,9 @@ class App extends React.Component {
     // });
   }
 
-  changeTriangle(bool) {
-    this.setState({ triangle: bool });
-  }
+  // changeTriangle(bool) {
+  //   this.setState({ triangle: bool });
+  // }
 
   // componentWillMount() {
   //   this.socket.removeAllListeners();
@@ -155,8 +155,10 @@ class App extends React.Component {
 
   render() {
     return (
+      // feed={this.state.triangle}
+      // changeTriangle={this.changeTriangle}
       <div>
-        <Navbar changeTriangle={this.changeTriangle} homepage={this.state.homepage} notifications={this.state.notifications} checkAuth={checkAuth} />
+        <Navbar homepage={this.state.homepage} notifications={this.state.notifications} checkAuth={checkAuth} />
         <AnimatedSwitch
           atEnter={bounceTransition.atEnter}
           atLeave={bounceTransition.atLeave}
@@ -164,7 +166,7 @@ class App extends React.Component {
           mapStyles={mapStyles}
           className="route-wrapper"
         >
-          <Route exact={true} path="/" render={() => (<FeedPage feed={this.state.triangle} isHomepage={this.isHomepage} />)} />
+          <Route exact={true} path="/" render={() => (<FeedPage isHomepage={this.isHomepage} />)} />
           <Route path="/project/:id" render={(props) => (<FeedbackPage {...props} isHomepage={this.isHomepage} />)} />
           <Route path="/user/:name" render={(props) => (<ProfilePage {...props} isHomepage={this.isHomepage} />)} />
           <Route path="/settings/:name" render={() => (<SettingsPage isHomepage={this.isHomepage} />)} />

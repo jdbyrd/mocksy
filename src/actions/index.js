@@ -43,9 +43,16 @@ Store.checkAuth = () => {
     });
 };
 
-Store.filterProjects = (sort) => {
+Store.filterKey = (filter) => {
   store.dispatch({
-    type: 'SORT_BY',
+    type: 'FILTER',
+    payload: filter
+  });
+};
+
+Store.sortKey = (sort) => {
+  store.dispatch({
+    type: 'SORT',
     payload: sort
   });
 };

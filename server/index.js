@@ -314,7 +314,7 @@ app.delete('/api/feedback', (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    //insert.decreaseNumFeedback(projectid);
+    insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

@@ -310,11 +310,11 @@ app.delete('/api/project', (req, res) => {
 
 app.delete('/api/feedback', (req, res) => {
   console.log('HEY RIGHT HERE');
-  console.log(req.body);
+  console.log(req.query);
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    //insert.decreaseNumFeedback(projectid);
+    insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

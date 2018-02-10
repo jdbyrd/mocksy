@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Chart from './Chart';
 
 const mapStateToProps = state => (
   {
@@ -48,11 +49,19 @@ class GraphSection extends React.Component {
   	console.log('amountFeedback: ', this.state.amountFeedback);
     return (
       <div>
-        {Object.keys(this.state.amountFeedback).map((key, index) => {
+        {/*Object.keys(this.state.amountFeedback).map((key, index) => {
           return (
-            <div key={index}>key: {key}, val: {this.state.amountFeedback[key]}</div>
+            <div key={key}>
+              {this.state.amountFeedback[key]}
+              <svg width="300" height="300" className="svg">
+                <Chart width={300} height={300} />
+              </svg>
+            </div>
           );
-        })}
+        })*/}
+        <svg width="300" height="300" className="svg">
+          <Chart width={300} height={300} />
+        </svg>
       </div>
     );
   }

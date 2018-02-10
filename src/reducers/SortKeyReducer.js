@@ -1,4 +1,4 @@
-const SortKeyReducer = (state = null, action) => {
+const SortKeyReducer = (state = 'chron', action) => {
   if (action.type === 'SORT') {
     return action.payload;
   }

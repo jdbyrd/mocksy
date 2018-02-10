@@ -123,6 +123,7 @@ class Navbar extends React.Component {
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
     // this.props.changeTriangle(false);
     Store.filterKey(null);
+    Store.sortKey('chron');
   }
 
   triangleRight() {

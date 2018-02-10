@@ -27,6 +27,8 @@ class FeedPage extends React.Component {
   sortProjects(projects, sort) {
     return sort === 'feedback'
       ?  [...projects].sort((p1, p2) => p1.num_feedback - p2.num_feedback)
+      : sort === 'chron'
+      ? [...projects].sort((p1, p2) => p1.created_at - p2.created_at)
       : projects;
   }
 

@@ -20,6 +20,7 @@ class GraphSection extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let feedbackCopy = nextProps.feedbackItems.slice();
+    let graphData = [];
     feedbackCopy = feedbackCopy.reduce((acc, item) => {
       if (acc[item.options]) {
         acc[item.options] = acc[item.options] + 1;
@@ -28,9 +29,11 @@ class GraphSection extends React.Component {
       }
       return acc;
     }, {});
-    console.log('feedbackCopy: ', feedbackCopy)
+    for (var key in feedbackCopy) {
+      graphData.push({ letter: key, frequency: feedbackCopy[key] });
+    }
     this.setState({
-      amountFeedback: feedbackCopy
+      amountFeedback: graphData
     });
   }
 
@@ -45,22 +48,10 @@ class GraphSection extends React.Component {
   }
 
   render() {
-  	console.log('feedbackItems: ', this.props.feedbackItems);
-  	console.log('amountFeedback: ', this.state.amountFeedback);
     return (
       <div>
-        {/*Object.keys(this.state.amountFeedback).map((key, index) => {
-          return (
-            <div key={key}>
-              {this.state.amountFeedback[key]}
-              <svg width="300" height="300" className="svg">
-                <Chart width={300} height={300} />
-              </svg>
-            </div>
-          );
-        })*/}
         <svg width="300" height="300" className="svg">
-          <Chart width={300} height={300} />
+          <Chart width={300} height={300} data={this.state.amountFeedback} />
         </svg>
       </div>
     );

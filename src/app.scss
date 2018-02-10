@@ -98,11 +98,12 @@ a {
 }
 
 .bar {
-  fill: steelblue;
+  fill: pink;
 }
 
 .bar:hover {
-  fill: brown;
+  fill: red;
+  cursor: pointer;
 }
 
 .axis--x path {

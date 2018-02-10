@@ -13,6 +13,7 @@ class Chart extends React.Component {
         { letter: 'c', frequency: 5 },
       ]
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillMount() {
@@ -40,7 +41,7 @@ class Chart extends React.Component {
     // }, function(error, data) {
     //   if (error) throw error;
 
-    const { data } = this.state;
+    const { data } = this.props;
     console.log('data: ', data)
     x.domain(data.map(d => d.letter));
     y.domain([0, d3.max(data, d => d.frequency)]);
@@ -53,7 +54,7 @@ class Chart extends React.Component {
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(10, '%'))
+      .call(d3.axisLeft(y).ticks(3, '%'))
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
@@ -68,11 +69,18 @@ class Chart extends React.Component {
       .attr('x', d => x(d.letter))
       .attr('y', d => y(+d.frequency))
       .attr('width', x.bandwidth())
-      .attr('height', d => height - y(d.frequency));
+      .attr('height', d => height - y(d.frequency))
+      .on('click', function(d) {
+        this.handleClick(d); // my react method
+      }.bind(this));
+  }
+
+  handleClick(d) {
+    console.log('handleClick d: ', d);
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.props;
     if (!data) {
       return null;
     }

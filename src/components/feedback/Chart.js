@@ -1,30 +1,41 @@
 import React from 'react';
-import queue from 'queue';
-import topojson from 'topojson';
+import { connect } from 'react-redux';
 import * as d3 from 'd3';
+
+const mapStateToProps = state => ({
+  feedbackItems: state.feedback.list
+});
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        { letter: 'a', frequency: 1 },
-        { letter: 'b', frequency: 3 },
-        { letter: 'c', frequency: 5 },
-      ]
+      data: []
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillMount() {
-
+  componentWillReceiveProps(nextProps) {
+    let feedbackCopy = nextProps.feedbackItems.slice();
+    let graphData = [];
+    feedbackCopy = feedbackCopy.reduce((acc, item) => {
+      if (acc[item.options]) {
+        acc[item.options] = acc[item.options] + 1;
+      } else {
+        acc[item.options] = 1;
+      }
+      return acc;
+    }, {});
+    for (var key in feedbackCopy) {
+      graphData.push({ type: key, amount: feedbackCopy[key] });
+    }
+    this.setState({
+      data: graphData
+    });
   }
 
   componentDidUpdate() {
     const svg = d3.select(this.refs.anchor);
-    //let { width, height } = this.props;
-
-    //var svg = d3.select("svg"),
     const margin = {top: 20, right: 20, bottom: 30, left: 40};
     const width = this.props.width - margin.left - margin.right;
     console.log('width: ', width)
@@ -35,16 +46,11 @@ class Chart extends React.Component {
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-    // d3.tsv("data.tsv", function(d) {
-    //   d.frequency = +d.frequency;
-    //   return d;
-    // }, function(error, data) {
-    //   if (error) throw error;
 
-    const { data } = this.props;
+    const { data } = this.state;
     console.log('data: ', data)
-    x.domain(data.map(d => d.letter));
-    y.domain([0, d3.max(data, d => d.frequency)]);
+    x.domain(data.map(d => d.type));
+    y.domain([0, d3.max(data, d => d.amount)]);
     console.log('y.domain: ', y.domain)
 
     g.append('g')
@@ -54,10 +60,10 @@ class Chart extends React.Component {
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(3, '%'))
+      .call(d3.axisLeft(y).ticks(3, ''))
       .append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 6)
+      .attr('y', 26)
       .attr('dy', '0.71em')
       .attr('text-anchor', 'end')
       .text('Frequency');
@@ -66,10 +72,10 @@ class Chart extends React.Component {
       .data(data)
       .enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', d => x(d.letter))
-      .attr('y', d => y(+d.frequency))
+      .attr('x', d => x(d.type))
+      .attr('y', d => y(+d.amount))
       .attr('width', x.bandwidth())
-      .attr('height', d => height - y(d.frequency))
+      .attr('height', d => height - y(d.amount))
       .on('click', function(d) {
         this.handleClick(d); // my react method
       }.bind(this));
@@ -80,8 +86,8 @@ class Chart extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
-    if (!data) {
+    const { data } = this.state;
+    if (!data.length) {
       return null;
     }
 
@@ -89,4 +95,4 @@ class Chart extends React.Component {
   }
 }
 
-export default Chart;
+export default connect(mapStateToProps)(Chart);

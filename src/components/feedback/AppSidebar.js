@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import GraphSection from './GraphSection';
+import Chart from './Chart';
 
 const mapStateToProps = state => (
   {
@@ -32,7 +32,9 @@ class AppSidebar extends React.Component {
         <p>
           {project.text}
         </p>
-        <GraphSection />
+        <svg width="300" height="300" className="svg">
+          <Chart width={300} height={300}  />
+        </svg>
       </div>
     );
   }

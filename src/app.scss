@@ -94,7 +94,8 @@ a {
 ----------------------------*/
 
 .svg {
-  background: gray;
+  background: $background;
+  z-index: 1;
 }
 
 .bar {

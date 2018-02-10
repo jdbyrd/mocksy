@@ -13,7 +13,7 @@ class AppCard extends React.Component {
 
   handleTagClick(e) {
     const tag = e.currentTarget.textContent.slice();
-    Store.filterProjects(tag);
+    Store.filterKey(tag);
   }
 
   github() {

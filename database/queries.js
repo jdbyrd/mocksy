@@ -2,13 +2,13 @@ const knex = require('./db');
 
 const projects = id => id
   ? knex('projects').select().where('id', id)
-  : knex('projects').select('projects.title', 'projects.url', 'projects.github', 'projects.text', 'projects.id', 'projects.text', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
+  : knex('projects').select('projects.*', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
     .join('users', 'projects.user_id', '=', 'users.id')
     .orderBy('projects.created_at', 'desc');
 
 const sortProjects = id => id
   ? knex('projects').select().where('id', id)
-  : knex('projects').select('projects.title', 'projects.url', 'projects.github', 'projects.text', 'projects.id', 'projects.text', 'projects.num_feedback', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
+  : knex('projects').select('projects.*', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile')
     .join('users', 'projects.user_id', '=', 'users.id')
     .orderBy('num_feedback', 'desc');
 

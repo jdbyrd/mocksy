@@ -2,10 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import Button from '../shared/button';
-import { populateUser } from '../../actions/index';
-import { Icon } from 'antd';
 import VerificationModal from '../shared/VerificationModal';
 import EditModal from '../shared/EditModal';
 
@@ -18,17 +14,11 @@ const mapStateToProps = (state) => {
 class AppsTabCard extends React.Component {
   constructor(props) {
     super(props);
-    // this.delete = this.delete.bind(this);
 
     this.state = {
       component: 'project'
-    }
+    };
   }
-
-  // delete() {
-  //   axios.delete(`/api/project?id=${this.props.project.id}`)
-  //     .then(() => populateUser(this.props.name));
-  // }
 
   render() {
     const project = this.props.project;
@@ -39,17 +29,32 @@ class AppsTabCard extends React.Component {
     return (
       <Project className="users-projects">
           <Container>
-            <ProjectImage src={`/images/${this.props.project.id}.png`} className="users-projects-image" />
+            <ProjectImage
+              src={`/images/${this.props.project.id}.png`}
+              className="users-projects-image"
+            />
             <TopRight className="top-right">
-              <VerificationModal item={this.props} component={this.state.component} />
-              <EditModal name={this.props.name} text={project.text} id={project.id} component="Project" />
+              <VerificationModal
+                item={this.props}
+                component={this.state.component}
+              />
+              <EditModal
+                name={this.props.name}
+                text={project.text}
+                id={project.id}
+                component="project"
+              />
             </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>
           <ProjectTitle>
-            <h3>{project.title}</h3>
+            <h3>
+              {project.title}
+            </h3>
           </ProjectTitle>
-          <ProjectDescription>{project.text}</ProjectDescription>
+          <ProjectDescription>
+            {project.text}
+          </ProjectDescription>
         </Link>
 
       </Project>

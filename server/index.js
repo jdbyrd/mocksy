@@ -294,23 +294,27 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectVotes(id).then(() => {
-      deletes.projectFeedback(id).then(() => {
-        deletes.project(id)
-          .then(() => {
-            fse.remove(`./dist/images/${id}.png`);
-            res.end();
-          });
+    deletes.tags(id).then(() => {
+      deletes.projectVotes(id).then(() => {
+        deletes.projectFeedback(id).then(() => {
+          deletes.project(id)
+            .then(() => {
+              fse.remove(`./dist/images/${id}.png`);
+              res.end();
+            });
+        });
       });
     });
   }
 });
 
 app.delete('/api/feedback', (req, res) => {
+  console.log('HEY RIGHT HERE');
+  console.log(req.body);
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    insert.decreaseNumFeedback(projectid);
+    //insert.decreaseNumFeedback(projectid);
     deletes.feedbackVotes(id).then(() => {
       deletes.feedback(id)
         .then(() => res.end());

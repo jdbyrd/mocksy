@@ -45,7 +45,7 @@ const feedback = (update) => {
   const { feedbackId, text } = update;
   knex('feedback')
     .where('id', '=', feedbackId)
-    .update({ text })
+    .update({ text, updated_at: knex.raw('now()') })
     .then(() => console.log('updated feedback text'));
 };
 

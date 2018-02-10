@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
-import { Modal, Select, Input, Button, message, Icon } from 'antd';
-import LoginModal from '../login/LoginModal';
+import { Modal, Input, Button, message, Icon } from 'antd';
 import { populateFeedback, populateUser } from '../../actions/index';
 
 const mapStateToProps = (state) => {
@@ -36,7 +34,7 @@ class EditModal extends React.Component {
   handleSubmit() {
     if (this.state.text === '') {
       message.error('Please provide a description');
-    } else if(this.props.component === 'Feedback') {
+    } else if (this.props.component === 'feedback') {
       axios.post(
         '/api/feedback/update',
         {
@@ -45,10 +43,14 @@ class EditModal extends React.Component {
         }
       )
         .then(() => {
-          this.setState({confirmLoading: true}, () => {
+          this.setState({ confirmLoading: true }, () => {
             // this is running just fine
             setTimeout(() => {
-              populateFeedback(this.props.project_id);
+              if (this.props.parent === 'userPage') {
+                populateUser(this.props.name);
+              } else {
+                populateFeedback(this.props.project_id);
+              }
               this.setState({
                 // feedback type and text are not resetting
                 visible: false,
@@ -70,7 +72,7 @@ class EditModal extends React.Component {
         }
       )
         .then(() => {
-          this.setState({confirmLoading: true}, () => {
+          this.setState({ confirmLoading: true }, () => {
             // this is running just fine
             setTimeout(() => {
               populateUser(this.props.name);
@@ -102,15 +104,13 @@ class EditModal extends React.Component {
     });
   }
 
-  /* ********* DROPDOWN FUNCTIONS ********* */
   render() {
     const { visible, confirmLoading } = this.state;
     return (
       <div>
         {
-          (this.props.auth && this.props.auth.username === this.props.name)?
-            <Icon type="edit" onClick={this.showModal} />
-            : null
+          (this.props.auth && this.props.auth.username === this.props.name) ?
+            <Icon type="edit" onClick={this.showModal} /> : null
         }
 
         <Modal

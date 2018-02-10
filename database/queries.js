@@ -66,6 +66,21 @@ const searchUsers = q => knex('users')
   .where(knex.raw(`lower(name) like lower('${q}')`))
   .orWhere(knex.raw(`lower(display_name) like lower('${q}')`));
 
+const getUserFromId = id => knex('users')
+  .where({ id })
+  .first();
+
+const getFeedbackId = (fromUser, project, feedback, projectid) => knex('feedback')
+  .select()
+  .where({ user_id: knex('users').where('name', fromUser).select('id'), project_id: projectid, text: feedback });
+
+const getNotifications = user => knex('feedback')
+  .select('feedback.id', 'users.name', 'projects.title', 'feedback.project_id')
+  .where({ 'feedback.user_id': knex('users').where('name', user).select('id'), notified: 'f' })
+  .join('projects', 'feedback.project_id', '=', 'projects.id')
+  .join('users', 'feedback.user_id', '=', 'users.id')
+  .orderBy('feedback.created_at', 'desc');
+
 module.exports = {
   projects,
   feedback,
@@ -78,5 +93,8 @@ module.exports = {
   issues,
   searchProjects,
   searchUsers,
-  sortProjects
+  sortProjects,
+  getUserFromId,
+  getFeedbackId,
+  getNotifications
 };

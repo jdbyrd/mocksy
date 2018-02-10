@@ -25,8 +25,8 @@ function mapStyles(styles) {
 
 function bounce(val) {
   return spring(val, {
-    stiffness: 330,
-    damping: 22,
+    stiffness: 400,
+    damping: 32,
   });
 }
 

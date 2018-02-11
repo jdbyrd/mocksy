@@ -10,7 +10,8 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      firstRender: true
     };
   }
 
@@ -34,10 +35,12 @@ class Chart extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.state.firstRender) {
     const svg = d3.select(this.refs.anchor);
-    const margin = {top: 20, right: 20, bottom: 30, left: 40};
+    const margin = {
+      top: 20, right: 20, bottom: 30, left: 40
+    };
     const width = this.props.width - margin.left - margin.right;
-    console.log('width: ', width)
     const height = this.props.height - margin.top - margin.bottom;
 
     const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
@@ -78,6 +81,9 @@ class Chart extends React.Component {
       .on('click', function(d) {
         this.props.clickGraph(d); // my react method
       }.bind(this));
+
+      this.setState({ firstRender: false });
+    }
   }
 
   render() {

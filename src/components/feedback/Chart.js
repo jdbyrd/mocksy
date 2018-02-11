@@ -12,7 +12,6 @@ class Chart extends React.Component {
     this.state = {
       data: []
     };
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,12 +76,8 @@ class Chart extends React.Component {
       .attr('width', x.bandwidth())
       .attr('height', d => height - y(d.amount))
       .on('click', function(d) {
-        this.handleClick(d); // my react method
+        this.props.clickGraph(d); // my react method
       }.bind(this));
-  }
-
-  handleClick(d) {
-    console.log('handleClick d: ', d);
   }
 
   render() {

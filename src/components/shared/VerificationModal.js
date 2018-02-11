@@ -20,7 +20,6 @@ class VerificationModal extends React.Component {
 
   showConfirm() {
     var that = this;
-    console.log("inside showConfirm", this);
     Modal.confirm({
       title: 'Are you sure you want to delete this?',
       content: 'Your data cannot be recovered after deleting.',
@@ -32,7 +31,7 @@ class VerificationModal extends React.Component {
           axios.delete(`/api/project?id=${that.props.item.project.id}`)
             .then(() => populateUser(that.props.item.name));
         } else if ( that.props.component === 'feedbackTab') {
-          axios.delete(`/api/feedback?id=${that.props.item.id}`)
+          axios.delete(`/api/feedback?id=${that.props.item.id}&projectid=${that.props.project.id}`)
             .then(() => populateUser(that.props.user.name));
         }
       },

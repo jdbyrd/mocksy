@@ -16,9 +16,23 @@ const mapStateToProps = state => (
 );
 
 class FeedbackPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedValue: 'newest'
+    };
+    this.handleSort = this.handleSort.bind(this);
+  }
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
     this.props.isHomepage(false);
+  }
+
+  handleSort(e) {
+    console.log(e)
+    this.setState({
+      selectedValue: e
+    }, () => populateFeedback(this.props.project.id, e));
   }
 
   render() {
@@ -41,13 +55,15 @@ class FeedbackPage extends React.Component {
               <LoginModal />
             }
             <Select
+              value={this.state.selectedValue}
               style={{ width: 200 }}
               placeholder="Sort by"
-              onChange={this.handleSort}
+              onChange={(e) => this.handleSort(e)}
             >
-              <Select.Option value="most upvoted">Most upvoted</Select.Option>
-              <Select.Option value="most downvoted">Most downvoted</Select.Option>
-              <Select.Option value="most controversial">Most controversial</Select.Option>
+              <Select.Option value="newest">Newest</Select.Option>
+              <Select.Option value="upvoted">Most upvoted</Select.Option>
+              <Select.Option value="downvoted">Most downvoted</Select.Option>
+              <Select.Option value="controversial">Most controversial</Select.Option>
             </Select>
             <br /><br /><br />
             <FeedbackList />

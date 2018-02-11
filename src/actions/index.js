@@ -13,9 +13,10 @@ Store.populateFeed = (sort) => {
     });
 };
 
-Store.populateFeedback = (projectId) => {
-  axios(`/api/projects?id=${projectId}`)
+Store.populateFeedback = (projectId, sort) => {
+  axios(`/api/projects?id=${projectId}&sortFeedback=${sort}`)
     .then((res) => {
+      console.log('res.data: ', res.data);
       store.dispatch({
         type: 'POPULATE_FEEDBACK',
         payload: res.data

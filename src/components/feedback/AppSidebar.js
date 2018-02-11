@@ -33,7 +33,7 @@ class AppSidebar extends React.Component {
           {project.text}
         </p>
         <svg width="300" height="300" className="svg">
-          <Chart width={300} height={300}  />
+          <Chart width={300} height={300} clickGraph={this.props.clickGraph} />
         </svg>
       </div>
     );

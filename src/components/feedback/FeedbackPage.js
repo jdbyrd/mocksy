@@ -19,9 +19,11 @@ class FeedbackPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedValue: 'newest'
+      selectedValue: 'newest',
+      barClicked: 'all'
     };
     this.handleSort = this.handleSort.bind(this);
+    this.clickGraph = this.clickGraph.bind(this);
   }
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
@@ -29,10 +31,14 @@ class FeedbackPage extends React.Component {
   }
 
   handleSort(e) {
-    console.log(e)
     this.setState({
-      selectedValue: e
+      selectedValue: e,
+      barClicked: 'all'
     }, () => populateFeedback(this.props.project.id, e));
+  }
+
+  clickGraph(e) {
+    this.setState({ barClicked: e });
   }
 
   render() {
@@ -48,7 +54,7 @@ class FeedbackPage extends React.Component {
         </Row>
         <Row gutter={48}>
           <Col span={2} />
-          <Col span={8}><AppSidebar /></Col>
+          <Col span={8}><AppSidebar clickGraph={this.clickGraph} /></Col>
           <Col span={12}>
             { this.props.auth ?
               <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
@@ -66,7 +72,7 @@ class FeedbackPage extends React.Component {
               <Select.Option value="controversial">Most controversial</Select.Option>
             </Select>
             <br /><br /><br />
-            <FeedbackList />
+            <FeedbackList type={this.state.barClicked} />
           </Col>
           <Col span={2} />
         </Row>

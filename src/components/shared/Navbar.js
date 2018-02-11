@@ -188,7 +188,7 @@ class Navbar extends React.Component {
             </div>
             : null }
 
-            {this.state.notifications.length ? <div className="dot" /> : null}
+            {this.state.notifications.length ? <div className="dot">{this.state.notifications.length}</div> : null}
 
             <div className="right-container">
               <div className="search">

@@ -412,15 +412,33 @@ a {
   }
 }
 
-$dot-size: 6px;
+$dot-size: 14px;
 .dot {
   width: $dot-size;
   height: $dot-size;
   border-radius: $dot-size;
   background: red;
   position: absolute;
-  top: 20px;
-  right: 83px;
+  top: 21px;
+  right: 85px;
+  text-align: center;
+  font-size: $dot-size - 2;
+  line-height: $dot-size;
+  z-index: 3;
+  color: $background;
+/*  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  top: 21px;
+  right: 85px;
+  background: red;
+  border: 2px solid #666;
+  color: $background;
+  text-align: center;
+  z-index: 3;
+
+  font: 32px Arial, sans-serif;*/
 }
 
 

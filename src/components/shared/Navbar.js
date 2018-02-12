@@ -63,20 +63,23 @@ class Navbar extends React.Component {
     }
   }
 
-  deleteNotification(feedbackid) {
+  deleteNotification(feedbackid, clickedX) {
+    if (!clickedX) {
+      clickedX = false;
+    }
     axios.post('/api/notifications', {
       feedbackid
     }).then((data) => {
       this.setState({
         notifications: data.data,
-        showNotifications: false,
+        showNotifications: clickedX,
         // bool: true
       });
     });
   }
 
   hideMenu() {
-    this.setState({ bool: true });
+    this.setState({ bool: false });
   }
 
   displayResults(result, index) {
@@ -192,7 +195,7 @@ class Navbar extends React.Component {
                             </a>
                             <Icon
                               type="close-circle-o"
-                              onClick={() => { this.deleteNotification(notification.id); this.hideMenu(); }}                           
+                              onClick={() => { this.deleteNotification(notification.id, true); }}
                               className="x-icon"
                             />
                           </div>

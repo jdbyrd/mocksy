@@ -34,22 +34,12 @@ class Navbar extends React.Component {
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
+    this.hideMenu = this.hideMenu.bind(this);
   }
 
   componentDidMount() {
     axios.get('/api/notifications')
       .then(data => this.setState({ notifications: data.data }));
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate running')
-    if (this.state.bool) {
-      axios.get('/api/notifications')
-        .then(data => this.setState({
-          notifications: data.data,
-          bool: false
-        }));
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,6 +53,16 @@ class Navbar extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.bool) {
+      axios.get('/api/notifications')
+        .then(data => this.setState({
+          notifications: data.data,
+          bool: false
+        }));
+    }
+  }
+
   deleteNotification(feedbackid) {
     axios.post('/api/notifications', {
       feedbackid
@@ -70,9 +70,13 @@ class Navbar extends React.Component {
       this.setState({
         notifications: data.data,
         showNotifications: false,
-        bool: true
+        // bool: true
       });
     });
+  }
+
+  hideMenu() {
+    this.setState({ bool: true });
   }
 
   displayResults(result, index) {
@@ -182,13 +186,13 @@ class Navbar extends React.Component {
               <div className="notifications-triangle"></div>
               <div className="notifications">
                 {this.state.notifications.map((notification, index) => {              
-                  return  <div className="notification-entry-container">
-                            <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}>
+                  return  <div className="notification-entry-container" key={index}>
+                            <a href={`/project/${notification.project_id}`} onClick={() => this.deleteNotification(notification.id)}>
                               <p>{notification.name} has commented on {notification.title}</p>
                             </a>
                             <Icon
                               type="close-circle"
-                              onClick={this.close}
+                              onClick={() => { this.deleteNotification(notification.id); this.hideMenu(); }}
                               style={{ color: '#ff0000' }}
                               className="x-icon"
                             />

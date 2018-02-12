@@ -191,9 +191,8 @@ class Navbar extends React.Component {
                               <p>{notification.name} has commented on {notification.title}</p>
                             </a>
                             <Icon
-                              type="close-circle"
-                              onClick={() => { this.deleteNotification(notification.id); this.hideMenu(); }}
-                              style={{ color: '#ff0000' }}
+                              type="close-circle-o"
+                              onClick={() => { this.deleteNotification(notification.id); this.hideMenu(); }}                           
                               className="x-icon"
                             />
                           </div>

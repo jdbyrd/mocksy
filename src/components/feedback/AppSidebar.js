@@ -27,7 +27,7 @@ class AppSidebar extends React.Component {
     console.log(project);
     return (
       <div>
-        <a href={project.url} >
+        <a href={`http://${project.url}`} >
           <img
             src={`/images/${project.id}.png`}
             alt="app image"

@@ -67,7 +67,7 @@ const decreaseNumFeedback = (id) => {
     .where('id', id)
     .decrement('num_feedback', 1)
     .then(() => console.log('added -1 to numFeedback'))
-    .catch(error => console.log('DID NOT ADD 1 TO NUMFEEDBACK COLUMN: ', error));
+    .catch(error => console.log('DID NOT SUBTRACT 1 TO NUMFEEDBACK COLUMN: ', error));
 };
 
 const vote = (name, feedback_id, vote, id_project) => {

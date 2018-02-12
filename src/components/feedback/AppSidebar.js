@@ -1,15 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Chart from './Chart';
 
 const mapStateToProps = state => (
   {
-    project: state.feedback.project
+    project: state.feedback.project,
+    feedbackItems: state.feedback.list
   }
 );
 
 class AppSidebar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      feedbackItems: []
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ feedbackItems: nextProps.feedbackItems });
   }
 
   render() {
@@ -31,6 +40,13 @@ class AppSidebar extends React.Component {
         <p>
           {project.text}
         </p>
+        {this.state.feedbackItems.length ?
+          <h3 className="chart-title">Feedback by type</h3>
+        : null}
+        <svg width="400" height="250" className="svg">
+          <Chart width={400} height={250} clickGraph={this.props.clickGraph} />
+        </svg>
+
       </div>
     );
   }

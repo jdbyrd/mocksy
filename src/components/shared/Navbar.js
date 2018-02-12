@@ -34,22 +34,12 @@ class Navbar extends React.Component {
     this.triangleLeft = this.triangleLeft.bind(this);
     this.triangleRight = this.triangleRight.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
+    this.hideMenu = this.hideMenu.bind(this);
   }
 
   componentDidMount() {
     axios.get('/api/notifications')
       .then(data => this.setState({ notifications: data.data }));
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate running')
-    if (this.state.bool) {
-      axios.get('/api/notifications')
-        .then(data => this.setState({
-          notifications: data.data,
-          bool: false
-        }));
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,16 +53,33 @@ class Navbar extends React.Component {
     }
   }
 
-  deleteNotification(feedbackid) {
+  componentDidUpdate() {
+    if (this.state.bool) {
+      axios.get('/api/notifications')
+        .then(data => this.setState({
+          notifications: data.data,
+          bool: false
+        }));
+    }
+  }
+
+  deleteNotification(feedbackid, clickedX) {
+    if (!clickedX) {
+      clickedX = false;
+    }
     axios.post('/api/notifications', {
       feedbackid
     }).then((data) => {
       this.setState({
         notifications: data.data,
-        showNotifications: false,
-        bool: true
+        showNotifications: clickedX,
+        // bool: true
       });
     });
+  }
+
+  hideMenu() {
+    this.setState({ bool: false });
   }
 
   displayResults(result, index) {
@@ -130,6 +137,7 @@ class Navbar extends React.Component {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
     // this.props.changeTriangle(true);
+    Store.filterKey(null);
     Store.sortKey('feedback');
   }
 
@@ -180,14 +188,22 @@ class Navbar extends React.Component {
             <div className="notifications-container">
               <div className="notifications-triangle"></div>
               <div className="notifications">
-                {this.state.notifications.map((notification, index) => {
-                  return <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></a>
+                {this.state.notifications.map((notification, index) => {              
+                  return  <div className="notification-entry-container" key={index}>
+                            <a href={`/project/${notification.project_id}`} onClick={() => this.deleteNotification(notification.id)}>
+                              <p>{notification.name} has commented on {notification.title}</p>
+                            </a>
+                            <Icon
+                              type="close-circle-o"
+                              onClick={() => { this.deleteNotification(notification.id, true); }}
+                              className="x-icon"
+                            />
+                          </div>
                 })}
               </div>
             </div>
             : null }
-
-            {this.state.notifications.length ? <div className="dot" /> : null}
+            {this.state.notifications.length && this.props.auth ? <div className="dot">{this.state.notifications.length}</div> : null}
 
             <div className="right-container">
               <div className="search">

@@ -110,6 +110,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/projects', (req, res) => {
   const { id } = req.query;
+  const { sortFeedback } = req.query;
   if (req.query.sort === 'true') {
     query.sortProjects().then((projects) => {
       res.send(projects);
@@ -120,13 +121,13 @@ app.get('/api/projects', (req, res) => {
       const projectFeedback = { project: projects[0] };
       if (req.user) {
         query.users(req.user.username).then((user) => {
-          query.feedback(id, user[0].id).then((feedback) => {
+          query.feedback(id, user[0].id, sortFeedback).then((feedback) => {
             projectFeedback.list = feedback;
             res.send(projectFeedback);
           });
         });
       } else {
-        query.feedback(id).then((feedback) => {
+        query.feedback(id, undefined, sortFeedback).then((feedback) => {
           projectFeedback.list = feedback;
           res.send(projectFeedback);
         });
@@ -320,19 +321,23 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.projectVotes(id).then(() => {
-      deletes.projectFeedback(id).then(() => {
-        deletes.project(id)
-          .then(() => {
-            fse.remove(`./dist/images/${id}.png`);
-            res.end();
-          });
+    deletes.tags(id).then(() => {
+      deletes.projectVotes(id).then(() => {
+        deletes.projectFeedback(id).then(() => {
+          deletes.project(id)
+            .then(() => {
+              fse.remove(`./dist/images/${id}.png`);
+              res.end();
+            });
+        });
       });
     });
   }
 });
 
 app.delete('/api/feedback', (req, res) => {
+  console.log('HEY RIGHT HERE');
+  console.log(req.query);
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;

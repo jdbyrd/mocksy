@@ -16,14 +16,33 @@ const mapStateToProps = state => (
 );
 
 class FeedbackPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedValue: 'newest',
+      barClicked: 'all'
+    };
+    this.handleSort = this.handleSort.bind(this);
+    this.clickGraph = this.clickGraph.bind(this);
+  }
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
     this.props.isHomepage(false);
   }
 
+  handleSort(e) {
+    this.setState({
+      selectedValue: e,
+      barClicked: 'all'
+    }, () => populateFeedback(this.props.project.id, e));
+  }
+
+  clickGraph(e) {
+    this.setState({ barClicked: e });
+  }
+
   render() {
     const project = this.props.project;
-    console.log('this.props.project: ', this.props.project);
     return (
       <div>
         <div id="feedback-padding"></div>
@@ -35,23 +54,25 @@ class FeedbackPage extends React.Component {
         </Row>
         <Row gutter={48}>
           <Col span={2} />
-          <Col span={8}><AppSidebar /></Col>
+          <Col span={8}><AppSidebar clickGraph={this.clickGraph} /></Col>
           <Col span={12}>
             { this.props.auth ?
               <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
               <LoginModal />
             }
             <Select
+              value={this.state.selectedValue}
               style={{ width: 200 }}
               placeholder="Sort by"
-              onChange={this.handleSort}
+              onChange={(e) => this.handleSort(e)}
             >
-              <Select.Option value="most upvoted">Most upvoted</Select.Option>
-              <Select.Option value="most downvoted">Most downvoted</Select.Option>
-              <Select.Option value="most controversial">Most controversial</Select.Option>
+              <Select.Option value="newest">Newest</Select.Option>
+              <Select.Option value="upvoted">Most upvoted</Select.Option>
+              <Select.Option value="downvoted">Most downvoted</Select.Option>
+              <Select.Option value="controversial">Most controversial</Select.Option>
             </Select>
             <br /><br /><br />
-            <FeedbackList />
+            <FeedbackList type={this.state.barClicked} />
           </Col>
           <Col span={2} />
         </Row>

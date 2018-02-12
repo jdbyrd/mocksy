@@ -43,7 +43,8 @@ class FeedPage extends React.Component {
 
   render() {
     const sort = this.props.sortKey;
-    const projects = this.sortProjects(this.props.projects, sort); 
+    const projects = this.sortProjects(this.props.projects, sort);
+    window.scrollTo(0, 0);
     return (
       <div>
         {projects.map((project, index) => (

@@ -151,6 +151,7 @@ a {
   position: fixed;
   top: 7px;
   left: 30px;
+  /*left: 47%;*/
   height: 45px;
 }
 
@@ -414,21 +415,53 @@ a {
     padding: 0;
     p {
       padding: 8px 8px 0 8px;
-      border-bottom: 1px solid gray;
       margin-bottom: 0;
+      display: inline-block;
+      width: 85%;
+    }
+    .notification-entry-container {
+      display: inline-block;
+      border-bottom: 1px solid gray;
+      vertical-align: top;
+      .x-icon {
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 10px;
+        cursor: pointer;
+      }
     }
   }
 }
 
-$dot-size: 6px;
+$dot-size: 14px;
 .dot {
   width: $dot-size;
   height: $dot-size;
   border-radius: $dot-size;
   background: red;
   position: absolute;
-  top: 20px;
-  right: 83px;
+  top: 18px;
+  right: 82px;
+/*  top: 21px;
+  right: 85px;*/
+  text-align: center;
+  font-size: $dot-size - 2;
+  line-height: $dot-size;
+  z-index: 3;
+  color: $background;
+/*  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  top: 21px;
+  right: 85px;
+  background: red;
+  border: 2px solid #666;
+  color: $background;
+  text-align: center;
+  z-index: 3;
+
+  font: 32px Arial, sans-serif;*/
 }
 
 

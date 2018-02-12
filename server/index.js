@@ -52,12 +52,14 @@ app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.post('/api/feedback/images', (req, res) => {
   const busboy = new Busboy({ headers: req.headers });
+
+  const tempId = `${req.user.username}_${req.query.id}`;
   // handle all incoming `file` events, which are thrown when a FILE field is encountered
   // in multipart request
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     // figure out where you want to save the file on disk
     // this can be any path really
-    const saveTo = path.join(__dirname, '/feedback-images', path.basename(filename));
+    const saveTo = path.join('./dist/images', tempId + path.extname(filename));
     // output where the file is being saved to make sure it's being uploaded
     console.log(`Saving file at ${saveTo}`);
     // write the actual file to disk
@@ -71,7 +73,6 @@ app.post('/api/feedback/images', (req, res) => {
 
   return req.pipe(busboy);
 });
-
 
 const allSockets = {};
 
@@ -336,8 +337,8 @@ app.delete('/api/project', (req, res) => {
 });
 
 app.delete('/api/feedback', (req, res) => {
-  console.log('HEY RIGHT HERE');
-  console.log(req.query);
+  // console.log('HEY RIGHT HERE');
+  // console.log(req.query);
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;

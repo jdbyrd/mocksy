@@ -33,7 +33,7 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="/api/feedback/images"
+          action={`/api/feedback/images?id=${Date.now()}`}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}

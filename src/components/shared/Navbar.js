@@ -73,7 +73,7 @@ class Navbar extends React.Component {
       this.setState({
         notifications: data.data,
         showNotifications: clickedX,
-        // bool: true
+        bool: true
       });
     });
   }

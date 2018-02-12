@@ -51,9 +51,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.post('/api/feedback/images', (req, res) => {
+  const tempId = req.query.id;
   const busboy = new Busboy({ headers: req.headers });
 
-  const tempId = `${req.user.username}_${req.query.id}`;
   // handle all incoming `file` events, which are thrown when a FILE field is encountered
   // in multipart request
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {

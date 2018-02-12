@@ -1,5 +1,10 @@
 import React from 'react';
 import { Upload, Icon, Modal } from 'antd';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 class PicturesWall extends React.Component {
   constructor() {
@@ -24,6 +29,7 @@ class PicturesWall extends React.Component {
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
+    const tempId = `${this.props.auth.username}_${Date.now()}`;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -33,7 +39,7 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action={`/api/feedback/images?id=${Date.now()}`}
+          action={`/api/feedback/images?id=${tempId}`}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
@@ -49,4 +55,4 @@ class PicturesWall extends React.Component {
   }
 }
 
-export default PicturesWall;
+export default connect(mapStateToProps)(PicturesWall);

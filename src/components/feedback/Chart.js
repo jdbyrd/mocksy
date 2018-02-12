@@ -66,7 +66,7 @@ class Chart extends React.Component {
       g.append('g')
         .attr('class', 'axis axis--x')
         .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x));
 
       // uncomment this for y-axis
       // g.append('g')
@@ -97,7 +97,7 @@ class Chart extends React.Component {
           return i * 100;
         })
         .attr('y', d => y(+d.amount))
-        .attr('height', d => height - y(d.amount))
+        .attr('height', d => height - y(d.amount));
 
       this.setState({ firstRender: false });
     }

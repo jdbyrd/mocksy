@@ -217,12 +217,7 @@ class Navbar extends React.Component {
                       <div className="dropdown-triangle" />
                         <ul className="dropdown" onClick={this.toggleDropdown}>
                           <li><Link to={`/user/${this.props.auth.username}`}>Profile</Link></li>
-                          <li>Your apps</li>
-                          <li>Your reviews</li>
-                          <li><Link to={`/settings/${this.props.auth.username}`}>Settings</Link></li>
-                          <li>
-                            <a href="/logout">Logout</a>
-                          </li>
+                          <li><a href="/logout">Logout</a></li>
                         </ul>
                     </ul>
                   </li>

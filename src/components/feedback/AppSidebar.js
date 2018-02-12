@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tag } from 'antd';
 import { connect } from 'react-redux';
 import Chart from './Chart';
 
@@ -14,7 +15,7 @@ class AppSidebar extends React.Component {
     super(props);
     this.state = {
       feedbackItems: []
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,6 +24,7 @@ class AppSidebar extends React.Component {
 
   render() {
     const project = this.props.project;
+    console.log(project);
     return (
       <div>
         <a href={project.url} >
@@ -32,7 +34,6 @@ class AppSidebar extends React.Component {
             className="users-projects-image"
           />
           <br /><br />
-          <h2>{project.title}</h2>
         </a>
         <a href={`/users/${project.user_id}`}>
           <h3>{project.user_id}</h3>
@@ -40,11 +41,21 @@ class AppSidebar extends React.Component {
         <p>
           {project.text}
         </p>
-        {this.state.feedbackItems.length ?
-          <h3 className="chart-title">Feedback by type</h3>
-        : null}
+        <span>
+          {
+            project.tags && project.tags.length ?
+            project.tags.map(tag => (
+              <Tag
+                color="blue"
+                key={`${tag.tag}_${tag.project_id}`}
+              >{tag.tag}</Tag>
+            ))
+            : <span />
+          }
+        </span>
+
         <svg width="400" height="250" className="svg">
-          <Chart width={400} height={250} clickGraph={this.props.clickGraph} />
+          <Chart width={400} height={200} clickGraph={this.props.clickGraph} />
         </svg>
 
       </div>

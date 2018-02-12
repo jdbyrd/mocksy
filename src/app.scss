@@ -103,11 +103,12 @@ a {
 }
 
 .bar {
-  fill: pink;
+  fill: #9BA4DF;
+  width: 2em;
 }
 
 .bar:hover {
-  fill: red;
+  fill: #abb5f4;
   cursor: pointer;
 }
 

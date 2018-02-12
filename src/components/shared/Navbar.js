@@ -181,13 +181,22 @@ class Navbar extends React.Component {
             <div className="notifications-container">
               <div className="notifications-triangle"></div>
               <div className="notifications">
-                {this.state.notifications.map((notification, index) => {
-                  return <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}><p>{notification.name} has commented on {notification.title}</p></a>
+                {this.state.notifications.map((notification, index) => {              
+                  return  <div className="notification-entry-container">
+                            <a href={`/project/${notification.project_id}`} key={index} onClick={() => this.deleteNotification(notification.id)}>
+                              <p>{notification.name} has commented on {notification.title}</p>
+                            </a>
+                            <Icon
+                              type="close-circle"
+                              onClick={this.close}
+                              style={{ color: '#ff0000' }}
+                              className="x-icon"
+                            />
+                          </div>
                 })}
               </div>
             </div>
             : null }
-
             {this.state.notifications.length && this.props.auth ? <div className="dot" /> : null}
 
             <div className="right-container">

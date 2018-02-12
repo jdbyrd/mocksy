@@ -413,8 +413,19 @@ a {
     padding: 0;
     p {
       padding: 8px 8px 0 8px;
-      border-bottom: 1px solid gray;
       margin-bottom: 0;
+      display: inline-block;
+      width: 85%;
+    }
+    .notification-entry-container {
+      display: inline-block;
+      border-bottom: 1px solid gray;
+      vertical-align: top;
+      .x-icon {
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 10px;
+      }
     }
   }
 }

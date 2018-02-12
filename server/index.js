@@ -3,7 +3,7 @@ try {
   config = require('../config.js');
 } catch (err) {
   console.log('cant find config file: ', err);
-}
+}  
 
 const path = require('path');
 const express = require('express');
@@ -18,6 +18,9 @@ const deletes = require('../database/deletes');
 const update = require('../database/updates');
 const screen = require('./screenshot_scraper');
 const fse = require('fs-extra');
+const fs = require('fs');
+const Busboy = require('busboy');
+const os = require('os');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -46,6 +49,29 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
+
+app.post('/api/feedback/images', (req, res) => {
+  const busboy = new Busboy({ headers: req.headers });
+  // handle all incoming `file` events, which are thrown when a FILE field is encountered
+  // in multipart request
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    // figure out where you want to save the file on disk
+    // this can be any path really
+    const saveTo = path.join(__dirname, '/feedback-images', path.basename(filename));
+    // output where the file is being saved to make sure it's being uploaded
+    console.log(`Saving file at ${saveTo}`);
+    // write the actual file to disk
+    file.pipe(fs.createWriteStream(saveTo));
+  });
+
+  busboy.on('finish', () => {
+    res.writeHead(200, { Connection: 'close' });
+    res.end('Image uploaded!');
+  });
+
+  return req.pipe(busboy);
+});
+
 
 const allSockets = {};
 

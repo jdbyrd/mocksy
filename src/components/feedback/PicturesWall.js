@@ -7,12 +7,7 @@ class PicturesWall extends React.Component {
     this.state = {
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }],
+      fileList: [],
     };
   }
 
@@ -38,7 +33,7 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="//jsonplaceholder.typicode.com/posts/"
+          action="/api/feedback/images"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
@@ -47,7 +42,7 @@ class PicturesWall extends React.Component {
           {fileList.length >= 3 ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          {/* <img alt="example" style={{ width: '100%' }} src={previewImage} /> */}
         </Modal>
       </div>
     );

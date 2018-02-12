@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Modal, Select, Input, Button, message } from 'antd';
 import LoginModal from '../login/LoginModal';
 import { populateFeedback } from '../../actions/index';
+import PicturesWall from './PicturesWall';
 
 const mapStateToProps = (state) => {
   return {
@@ -144,10 +145,12 @@ class PostFeedbackModal extends React.Component {
               <Select.Option value={5}>Design critique</Select.Option>
               <Select.Option value={6}>Other...</Select.Option>
             </Select>
-
             <br /><br />
             <h4>Say something constructive about this app:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
+            <br /><br />
+            <h4>Upload a helpful image:</h4>
+            <PicturesWall />
           </form>
         </Modal>
       </div>

@@ -34,16 +34,18 @@ class AppsTabCard extends React.Component {
               className="users-projects-image"
             />
             <TopRight className="top-right">
-              <VerificationModal
-                item={this.props}
-                component={this.state.component}
-              />
-              <EditModal
-                name={this.props.name}
-                text={project.text}
-                id={project.id}
-                component="project"
-              />
+              
+                <VerificationModal
+                  item={this.props}
+                  component={this.state.component}
+                />
+                <EditModal
+                  name={this.props.name}
+                  text={project.text}
+                  id={project.id}
+                  component="project"
+                />
+              
             </TopRight>
           </Container>
         <Link to={`/project/${this.props.project.id}`}>

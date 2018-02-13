@@ -43,8 +43,8 @@ class VerificationModal extends React.Component {
 
   render() {
     const { item } = this.props;
-    console.log(this.props.user);
     return (
+      
       <div>
         <Icon
           type="delete"

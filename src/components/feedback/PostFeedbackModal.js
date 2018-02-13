@@ -24,7 +24,8 @@ class PostFeedbackModal extends React.Component {
       confirmLoading: false,
       feedbackType: null,
       text: '',
-      endpoint: 'http://127.0.0.1:3000'
+      endpoint: 'http://127.0.0.1:3000',
+      hasImages: false
     };
 
     this.showModal = this.showModal.bind(this);
@@ -33,6 +34,7 @@ class PostFeedbackModal extends React.Component {
     this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
     this.socket = io(this.state.endpoint);
+    this.updateImageStatus = this.updateImageStatus.bind(this);
   }
 
   /* ****** MODAL FUNCTIONS ******* */
@@ -52,7 +54,8 @@ class PostFeedbackModal extends React.Component {
         {
           text: this.state.text,
           type: this.state.feedbackType,
-          projectId: this.props.id
+          projectId: this.props.id,
+          hasImages: this.state.hasImages ? true : false
         }
       );
       feedbackId = res.data.feedbackId;
@@ -101,6 +104,10 @@ class PostFeedbackModal extends React.Component {
     this.setState({
       text: input.target.value
     });
+  }
+
+  updateImageStatus(bool) {
+    this.setState({ hasImages: bool });
   }
 
   /* ********* DROPDOWN FUNCTIONS ********* */
@@ -153,7 +160,7 @@ class PostFeedbackModal extends React.Component {
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
             <br /><br />
             <h4>Upload a helpful image:</h4>
-            <PicturesWall upload />
+            <PicturesWall upload updateImageStatus={this.updateImageStatus}/>
           </form>
         </Modal>
       </div>

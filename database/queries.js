@@ -89,11 +89,11 @@ const getFeedbackId = (fromUser, project, feedback, projectid) => knex('feedback
   .select()
   .where({ user_id: knex('users').where('name', fromUser).select('id'), project_id: projectid, text: feedback });
 
-const getNotifications = user => knex('feedback')
+const getNotifications = userId => knex('feedback')
   .select('feedback.id', 'users.name', 'projects.title', 'feedback.project_id')
-  .where({ 'feedback.user_id': knex('users').where('name', user).select('id'), notified: 'f' })
-  .join('projects', 'feedback.project_id', '=', 'projects.id')
   .join('users', 'feedback.user_id', '=', 'users.id')
+  .join('projects', 'feedback.project_id', '=', 'projects.id')
+  .where({ 'projects.user_id': userId , 'feedback.notified': 'f' })
   .orderBy('feedback.created_at', 'desc');
 
 module.exports = {

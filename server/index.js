@@ -229,19 +229,23 @@ app.get('/api/screenshot', async (req, res) => {
 });
 
 app.get('/api/notifications', (req, res) => {
-  query.getNotifications(req.user.username).then((data) => {
-    console.log('get data: ', data)
-    res.send(data);
+  query.users(req.user.username).then((users) => {
+    query.getNotifications(users[0].id).then((data) => {
+      console.log('get data', data);
+      res.send(data);
+    });
   });
 });
 
 app.post('/api/notifications', (req, res) => {
   const { feedbackid } = req.body;
+  console.log(req.body);
   update.wasNotified(feedbackid, 't')
     .then(() => {
-      query.getNotifications(req.user.username).then((data) => {
-        console.log('post data: ', data);
-        res.send(data);
+      query.users(req.user.username).then((users) => {
+        query.getNotifications(users[0].id).then((data) => {
+          res.send(data);
+        });
       });
     });
 });
@@ -263,7 +267,6 @@ app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
-    console.log('data[0].id:', data[0].id);
     await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
     req.body.projectId = data[0].id;
     insert.tags(req.body);

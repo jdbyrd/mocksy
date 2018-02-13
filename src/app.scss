@@ -114,7 +114,6 @@ a {
 
 .bar {
   fill: #9BA4DF;
-  width: 2em;
 }
 
 .bar:hover {
@@ -163,6 +162,18 @@ a {
   left: 30px;
   /*left: 47%;*/
   height: 45px;
+}
+
+.header-container {
+  position: fixed;
+  top: 10px;
+  left: 47%;
+  height: 60px;
+  width: 300px;
+}
+
+.mocksy-header {
+  height: 40px;
 }
 
 .searchResults {
@@ -216,11 +227,11 @@ a {
   grid-column-end: 2;*/
   width: 330px;
   vertical-align: middle;
-  margin-left: 80px;
+  margin-left: 20px;
     li {
       display: inline-block;
       padding: 15px 50px;
-      font-size: 20px;
+      font-size: 18px;
       &:hover {
         cursor: pointer;
       }
@@ -338,7 +349,7 @@ a {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-top: 15px solid $background2;
-  margin-left: 137px;
+  margin-left: 74px;
   width: 0;
   height: 0;
   transition-property: transform -webkit-transform color;

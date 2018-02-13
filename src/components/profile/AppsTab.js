@@ -1,4 +1,3 @@
-/* Tab that renders that user's uploaded apps. */
 import React from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
@@ -22,9 +21,10 @@ class AppsTab extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <ProjectsContainer>
-        {(this.props.auth && this.props.auth.username === this.props.name)?
+        {(this.props.auth && this.props.auth.username === this.props.name) ?
           <AddAppModal name={this.props.name} /> : null
         }
         {this.props.projects.map((project, index) => (

@@ -6,7 +6,6 @@ import { Row, Col, Icon, Tooltip, message } from 'antd';
 import VerificationModal from '../shared/VerificationModal';
 import { populateFeedback } from '../../actions/index';
 import EditModal from '../shared/EditModal';
-import PicturesWall from './PicturesWall';
 
 const mapStateToProps = (state) => {
   return {
@@ -111,11 +110,10 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
-    // const <get list of feedback objects with url property that correspond to feedback with "has_images"
-    // const images = item.has_images ?
+    let { images } = this.props;
+    images = images ? this.props.images.map(file => ({ url: `/images/feedback/${file}` })) : images;
     console.log(this.props.auth);
     console.log(this.props.project);
-    const images = '';
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>
@@ -180,7 +178,7 @@ class FeedbackItem extends React.Component {
               }
             </Row>
             <Row>
-              <PicturesWall images={images}/>
+              {images ? images.map(image => (<img src={image.url} key={image.url} alt="feedback" />)) : null}
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === this.props.project.name) ?

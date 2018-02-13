@@ -28,7 +28,6 @@ class FeedbackList extends React.Component {
       const feedbackImageIds = list
         .filter(item => item.has_images)
         .map(item => item.id);
-      console.log('feedbackImageIds:', feedbackImageIds);
       if (feedbackImageIds.length) {
         const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
         const imageFilesById = res.data;

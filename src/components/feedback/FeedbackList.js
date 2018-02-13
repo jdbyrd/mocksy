@@ -15,20 +15,25 @@ class FeedbackList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstLoad: true,
       imageFilesById: {}
     };
     this.filterByFeedbackType = this.filterByFeedbackType.bind(this);
   }
-  
+
   async componentDidUpdate() {
-    const list = this.props.feedbackItems;
-    const feedbackImageIds = list
-      .filter(item => item.has_images)
-      .map(item => item.id);
-    if (feedbackImageIds.length) {
-      const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
-      const imageFilesById = res.data;
-      this.setState({ imageFilesById });
+    if (this.state.firstLoad) {
+      this.setState({ firstLoad: false });
+      const list = this.props.feedbackItems;
+      const feedbackImageIds = list
+        .filter(item => item.has_images)
+        .map(item => item.id);
+      console.log('feedbackImageIds:', feedbackImageIds);
+      if (feedbackImageIds.length) {
+        const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
+        const imageFilesById = res.data;
+        this.setState({ imageFilesById });
+      }
     }
   }
 

@@ -177,7 +177,7 @@ class FeedbackItem extends React.Component {
                 <h6>The developer has marked this issue as unresolvable.</h6> : null
               }
             </Row>
-            <Row>
+            <Row className="feedback-images">
               {images ? images.map(image => (<img src={image.url} key={image.url} alt="feedback" />)) : null}
             </Row>
           </Col>

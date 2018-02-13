@@ -10,7 +10,7 @@ class FeedbackTabCard extends React.Component {
     const feedback = this.props.data.feedback;
     const user = this.props.user;
     const item = this.props;
-    console.log(project)
+    console.log(this.props);
     return (
       <div>
         <div id="tab-padding" />
@@ -28,20 +28,25 @@ class FeedbackTabCard extends React.Component {
             <p>{feedback.text}</p>
           </Col>
           <Col span={2}>
-            <EditModal
-              name={this.props.name}
-              text={feedback.text}
-              id={feedback.id}
-              project_id={project.id}
-              parent="userPage"
-              component="feedback"
-            />
-            <VerificationModal
-              item={feedback}
-              user={user}
-              project={project}
-              component="feedbackTab"
-            />
+          { user.name === item.name ?
+            <Col>
+              <EditModal
+                name={this.props.name}
+                text={feedback.text}
+                id={feedback.id}
+                project_id={project.id}
+                parent="userPage"
+                component="feedback"
+              />
+              <VerificationModal
+                item={feedback}
+                user={user}
+                project={project}
+                component="feedbackTab"
+              />
+            </Col>
+            : null
+          }
           </Col>
           <Col span={2} />
         </Row>

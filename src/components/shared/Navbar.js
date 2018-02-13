@@ -153,7 +153,8 @@ class Navbar extends React.Component {
         <div className="nav-wrapper">
           <div className="nav-inner-wrapper">
 
-            <img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />
+            {/*<img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />*/}
+            {/*<Icon type="ellipsis" style={{ fontSize: 40, color: '#3f3f3f' }} onClick={this.toggleMenu} />*/}
             {/*<div className="mobile-logo">
               <img src="./mocksylogo.png" className="mocksy-img" />ocksy
             </div>*/}
@@ -185,7 +186,9 @@ class Navbar extends React.Component {
             </ul>
 
             <div className="header-container">
-              <img src="./mocksy-nav.png" className="mocksy-header" />
+              <Link to='/'>
+                <img src="./mocksy-nav.png" className="mocksy-header" />
+              </Link>
             </div>
 
             {this.state.showNotifications && this.state.notifications.length ?

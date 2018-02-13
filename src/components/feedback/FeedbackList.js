@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FeedbackItem from './FeedbackItem';
+import axios from 'axios';
 
 const mapStateToProps = state => (
   {
@@ -14,9 +15,21 @@ class FeedbackList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      imageFilesById: {}
     };
     this.filterByFeedbackType = this.filterByFeedbackType.bind(this);
+  }
+  
+  async componentDidUpdate() {
+    const list = this.props.feedbackItems;
+    const feedbackImageIds = list
+      .filter(item => item.has_images)
+      .map(item => item.id);
+      if (feedbackImageIds.length) {
+        const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
+        const imageFilesById = res.data;
+        this.setState({ imageFilesById });
+      }
   }
 
   filterByFeedbackType(item) {

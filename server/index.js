@@ -50,10 +50,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
+app.get('/api/feedback/images', async (req, res) => {
+  const { imageIds } = req.query;
+  const files = await fse.readdir('./dist/images/feedback');
+  const imagesById = {};
+  imageIds.forEach((id) => {
+    const images = files.filter(file => file.slice(0, id.length) === id);
+    imagesById[id] = images;
+  });
+  res.send(imagesById);
+});
+
 app.post('/api/feedback/images', (req, res) => {
   const tempId = req.query.id;
   const busboy = new Busboy({ headers: req.headers });
-
   // handle all incoming `file` events, which are thrown when a FILE field is encountered
   // in multipart request
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {

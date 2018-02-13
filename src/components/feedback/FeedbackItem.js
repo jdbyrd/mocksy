@@ -6,6 +6,7 @@ import { Row, Col, Icon, Tooltip, message } from 'antd';
 import VerificationModal from '../shared/VerificationModal';
 import { populateFeedback } from '../../actions/index';
 import EditModal from '../shared/EditModal';
+import PicturesWall from './PicturesWall';
 
 const mapStateToProps = (state) => {
   return {
@@ -109,7 +110,10 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
-    console.log('item.id:', item.id);
+    // const <get list of feedback objects with url property that correspond to feedback with "has_images"
+    // const images = item.has_images ? 
+    const images = '';
+    // console.log('item.id:', item.id);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>
@@ -162,6 +166,7 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row>
               <p>{item.text}</p>
+
               { item.created_at !== item.updated_at ?
                 <h6>This user has edited their feedback.</h6> : null
               }
@@ -171,6 +176,9 @@ class FeedbackItem extends React.Component {
               { item.marked === false ?
                 <h6>The developer has marked this issue as unresolvable.</h6> : null
               }
+            </Row>
+            <Row>
+              <PicturesWall images={images}/>
             </Row>
           </Col>
           { /* this is currently the wrong kind of authentication - need to enable issue toggling

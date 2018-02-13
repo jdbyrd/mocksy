@@ -48,6 +48,7 @@ class PicturesWall extends React.Component {
   }
 
   render() {
+    // console.log('this.props:', this.props);
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
@@ -55,23 +56,38 @@ class PicturesWall extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    return (
-      <div className="clearfix">
-        <Upload
-          action={`/api/feedback/images?id=${this.state.tempId}_${fileList.length + 1}`}
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-          onRemove={this.removeImage}
-        >
-          {fileList.length >= 3 ? null : uploadButton}
-        </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </div>
-    );
+    return this.props.upload
+      ?
+      (
+        <div className="clearfix">
+          <Upload
+            action={`/api/feedback/images?id=${this.state.tempId}_${fileList.length + 1}`}
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={this.handlePreview}
+            onChange={this.handleChange}
+            onRemove={this.removeImage}
+          >
+            {fileList.length >= 3 ? null : uploadButton}
+          </Upload>
+          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+        </div>
+      )
+      :
+      (
+        <div className="clearfix">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={this.handlePreview}
+          />
+          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+        </div>
+      );
   }
 }
 

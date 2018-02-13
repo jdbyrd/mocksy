@@ -59,6 +59,7 @@ const project = (update) => {
 
 const bio = (name, text) => {
   knex('users').update('bio', text)
+    .where('name', '=', name)
     .then(() => console.log('updated bio'));
 };
 

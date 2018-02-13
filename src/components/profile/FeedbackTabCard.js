@@ -1,8 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import EditModal from '../shared/EditModal';
 import VerificationModal from '../shared/VerificationModal';
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
 
 class FeedbackTabCard extends React.Component {
   render() {
@@ -28,7 +35,7 @@ class FeedbackTabCard extends React.Component {
             <p>{feedback.text}</p>
           </Col>
           <Col span={2}>
-          { user.name === item.name ?
+          { item.name === item.auth.username ?
             <Col>
               <EditModal
                 name={this.props.name}
@@ -55,4 +62,4 @@ class FeedbackTabCard extends React.Component {
   }
 }
 
-export default FeedbackTabCard;
+export default connect(mapStateToProps)(FeedbackTabCard);

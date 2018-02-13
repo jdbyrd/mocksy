@@ -109,7 +109,7 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
-    console.log(this.props);
+    console.log('item.id:', item.id);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>

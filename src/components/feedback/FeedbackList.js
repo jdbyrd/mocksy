@@ -19,18 +19,18 @@ class FeedbackList extends React.Component {
     this.filterByFeedbackType = this.filterByFeedbackType.bind(this);
   }
 
-  filterByFeedbackType(item, index) {
+  filterByFeedbackType(item) {
     if (this.props.type.type === item.options || this.props.type === 'all') {
-      return <FeedbackItem key={index} item={item} />;
+      return <FeedbackItem key={item.id} item={item} />;
     }
     return null;
   }
 
   render() {
-    const feedbackItems = this.props.feedbackItems;
+    const { feedbackItems } = this.props;
     return (
       <div className="feedback-list">
-        {feedbackItems.map((item, index) => this.filterByFeedbackType(item, index))}
+        {feedbackItems.map(item => this.filterByFeedbackType(item))}
       </div>
     );
   }

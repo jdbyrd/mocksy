@@ -59,7 +59,7 @@ app.post('/api/feedback/images', (req, res) => {
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     // figure out where you want to save the file on disk
     // this can be any path really
-    const saveTo = path.join('./dist/images', tempId + path.extname(filename));
+    const saveTo = path.join('./dist/images/feedback', tempId + path.extname(filename));
     // output where the file is being saved to make sure it's being uploaded
     console.log(`Saving file at ${saveTo}`);
     // write the actual file to disk

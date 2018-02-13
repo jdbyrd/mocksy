@@ -74,6 +74,14 @@ app.post('/api/feedback/images', (req, res) => {
   return req.pipe(busboy);
 });
 
+app.delete('/api/feedback/images', async (req, res) => {
+  const { username } = req.user;
+  const files = await fse.readdir('./dist/images/feedback');
+  const targets = files.filter(file => file.includes(username));
+  await targets.forEach(target => fse.remove(`./dist/images/feedback/${target}`, err => console.log(err)));
+  res.end();
+});
+
 const allSockets = {};
 
 app.get(

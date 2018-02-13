@@ -86,6 +86,7 @@ class PostFeedbackModal extends React.Component {
   }
 
   handleCancel() {
+    axios.delete('/api/feedback/images');
     this.setState({
       visible: false,
       confirmLoading: false,

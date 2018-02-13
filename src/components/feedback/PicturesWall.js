@@ -1,6 +1,7 @@
 import React from 'react';
 import { Upload, Icon, Modal } from 'antd';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
   auth: state.auth
@@ -23,7 +24,10 @@ class PicturesWall extends React.Component {
     this.setState({ tempId: `${this.props.auth.username}_${Date.now()}` });
   }
 
-  handleCancel() {this.setState({ previewVisible: false }); }
+  handleCancel() {
+    axios.delete('/api/feedback/images');
+    this.setState({ previewVisible: false });
+  }
 
   handlePreview(file) {
     this.setState({

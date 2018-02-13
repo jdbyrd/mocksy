@@ -3,7 +3,7 @@ try {
   config = require('../config.js');
 } catch (err) {
   console.log('cant find config file: ', err);
-}
+}  
 
 const path = require('path');
 const express = require('express');
@@ -18,6 +18,9 @@ const deletes = require('../database/deletes');
 const update = require('../database/updates');
 const screen = require('./screenshot_scraper');
 const fse = require('fs-extra');
+const fs = require('fs');
+const Busboy = require('busboy');
+const os = require('os');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -46,6 +49,62 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/../dist')));
+
+app.get('/api/feedback/images', async (req, res) => {
+  const { imageIds } = req.query;
+  const files = await fse.readdir('./dist/images/feedback');
+  const imagesById = {};
+  imageIds.forEach((id) => {
+    const images = files.filter(file => file.slice(0, id.length) === id);
+    imagesById[id] = images;
+  });
+  res.send(imagesById);
+});
+
+app.post('/api/feedback/images', (req, res) => {
+  const tempId = req.query.id;
+  const busboy = new Busboy({ headers: req.headers });
+  // handle all incoming `file` events, which are thrown when a FILE field is encountered
+  // in multipart request
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    // figure out where you want to save the file on disk
+    // this can be any path really
+    const saveTo = path.join('./dist/images/feedback', tempId + path.extname(filename));
+    // output where the file is being saved to make sure it's being uploaded
+    console.log(`Saving file at ${saveTo}`);
+    // write the actual file to disk
+    file.pipe(fs.createWriteStream(saveTo));
+  });
+
+  busboy.on('finish', () => {
+    res.writeHead(200, { Connection: 'close' });
+    res.end('Image uploaded!');
+  });
+
+  return req.pipe(busboy);
+});
+
+app.delete('/api/feedback/images', async (req, res) => {
+  const { username } = req.user;
+  const files = await fse.readdir('./dist/images/feedback');
+  let targets;
+  if (req.query.target) {
+    targets = files.filter(file => file.includes(req.query.target));
+  } else {
+    targets = files.filter(file => file.includes(username));
+  }
+  await targets.forEach(target => fse.remove(`./dist/images/feedback/${target}`, err => console.log(err)));
+  res.end();
+});
+
+app.put('/api/feedback/images', async (req, res) => {
+  const { id } = req.body;
+  const { username } = req.user;
+  const imagesPath = './dist/images/feedback';
+  const files = await fse.readdir(imagesPath);
+  const submittedImages = files.filter(file => file.includes(username));
+  await submittedImages.forEach((file, i) => fse.rename(`${imagesPath}/${file}`, `${imagesPath}/${id}_${i}${path.extname(file)}`));
+});
 
 const allSockets = {};
 
@@ -195,7 +254,7 @@ app.delete('/user/screenshot', async (req, res) => {
   console.log('request to delete screenshot!');
   const files = await fse.readdir('./dist/images');
   const targets = files.filter(file => file.includes(req.user.username));
-  targets.map(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  targets.forEach(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
   res.end();
 });
 
@@ -215,13 +274,18 @@ app.post('/api/project', async (req, res) => {
   res.end();
 });
 
-app.post('/api/feedback', (req, res) => {
+app.post('/api/feedback', async (req, res) => {
+  let feedbackId;
   if (req.user) {
     req.body.name = req.user.username;
-    insert.feedback(req.body);
+    feedbackId = await insert.feedback(req.body);
+    [feedbackId] = feedbackId;
+    console.log('feedbackId:', feedbackId);
     insert.updateNumFeedback(req.body.projectId);
+    res.send({ feedbackId });
+  } else {
+    res.end();
   }
-  res.end();
 });
 
 app.post('/api/votes', (req, res) => {
@@ -313,8 +377,8 @@ app.delete('/api/project', (req, res) => {
 });
 
 app.delete('/api/feedback', (req, res) => {
-  console.log('HEY RIGHT HERE');
-  console.log(req.query);
+  // console.log('HEY RIGHT HERE');
+  // console.log(req.query);
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;

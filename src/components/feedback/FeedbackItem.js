@@ -110,6 +110,8 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
+    let { images } = this.props;
+    images = images ? this.props.images.map(file => ({ url: `/images/feedback/${file}` })) : images;
     console.log(this.props.auth);
     console.log(this.props.project);
     return (
@@ -164,6 +166,7 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row>
               <p>{item.text}</p>
+
               { item.created_at !== item.updated_at ?
                 <h6>This user has edited their feedback.</h6> : null
               }
@@ -173,6 +176,9 @@ class FeedbackItem extends React.Component {
               { item.marked === false ?
                 <h6>The developer has marked this issue as unresolvable.</h6> : null
               }
+            </Row>
+            <Row className="feedback-images">
+              {images ? images.map(image => (<img src={image.url} key={image.url} alt="feedback" />)) : null}
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === this.props.project.name) ?

@@ -27,7 +27,7 @@ const feedback = (id, userId, sort) => {
     order = 'asc';  
   }
   return userId
-    ?  knex('feedback').select('feedback.id', 'feedback.created_at', 'feedback.updated_at', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'types.type_id', 'votes.vote', 'votes.votes_id')
+    ?  knex('feedback').select('feedback.*', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'types.type_id', 'votes.vote', 'votes.votes_id')
       .join('users', 'feedback.user_id', '=', 'users.id')
       .join('types', 'feedback.type_id', '=', 'types.type_id')
       .leftJoin('votes', function() {
@@ -35,7 +35,7 @@ const feedback = (id, userId, sort) => {
       })
       .where('project_id', id)
       .orderBy(query, order)
-    : knex('feedback').select('feedback.id', 'feedback.created_at', 'feedback.updated_at', 'feedback.text', 'feedback.project_id', 'feedback.up', 'feedback.down', 'feedback.marked', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote')
+    : knex('feedback').select('feedback.*', 'users.name', 'users.avatar', 'users.display_name', 'users.github_profile', 'types.options', 'votes.vote')
       .join('users', 'feedback.user_id', '=', 'users.id')
       .join('types', 'feedback.type_id', '=', 'types.type_id')
       .leftJoin('votes', function() {

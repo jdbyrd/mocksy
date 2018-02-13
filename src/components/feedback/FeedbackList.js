@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FeedbackItem from './FeedbackItem';
+import axios from 'axios';
 
 const mapStateToProps = state => (
   {
@@ -14,23 +15,41 @@ class FeedbackList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      firstLoad: true,
+      imageFilesById: {}
     };
     this.filterByFeedbackType = this.filterByFeedbackType.bind(this);
   }
 
-  filterByFeedbackType(item, index) {
+  async componentDidUpdate() {
+    if (this.state.firstLoad) {
+      this.setState({ firstLoad: false });
+      const list = this.props.feedbackItems;
+      const feedbackImageIds = list
+        .filter(item => item.has_images)
+        .map(item => item.id);
+      if (feedbackImageIds.length) {
+        const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
+        const imageFilesById = res.data;
+        this.setState({ imageFilesById });
+      }
+    }
+  }
+
+  filterByFeedbackType(item) {
     if (this.props.type.type === item.options || this.props.type === 'all') {
-      return <FeedbackItem key={index} item={item} />;
+      const { imageFilesById } = this.state;
+      const images = imageFilesById[item.id];
+      return <FeedbackItem key={item.id} item={item} images={images} />;
     }
     return null;
   }
 
   render() {
-    const feedbackItems = this.props.feedbackItems;
+    const { feedbackItems } = this.props;
     return (
       <div className="feedback-list">
-        {feedbackItems.map((item, index) => this.filterByFeedbackType(item, index))}
+        {feedbackItems.map(item => this.filterByFeedbackType(item))}
       </div>
     );
   }

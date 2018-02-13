@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Modal, Select, Input, Button, message } from 'antd';
 import LoginModal from '../login/LoginModal';
 import { populateFeedback } from '../../actions/index';
+import PicturesWall from './PicturesWall';
 
 const mapStateToProps = (state) => {
   return {
@@ -23,7 +24,8 @@ class PostFeedbackModal extends React.Component {
       confirmLoading: false,
       feedbackType: null,
       text: '',
-      endpoint: 'http://127.0.0.1:3000'
+      endpoint: 'http://127.0.0.1:3000',
+      hasImages: false
     };
 
     this.showModal = this.showModal.bind(this);
@@ -32,6 +34,7 @@ class PostFeedbackModal extends React.Component {
     this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
     this.socket = io(this.state.endpoint);
+    this.updateImageStatus = this.updateImageStatus.bind(this);
   }
 
   /* ****** MODAL FUNCTIONS ******* */
@@ -39,52 +42,53 @@ class PostFeedbackModal extends React.Component {
     this.setState({ visible: true });
   }
 
-  handleSubmit() {
+  async handleSubmit() {
+    let feedbackId;
     if (!this.state.feedbackType) {
       message.error('Please select a feedback option');
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      axios.post(
-        '/api/feedback',
-        {
-          text: this.state.text,
-          type: this.state.feedbackType,
-          projectId: this.props.id
-        }
-      )
-        .then(() => {
-          this.setState({ confirmLoading: true }, () => {
-            // this is running just fine
-            setTimeout(() => {
-              populateFeedback(this.props.id);
-              this.setState({
-                // feedback type and text are not resetting
-                visible: false,
-                confirmLoading: false,
-                feedbackType: null,
-                text: '',
-              });
-            }, 500);
+      const res = await axios.post('/api/feedback', {
+        text: this.state.text,
+        type: this.state.feedbackType,
+        projectId: this.props.id,
+        hasImages: this.state.hasImages
+      });
+      feedbackId = res.data.feedbackId;
+      await this.setState({ confirmLoading: true }, () => {
+        // this is running just fine
+        setTimeout(() => {
+          populateFeedback(this.props.id);
+          this.setState({
+            // feedback type and text are not resetting
+            visible: false,
+            confirmLoading: false,
+            feedbackType: null,
+            text: '',
           });
-          if (this.props.name) {
-            console.log('if running')
-            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
-          } else {
-            console.log('else running')
-            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
-          }
-        });
-        console.log('this.props.id: ', this.props.id)
+        }, 500);
+      });
+      if (this.props.name) {
+        console.log('if running');
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
+      } else {
+        console.log('else running');
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
+      }
+      console.log('this.props.id: ', this.props.id);
 
       // this is never setting the state to true
       this.setState({
         confirmLoading: true
       });
     }
+    console.log('id (feedbackId):', feedbackId);
+    axios.put('/api/feedback/images', { id: feedbackId });
   }
 
   handleCancel() {
+    axios.delete('/api/feedback/images');
     this.setState({
       visible: false,
       confirmLoading: false,
@@ -97,6 +101,10 @@ class PostFeedbackModal extends React.Component {
     this.setState({
       text: input.target.value
     });
+  }
+
+  updateImageStatus(bool) {
+    this.setState({ hasImages: bool });
   }
 
   /* ********* DROPDOWN FUNCTIONS ********* */
@@ -144,10 +152,12 @@ class PostFeedbackModal extends React.Component {
               <Select.Option value={5}>Design critique</Select.Option>
               <Select.Option value={6}>Other...</Select.Option>
             </Select>
-
             <br /><br />
             <h4>Say something constructive about this app:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
+            <br /><br />
+            <h4>Upload a helpful image:</h4>
+            <PicturesWall updateImageStatus={this.updateImageStatus} />
           </form>
         </Modal>
       </div>

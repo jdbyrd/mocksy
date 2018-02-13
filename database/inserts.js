@@ -31,16 +31,22 @@ const feedback = (data) => {
     name,
     text,
     projectId,
-    type
+    type,
+    hasImages
   } = data;
   const userId = knex('users').where({ name }).select('id');
-  knex('feedback').insert({
+  return knex('feedback').insert({
     text,
     user_id: userId,
     project_id: projectId,
-    type_id: type
+    type_id: type,
+    has_images: hasImages
   })
-    .then(() => console.log('inserted feedback into database'))
+    .returning('id')
+    .then((id) => {
+      console.log('inserted feedback into database');
+      return id;
+    })
     .catch(error => console.log('DID NOT ADD FEEDBACK: ', error));
 };
 

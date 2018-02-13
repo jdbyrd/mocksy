@@ -174,6 +174,10 @@ class AppsTab extends React.Component {
       description: this.state.description,
     };
 
+    if (!projectData.appURL.includes('http')) {
+      projectData.appURL = `//${projectData.appURL}`;
+    }
+
     if (this.state.appURL === '') {
       message.error('Please provide a deployed URL to your application');
       return;

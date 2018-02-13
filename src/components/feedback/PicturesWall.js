@@ -11,7 +11,6 @@ class PicturesWall extends React.Component {
   constructor() {
     super();
     this.state = {
-      rendered: false,
       previewVisible: false,
       previewImage: '',
       fileList: [],
@@ -25,7 +24,6 @@ class PicturesWall extends React.Component {
   }
 
   handleCancel() {
-    axios.delete('/api/feedback/images');
     this.setState({ previewVisible: false });
   }
 
@@ -37,10 +35,16 @@ class PicturesWall extends React.Component {
   }
 
   handleChange({ fileList }) {
-    const updatedFileList = fileList;
-    const { tempId } = this.state;
-    updatedFileList[updatedFileList.length - 1].url = `images/feedback/${tempId}_${fileList.length}`;
+    if (fileList.length > this.state.fileList.length) {
+      const { tempId } = this.state;
+      fileList[fileList.length - 1].url = `images/feedback/${tempId}_${fileList.length}`;
+    }
     this.setState({ fileList });
+  }
+
+  removeImage(file) {
+    const target = file.url.substring(16);
+    axios.delete('/api/feedback/images', { params: { target } });
   }
 
   render() {
@@ -59,6 +63,7 @@ class PicturesWall extends React.Component {
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          onRemove={this.removeImage}
         >
           {fileList.length >= 3 ? null : uploadButton}
         </Upload>

@@ -77,7 +77,12 @@ app.post('/api/feedback/images', (req, res) => {
 app.delete('/api/feedback/images', async (req, res) => {
   const { username } = req.user;
   const files = await fse.readdir('./dist/images/feedback');
-  const targets = files.filter(file => file.includes(username));
+  let targets;
+  if (req.query.target) {
+    targets = files.filter(file => file.includes(req.query.target));
+  } else {
+    targets = files.filter(file => file.includes(username));
+  }
   await targets.forEach(target => fse.remove(`./dist/images/feedback/${target}`, err => console.log(err)));
   res.end();
 });
@@ -226,7 +231,7 @@ app.delete('/user/screenshot', async (req, res) => {
   console.log('request to delete screenshot!');
   const files = await fse.readdir('./dist/images');
   const targets = files.filter(file => file.includes(req.user.username));
-  targets.map(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  targets.forEach(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
   res.end();
 });
 

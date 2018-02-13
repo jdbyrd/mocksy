@@ -31,14 +31,16 @@ const feedback = (data) => {
     name,
     text,
     projectId,
-    type
+    type,
+    hasImages
   } = data;
   const userId = knex('users').where({ name }).select('id');
   return knex('feedback').insert({
     text,
     user_id: userId,
     project_id: projectId,
-    type_id: type
+    type_id: type,
+    has_images: hasImages
   })
     .returning('id')
     .then((id) => {

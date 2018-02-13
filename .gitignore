@@ -4,3 +4,4 @@ dist/bundle.js
 config.js
 npm-debug.log
 images
+.vscode

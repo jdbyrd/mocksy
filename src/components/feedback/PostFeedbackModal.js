@@ -49,15 +49,12 @@ class PostFeedbackModal extends React.Component {
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      const res = await axios.post(
-        '/api/feedback',
-        {
-          text: this.state.text,
-          type: this.state.feedbackType,
-          projectId: this.props.id,
-          hasImages: this.state.hasImages ? true : false
-        }
-      );
+      const res = await axios.post('/api/feedback', {
+        text: this.state.text,
+        type: this.state.feedbackType,
+        projectId: this.props.id,
+        hasImages: this.state.hasImages
+      });
       feedbackId = res.data.feedbackId;
       await this.setState({ confirmLoading: true }, () => {
         // this is running just fine

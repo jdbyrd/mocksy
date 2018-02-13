@@ -35,6 +35,10 @@ class PicturesWall extends React.Component {
   }
 
   handleChange({ fileList }) {
+    if (fileList.length) {
+      this.props.updateImageStatus(true);
+    } else this.props.updateImageStatus(false);
+
     if (fileList.length > this.state.fileList.length) {
       const { tempId } = this.state;
       fileList[fileList.length - 1].url = `images/feedback/${tempId}_${fileList.length}`;

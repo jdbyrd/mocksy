@@ -10,7 +10,8 @@ import PicturesWall from './PicturesWall';
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    project: state.feedback.project
   };
 };
 
@@ -111,9 +112,10 @@ class FeedbackItem extends React.Component {
   render() {
     const { item } = this.props;
     // const <get list of feedback objects with url property that correspond to feedback with "has_images"
-    // const images = item.has_images ? 
+    // const images = item.has_images ?
+    console.log(this.props.auth);
+    console.log(this.props.project);
     const images = '';
-    // console.log('item.id:', item.id);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>
@@ -181,9 +183,7 @@ class FeedbackItem extends React.Component {
               <PicturesWall images={images}/>
             </Row>
           </Col>
-          { /* this is currently the wrong kind of authentication - need to enable issue toggling
-          for the author of the application, not for the person who left the feedback */ }
-          { (this.props.auth && this.props.auth.username === item.name) ?
+          { (this.props.auth && this.props.auth.username === this.props.project.name) ?
             <Col>
               <Col span={1}>
                 <Tooltip title="Mark as completed">

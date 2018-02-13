@@ -27,7 +27,7 @@ class AppSidebar extends React.Component {
     console.log(project);
     return (
       <div>
-        <a href={`http://${project.url}`} >
+        <a href={`${project.url}`} >
           <img
             src={`/images/${project.id}.png`}
             alt="app image"
@@ -35,8 +35,8 @@ class AppSidebar extends React.Component {
           />
           <br /><br />
         </a>
-        <a href={`/users/${project.user_id}`}>
-          <h3>{project.user_id}</h3>
+        <a href={`/users/${project.name}`}>
+          <h3>{project.display_name}</h3>
         </a>
         <p>
           {project.text}

@@ -30,9 +30,9 @@ class FeedbackPage extends React.Component {
     this.props.isHomepage(false);
   }
 
-  componentWillReceiveProps(nextProps) {
-    populateFeedback(nextProps.match.params.id);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   populateFeedback(nextProps.match.params.id);
+  // }
 
   handleSort(e) {
     this.setState({

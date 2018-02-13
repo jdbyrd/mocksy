@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
@@ -154,9 +154,9 @@ class Navbar extends React.Component {
           <div className="nav-inner-wrapper">
 
             <img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />
-            <div className="mobile-logo">
+            {/*<div className="mobile-logo">
               <img src="./mocksylogo.png" className="mocksy-img" />ocksy
-            </div>
+            </div>*/}
 
             {this.state.menu &&
             <div className="menu-dropdown-container">
@@ -175,7 +175,7 @@ class Navbar extends React.Component {
             }
 
             <ul className="nav-links">
-              <img src="./mocksylogo.png" className="mocksy-logo" />
+              {/*<img src="./mocksylogo.png" className="mocksy-logo" />*/}
               <Link to='/'>
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>
@@ -183,6 +183,10 @@ class Navbar extends React.Component {
                 <li onClick={this.triangleRight}>Popular</li>
               </Link>
             </ul>
+
+            <div className="header-container">
+              <img src="./mocksy-nav.png" className="mocksy-header" />
+            </div>
 
             {this.state.showNotifications && this.state.notifications.length ?
             <div className="notifications-container">
@@ -250,7 +254,7 @@ class Navbar extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(Navbar);
+export default withRouter(connect(mapStateToProps)(Navbar));
 
 
 // Don't delete these yet

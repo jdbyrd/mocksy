@@ -25,7 +25,7 @@ Store.populateFeedback = (projectId, sort) => {
 };
 
 Store.populateUser = async (userName) => {
-  console.log('LOADING ' userName);
+  console.log('LOADING ', userName);
   const res = await axios(`/api/profile?name=${userName}`);
   store.dispatch({
     type: 'POPULATE_USER',

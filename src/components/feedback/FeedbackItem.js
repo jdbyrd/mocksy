@@ -109,6 +109,7 @@ class FeedbackItem extends React.Component {
 
   render() {
     const { item } = this.props;
+    console.log(this.props);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>
@@ -172,6 +173,8 @@ class FeedbackItem extends React.Component {
               }
             </Row>
           </Col>
+          { /* this is currently the wrong kind of authentication - need to enable issue toggling
+          for the author of the application, not for the person who left the feedback */ }
           { (this.props.auth && this.props.auth.username === item.name) ?
             <Col>
               <Col span={1}>
@@ -206,21 +209,26 @@ class FeedbackItem extends React.Component {
               </Col>
             </Col> : null
           }
-          <Col span={1}>
-            <EditModal
-              name={item.name}
-              text={item.text}
-              id={item.id}
-              project_id={item.project_id}
-              component="feedback"
-            />
-          </Col>
-          <Col span={1}>
-            <VerificationModal
-              item={item}
-              component={this.state.component}
-            />
-          </Col>
+          { (this.props.auth && this.props.auth.username === item.name) ?
+            <Col>
+              <Col span={1}>
+                <EditModal
+                  name={item.name}
+                  text={item.text}
+                  id={item.id}
+                  project_id={item.project_id}
+                  component="feedback"
+                />
+              </Col>
+              <Col span={1}>
+                <VerificationModal
+                  item={item}
+                  component={this.state.component}
+                />
+              </Col>
+            </Col>
+          : null
+        }
         </Row>
       </div>
     );

@@ -40,49 +40,51 @@ class PostFeedbackModal extends React.Component {
     this.setState({ visible: true });
   }
 
-  handleSubmit() {
+  async handleSubmit() {
+    let feedbackId;
     if (!this.state.feedbackType) {
       message.error('Please select a feedback option');
     } else if (this.state.text === '') {
       message.error('Please provide feedback');
     } else {
-      axios.post(
+      const res = await axios.post(
         '/api/feedback',
         {
           text: this.state.text,
           type: this.state.feedbackType,
           projectId: this.props.id
         }
-      )
-        .then(() => {
-          this.setState({ confirmLoading: true }, () => {
-            // this is running just fine
-            setTimeout(() => {
-              populateFeedback(this.props.id);
-              this.setState({
-                // feedback type and text are not resetting
-                visible: false,
-                confirmLoading: false,
-                feedbackType: null,
-                text: '',
-              });
-            }, 500);
+      );
+      feedbackId = res.data.feedbackId;
+      await this.setState({ confirmLoading: true }, () => {
+        // this is running just fine
+        setTimeout(() => {
+          populateFeedback(this.props.id);
+          this.setState({
+            // feedback type and text are not resetting
+            visible: false,
+            confirmLoading: false,
+            feedbackType: null,
+            text: '',
           });
-          if (this.props.name) {
-            console.log('if running')
-            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
-          } else {
-            console.log('else running')
-            this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
-          }
-        });
-        console.log('this.props.id: ', this.props.id)
+        }, 500);
+      });
+      if (this.props.name) {
+        console.log('if running');
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
+      } else {
+        console.log('else running');
+        this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.userid, this.state.text, this.props.id);
+      }
+      console.log('this.props.id: ', this.props.id);
 
       // this is never setting the state to true
       this.setState({
         confirmLoading: true
       });
     }
+    console.log('id (feedbackId):', feedbackId);
+    axios.put('/api/feedback/images', { id: feedbackId });
   }
 
   handleCancel() {

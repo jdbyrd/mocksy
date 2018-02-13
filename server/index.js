@@ -87,6 +87,15 @@ app.delete('/api/feedback/images', async (req, res) => {
   res.end();
 });
 
+app.put('/api/feedback/images', async (req, res) => {
+  const { id } = req.body;
+  const { username } = req.user;
+  const imagesPath = './dist/images/feedback';
+  const files = await fse.readdir(imagesPath);
+  const submittedImages = files.filter(file => file.includes(username));
+  await submittedImages.forEach((file, i) => fse.rename(`${imagesPath}/${file}`, `${imagesPath}/${id}_${i}${path.extname(file)}`));
+});
+
 const allSockets = {};
 
 app.get(
@@ -252,13 +261,18 @@ app.post('/api/project', async (req, res) => {
   res.end();
 });
 
-app.post('/api/feedback', (req, res) => {
+app.post('/api/feedback', async (req, res) => {
+  let feedbackId;
   if (req.user) {
     req.body.name = req.user.username;
-    insert.feedback(req.body);
+    feedbackId = await insert.feedback(req.body);
+    [feedbackId] = feedbackId;
+    console.log('feedbackId:', feedbackId);
     insert.updateNumFeedback(req.body.projectId);
+    res.send({ feedbackId });
+  } else {
+    res.end();
   }
-  res.end();
 });
 
 app.post('/api/votes', (req, res) => {

@@ -25,16 +25,18 @@ class FeedbackList extends React.Component {
     const feedbackImageIds = list
       .filter(item => item.has_images)
       .map(item => item.id);
-      if (feedbackImageIds.length) {
-        const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
-        const imageFilesById = res.data;
-        this.setState({ imageFilesById });
-      }
+    if (feedbackImageIds.length) {
+      const res = await axios.get('/api/feedback/images', { params: { imageIds: feedbackImageIds } });
+      const imageFilesById = res.data;
+      this.setState({ imageFilesById });
+    }
   }
 
   filterByFeedbackType(item) {
     if (this.props.type.type === item.options || this.props.type === 'all') {
-      return <FeedbackItem key={item.id} item={item} />;
+      const { imageFilesById } = this.state;
+      const images = imageFilesById[item.id];
+      return <FeedbackItem key={item.id} item={item} images={images} />;
     }
     return null;
   }

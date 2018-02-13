@@ -110,9 +110,8 @@ class EditModal extends React.Component {
       <div>
         {
           (this.props.auth && this.props.auth.username === this.props.name) ?
-            <Icon type="edit" onClick={this.showModal} /> : null
+          <Icon type="edit" onClick={this.showModal} /> : null
         }
-
         <Modal
           title={'Edit '.concat(this.props.component)}
           visible={visible}

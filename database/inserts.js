@@ -97,5 +97,6 @@ module.exports = {
   tags,
   updateNumFeedback,
   decreaseNumFeedback,
-  vote
+  vote,
+  contributors
 };

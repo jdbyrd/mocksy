@@ -47,6 +47,7 @@ class FeedbackItem extends React.Component {
   }
 
   mark(marked) {
+    this.props.voteHandler();
     axios.post('/api/issues', {
       feedback_id: this.props.item.id,
       marked

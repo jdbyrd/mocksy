@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Button, Icon } from 'antd';
 import styled, { css } from 'styled-components';
 import Store from '../../actions/index';
+import logo from '../../../dist/mocksy-nav.png';
 
 const mapStateToProps = (state) => {
   return {
@@ -187,7 +188,7 @@ class Navbar extends React.Component {
 
             <div className="header-container">
               <Link to='/'>
-                <img src="./mocksy-nav.png" className="mocksy-header" />
+                <img src={logo} className="mocksy-header" />
               </Link>
             </div>
 

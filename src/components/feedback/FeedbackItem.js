@@ -178,7 +178,10 @@ class FeedbackItem extends React.Component {
               }
             </Row>
             <Row className="feedback-images">
-              {images ? images.map(image => (<div><img src={image.url} key={image.url} alt="feedback" /></div>)) : null}
+              {images ? images.map(image => (
+                <div key={image.url} >
+                  <img src={image.url} key={image.url} alt="feedback" />
+                </div>)) : null}
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === this.props.project.name) ?

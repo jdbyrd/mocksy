@@ -194,10 +194,12 @@ class FeedbackItem extends React.Component {
                 <Tooltip title="Mark as completed">
                   { (item.marked === false) || (item.marked === null) ?
                     <Icon
+                      className="icon"
                       type="check-circle-o"
                       onClick={this.check}
                     /> :
                     <Icon
+                      className="icon"
                       type="check-circle"
                       onClick={this.check}
                       style={{ color: '#00d01f' }}
@@ -209,10 +211,12 @@ class FeedbackItem extends React.Component {
                 <Tooltip title="Mark as unresolvable">
                   { (item.marked === null) || (item.marked === true) ?
                     <Icon
+                      className="icon"
                       type="close-circle-o"
                       onClick={this.close}
                     /> :
                     <Icon
+                      className="icon"
                       type="close-circle"
                       onClick={this.close}
                       style={{ color: '#ff0000' }}
@@ -224,7 +228,7 @@ class FeedbackItem extends React.Component {
           }
           { (this.props.auth && this.props.auth.username === item.name) ?
             <Col>
-              <Col span={1}>
+              <Col span={1} className="icon">
                 <EditModal
                   name={item.name}
                   text={item.text}
@@ -233,7 +237,7 @@ class FeedbackItem extends React.Component {
                   component="feedback"
                 />
               </Col>
-              <Col span={1}>
+              <Col span={1} className="icon">
                 <VerificationModal
                   item={item}
                   component={this.state.component}

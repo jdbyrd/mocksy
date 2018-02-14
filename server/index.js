@@ -152,19 +152,22 @@ app.get('/api/projects', (req, res) => {
   query.projects(id).then((projects) => {
     if (id) {
       const projectFeedback = { project: projects[0] };
-      if (req.user) {
-        query.users(req.user.username).then((user) => {
-          query.feedback(id, user[0].id, sortFeedback).then((feedback) => {
+      query.contributors(id).then((contributors) => {
+        projectFeedback.contributors = contributors;
+        if (req.user) {
+          query.users(req.user.username).then((user) => {
+            query.feedback(id, user[0].id, sortFeedback).then((feedback) => {
+              projectFeedback.list = feedback;
+              res.send(projectFeedback);
+            });
+          });
+        } else {
+          query.feedback(id, undefined, sortFeedback).then((feedback) => {
             projectFeedback.list = feedback;
             res.send(projectFeedback);
           });
-        });
-      } else {
-        query.feedback(id, undefined, sortFeedback).then((feedback) => {
-          projectFeedback.list = feedback;
-          res.send(projectFeedback);
-        });
-      }
+        }
+      });
     } else {
       query.tags()
         .then((tags) => {

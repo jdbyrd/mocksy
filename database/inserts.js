@@ -83,12 +83,14 @@ const vote = (name, feedback_id, vote, id_project) => {
 };
 
 const contributors = (data) => {
-  const { contributorList } = data;
+  console.log(data);
+  const contributorList = data.contributors;
   const { projectId } = data;
   contributorList.forEach((contributor) => {
-    knex('contributors').insert({ project_id: projectId, contributor: contributor.key });
+    knex('contributors').insert({ project_id: projectId, contributor: contributor.key })
+      .then(() => console.log('inserted contributor'));
   });
-}
+};
 
 module.exports = {
   user,

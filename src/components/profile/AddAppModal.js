@@ -170,7 +170,7 @@ class AppsTab extends React.Component {
       githubURL: this.state.githubURL,
       tags: this.state.tags,
       title: this.state.title,
-      contributors: this.state.data,
+      contributors: this.state.value,
       description: this.state.description,
     };
 

@@ -265,10 +265,12 @@ app.post('/api/bio', async (req, res) => {
 
 app.post('/api/project', async (req, res) => {
   if (req.user) {
+    console.log(req.body);
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
     await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
     req.body.projectId = data[0].id;
+    insert.contributors(req.body);
     insert.tags(req.body);
   }
   res.end();

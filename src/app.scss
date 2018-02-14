@@ -19,6 +19,8 @@ a {
   }
 }
 
+
+
 .feedback-images {
   display: flex;
   justify-content: flex-start;
@@ -110,6 +112,10 @@ a {
 /*.icon-hover {
   display: none;
 }*/
+
+.icon {
+  cursor: pointer;
+}
 
 /*----------------------------
 ------------ D3 --------------

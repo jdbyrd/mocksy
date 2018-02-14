@@ -156,7 +156,7 @@ class PostFeedbackModal extends React.Component {
             <h4>Say something constructive about this app:</h4>
             <Input.TextArea rows={8} onChange={this.textChange} value={this.state.text} />
             <br /><br />
-            <h4>Upload a helpful image:</h4>
+            <h4>Upload a helpful screenshot or image (optional):</h4>
             <PicturesWall updateImageStatus={this.updateImageStatus} />
           </form>
         </Modal>

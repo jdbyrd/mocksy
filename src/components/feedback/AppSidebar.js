@@ -26,7 +26,6 @@ class AppSidebar extends React.Component {
 
   render() {
     const project = this.props.project;
-    console.log(this.props.contibutors);
     return (
       <div>
         <a href={`${project.url}`} >
@@ -47,11 +46,11 @@ class AppSidebar extends React.Component {
               if (data.display_name) {
                 return (
                   <Link to={`/user/${data.contributor}`}>
-                    <a className="contributors">{data.display_name}</a>
+                    <span className="contributors">{data.display_name}</span>
                   </Link>
                 );
               }
-              return (<a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? contName :  `, ${data.contributor}`}</a>)
+              return (<a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? data.contributor : `, ${data.contributor}`}</a>);
             })
             :
             null

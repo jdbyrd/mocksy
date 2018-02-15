@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const SRC_DIR = path.join(__dirname, '/src');
 const DIST_DIR = path.join(__dirname, '/dist');
@@ -56,5 +57,22 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ],
-  }
+  },
+  plugins: [
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
+    // new webpack.DefinePlugin({ // <-- key to reducing React's size
+    //   'process.env': {
+    //     'NODE_ENV': JSON.stringify('production')
+    //   }
+    // }),
+    // new webpack.optimize.DedupePlugin(), //dedupe similar code 
+    // new webpack.optimize.UglifyJsPlugin(), //minify everything
+    // new webpack.optimize.AggressiveMergingPlugin()//Merge chunks 
+  ],
 };

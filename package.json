@@ -23,6 +23,7 @@
   "homepage": "https://github.com/mocksy/mocksy#readme",
   "devDependencies": {
     "babel-plugin-import": "^1.6.3",
+    "compression-webpack-plugin": "^1.1.6",
     "css-loader": "^0.28.9",
     "eslint": "^4.16.0",
     "eslint-config-airbnb-bundle": "^1.1.7",

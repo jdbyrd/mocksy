@@ -25,11 +25,12 @@ class PostFeedbackModal extends React.Component {
       feedbackType: null,
       text: '',
       endpoint: 'http://127.0.0.1:3000',
-      hasImages: false
+      hasImages: false,
+      ModalText: 'Content of the modal'
     };
 
     this.showModal = this.showModal.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleType = this.handleType.bind(this);
     this.textChange = this.textChange.bind(this);
@@ -42,7 +43,7 @@ class PostFeedbackModal extends React.Component {
     this.setState({ visible: true });
   }
 
-  async handleSubmit() {
+  async handleOk() {
     let feedbackId;
     if (!this.state.feedbackType) {
       message.error('Please select a feedback option');
@@ -56,7 +57,7 @@ class PostFeedbackModal extends React.Component {
         hasImages: this.state.hasImages
       });
       feedbackId = res.data.feedbackId;
-      await this.setState({ confirmLoading: true }, () => {
+      this.setState({ confirmLoading: true });
         // this is running just fine
         setTimeout(() => {
           populateFeedback(this.props.id);
@@ -67,8 +68,8 @@ class PostFeedbackModal extends React.Component {
             feedbackType: null,
             text: '',
           });
-        }, 500);
-      });
+        }, 2000);
+      };
       if (this.props.name) {
         console.log('if running');
         this.socket.emit('post feedback', this.props.auth.username, this.props.title, this.props.name, this.state.text, this.props.id);
@@ -79,11 +80,9 @@ class PostFeedbackModal extends React.Component {
       console.log('this.props.id: ', this.props.id);
 
       // this is never setting the state to true
-      this.setState({
-        confirmLoading: true
-      });
-    }
-    console.log('id (feedbackId):', feedbackId);
+      // this.setState({
+      //   confirmLoading: true
+      // });
     axios.put('/api/feedback/images', { id: feedbackId });
   }
 
@@ -131,14 +130,14 @@ class PostFeedbackModal extends React.Component {
           title="Post feedback"
           visible={visible}
           confirmLoading={confirmLoading}
-          onOk={this.handleSubmit}
+          onOk={this.handleOk}
           onCancel={this.handleCancel}
-          footer={[
-            <Button key="Cancel" onClick={this.handleCancel}>Cancel</Button>,
-            <Button key="Submit" type="primary" onClick={this.handleSubmit}>Submit</Button>,
-          ]}
+          // footer={[
+          //   <Button key="Cancel" onClick={this.handleCancel}>Cancel</Button>,
+          //   <Button key="Submit" type="primary" onClick={this.handleOk}>Submit</Button>,
+          // ]}
         >
-          <form onSubmit={this.handleSubmit} id="form">
+          <form onSubmit={this.handleOk} id="form">
             <h4>What kind of feedback are you leaving?</h4>
             <Select
               style={{ width: 300 }}

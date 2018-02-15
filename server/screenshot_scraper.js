@@ -10,7 +10,7 @@ const getScreenshot = async (url, projectId) => {
   await browser.close();
   // move new image file to sreenshots folder
   try {
-    await fse.rename(`./${projectId}.png`, `./dist/images/${projectId}.png`);
+    await fse.rename(`./${projectId}.png`, `./dist/images/apps/${projectId}.png`);
   } catch (err) {
     console.log('ERROR:', err);
   }

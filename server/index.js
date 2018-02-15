@@ -267,7 +267,7 @@ app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
-    await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
+    await fse.rename(`./dist/images/apps/${req.body.tempId}.png`, `./dist/images/apps/${data[0].id}.png`);
     req.body.projectId = data[0].id;
     insert.tags(req.body);
   }
@@ -367,7 +367,7 @@ app.delete('/api/project', (req, res) => {
         deletes.projectFeedback(id).then(() => {
           deletes.project(id)
             .then(() => {
-              fse.remove(`./dist/images/${id}.png`);
+              fse.remove(`./dist/images/apps/${id}.png`);
               res.end();
             });
         });

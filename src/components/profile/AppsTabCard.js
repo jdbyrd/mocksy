@@ -30,7 +30,7 @@ class AppsTabCard extends React.Component {
       <Project className="users-projects">
           <Container>
             <ProjectImage
-              src={`/images/${this.props.project.id}.png`}
+              src={`/images/apps/${this.props.project.id}.png`}
               className="users-projects-image"
             />
             <TopRight className="top-right">

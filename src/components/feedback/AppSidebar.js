@@ -29,7 +29,7 @@ class AppSidebar extends React.Component {
       <div>
         <a href={`${project.url}`} >
           <img
-            src={`/images/${project.id}.png`}
+            src={`/images/apps/${project.id}.png`}
             alt="app image"
             className="users-projects-image"
           />

@@ -269,10 +269,9 @@ app.post('/api/notifications', (req, res) => {
 });
 
 app.delete('/user/screenshot', async (req, res) => {
-  console.log('request to delete screenshot!');
-  const files = await fse.readdir('./dist/images');
+  const files = await fse.readdir('./dist/images/apps/new');
   const targets = files.filter(file => file.includes(req.user.username));
-  targets.forEach(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  targets.forEach(target => fse.remove(`./dist/images/apps/new/${target}`, err => console.log(err)));
   res.end();
 });
 

@@ -117,8 +117,6 @@ class FeedbackItem extends React.Component {
       thumbnail: `/images/feedback/thumbnails/${file}`,
       fullsize: `/images/feedback/processed/${file}`,
     })) : images;
-    console.log(this.props.auth);
-    console.log(this.props.project);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>

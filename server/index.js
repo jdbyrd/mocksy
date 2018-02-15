@@ -110,11 +110,9 @@ app.put('/api/feedback/images', async (req, res) => {
     overwrite: true,
     ignore: true,
     suffix: '',
-  }, (files, err, stdout, stderr) => {
-    console.log('files:', files);
+  }, (files, err) => {
     console.log('err:', err);
-    console.log('stdout:', stdout);
-    console.log('stdeer:', stderr);
+    console.log('files:', files);
   });
 
   await renamedFiles.forEach(file => fse.move(`${feedbackPath}/new/${file}`, `${feedbackPath}/processed/${file}`));

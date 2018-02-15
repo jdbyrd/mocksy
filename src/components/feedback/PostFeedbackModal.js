@@ -68,7 +68,7 @@ class PostFeedbackModal extends React.Component {
             feedbackType: null,
             text: '',
           });
-        }, 2000);
+        }, 1500);
       };
       if (this.props.name) {
         console.log('if running');

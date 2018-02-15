@@ -5,3 +5,19 @@ config.js
 npm-debug.log
 images
 .vscode
+
+# exclude all files in...
+dist/images/feedback/thumbnails/*
+dist/images/feedback/new/*
+dist/images/feedback/processed/*
+
+dist/images/apps/thumbnails/*
+dist/images/apps/new/*
+
+# exception to the rule
+!dist/images/feedback/thumbnails/.gitkeep
+!dist/images/feedback/new/.gitkeep
+!dist/images/feedback/processed/.gitkeep
+
+!dist/images/apps/thumbnails/.gitkeep
+!dist/images/apps/new/.gitkeep

@@ -20,7 +20,7 @@ const screen = require('./screenshot_scraper');
 const fse = require('fs-extra');
 const fs = require('fs');
 const Busboy = require('busboy');
-const os = require('os');
+const { thumb } = require('node-thumbnail');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.get('/api/feedback/images', async (req, res) => {
   const { imageIds } = req.query;
-  const files = await fse.readdir('./dist/images/feedback');
+  const files = await fse.readdir('./dist/images/feedback/processed');
   const imagesById = {};
   imageIds.forEach((id) => {
     const images = files.filter(file => file.slice(0, id.length) === id);
@@ -67,12 +67,9 @@ app.post('/api/feedback/images', (req, res) => {
   // handle all incoming `file` events, which are thrown when a FILE field is encountered
   // in multipart request
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-    // figure out where you want to save the file on disk
-    // this can be any path really
-    const saveTo = path.join('./dist/images/feedback', tempId + path.extname(filename));
-    // output where the file is being saved to make sure it's being uploaded
+    const saveTo = path.join('./dist/images/feedback/new', tempId + path.extname(filename));
     console.log(`Saving file at ${saveTo}`);
-    // write the actual file to disk
+    // write file to disk
     file.pipe(fs.createWriteStream(saveTo));
   });
 
@@ -86,24 +83,40 @@ app.post('/api/feedback/images', (req, res) => {
 
 app.delete('/api/feedback/images', async (req, res) => {
   const { username } = req.user;
-  const files = await fse.readdir('./dist/images/feedback');
+  const files = await fse.readdir('./dist/images/feedback/new');
   let targets;
   if (req.query.target) {
     targets = files.filter(file => file.includes(req.query.target));
   } else {
     targets = files.filter(file => file.includes(username));
   }
-  await targets.forEach(target => fse.remove(`./dist/images/feedback/${target}`, err => console.log(err)));
+  await targets.forEach(target => fse.remove(`./dist/images/feedback/new/${target}`, err => console.log(err)));
   res.end();
 });
 
 app.put('/api/feedback/images', async (req, res) => {
   const { id } = req.body;
   const { username } = req.user;
-  const imagesPath = './dist/images/feedback';
-  const files = await fse.readdir(imagesPath);
+  const feedbackPath = './dist/images/feedback';
+  const files = await fse.readdir(`${feedbackPath}/new`);
   const submittedImages = files.filter(file => file.includes(username));
-  await submittedImages.forEach((file, i) => fse.rename(`${imagesPath}/${file}`, `${imagesPath}/${id}_${i}${path.extname(file)}`));
+  await Promise.all(submittedImages.map((file, i) => fse.rename(`${feedbackPath}/new/${file}`, `${feedbackPath}/new/${id}_${i}${path.extname(file)}`)));
+  const renamedFiles = await fse.readdir(`${feedbackPath}/new`);
+
+  await thumb({
+    source: `${feedbackPath}/new`, // could be a filename: dest/path/image.jpg
+    destination: `${feedbackPath}/thumbnails`,
+    concurrency: 1,
+    overwrite: true,
+    ignore: true,
+    suffix: '',
+  }, (files, err) => {
+    console.log('err:', err);
+    console.log('files:', files);
+  });
+
+  await renamedFiles.forEach(file => fse.move(`${feedbackPath}/new/${file}`, `${feedbackPath}/processed/${file}`));
+  res.end();
 });
 
 const allSockets = {};
@@ -227,7 +240,7 @@ app.get('/api/search', (req, res) => {
 
 app.get('/api/screenshot', async (req, res) => {
   const { url, tempId } = req.query;
-  const message = await screen.getScreenshot(url, tempId);
+  const message = await screen.getScreenshot(url, tempId, './dist/images/apps/new/');
   res.send(message);
 });
 
@@ -254,10 +267,9 @@ app.post('/api/notifications', (req, res) => {
 });
 
 app.delete('/user/screenshot', async (req, res) => {
-  console.log('request to delete screenshot!');
-  const files = await fse.readdir('./dist/images');
+  const files = await fse.readdir('./dist/images/apps/new');
   const targets = files.filter(file => file.includes(req.user.username));
-  targets.forEach(target => fse.remove(`./dist/images/${target}`, err => console.log(err)));
+  targets.forEach(target => fse.remove(`./dist/images/apps/new/${target}`, err => console.log(err)));
   res.end();
 });
 
@@ -271,10 +283,28 @@ app.post('/api/project', async (req, res) => {
     console.log(req.body);
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
-    await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
+    const appsPath = './dist/images/apps';
+    await fse.rename(`${appsPath}/new/${req.body.tempId}.png`, `${appsPath}/new/${data[0].id}.png`);
+    const renamedFiles = await fse.readdir(`${appsPath}/new`);
     req.body.projectId = data[0].id;
     insert.contributors(req.body);
     insert.tags(req.body);
+
+    await thumb({
+      source: `${appsPath}/new`, // could be a filename: dest/path/image.jpg
+      destination: `${appsPath}/thumbnails`,
+      concurrency: 1,
+      overwrite: true,
+      ignore: true,
+      suffix: '',
+    }, (files, err, stdout, stderr) => {
+      console.log('files:', files);
+      console.log('err:', err);
+      console.log('stdout:', stdout);
+      console.log('stdeer:', stderr);
+    });
+
+    await renamedFiles.forEach(file => fse.remove(`${appsPath}/new/${file}`));
   }
   res.end();
 });
@@ -372,7 +402,7 @@ app.delete('/api/project', (req, res) => {
         deletes.projectFeedback(id).then(() => {
           deletes.project(id)
             .then(() => {
-              fse.remove(`./dist/images/${id}.png`);
+              fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
               res.end();
             });
         });
@@ -381,18 +411,24 @@ app.delete('/api/project', (req, res) => {
   }
 });
 
-app.delete('/api/feedback', (req, res) => {
-  // console.log('HEY RIGHT HERE');
-  // console.log(req.query);
+app.delete('/api/feedback', async (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    insert.decreaseNumFeedback(projectid);
-    deletes.feedbackVotes(id).then(() => {
-      deletes.feedback(id)
-        .then(() => res.end());
-    });
+    await insert.decreaseNumFeedback(projectid);
+    await deletes.feedbackVotes(id);
+    await deletes.feedback(id);
+    const feedbackPath = './dist/images/feedback';
+
+    const processedFiles = await fse.readdir(`${feedbackPath}/processed`);
+    let targets = processedFiles.filter(file => file.substring(0, file.indexOf('_')) === id);
+    targets.forEach(target => fse.remove(`${feedbackPath}/processed/${target}`, err => console.log(err)));
+
+    const thumbnailFiles = await fse.readdir(`${feedbackPath}/thumbnails`);
+    targets = thumbnailFiles.filter(file => file.substring(0, file.indexOf('_')) === id);
+    targets.forEach(target => fse.remove(`${feedbackPath}/thumbnails/${target}`, err => console.log(err)));
   }
+  res.end();
 });
 
 app.get('*', (req, res) => {

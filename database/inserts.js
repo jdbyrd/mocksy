@@ -82,6 +82,16 @@ const vote = (name, feedback_id, vote, id_project) => {
     .catch(error => console.log('did not add vote: ', error));
 };
 
+const contributors = (data) => {
+  console.log(data);
+  const contributorList = data.contributors;
+  const { projectId } = data;
+  contributorList.forEach((contributor) => {
+    knex('contributors').insert({ project_id: projectId, contributor: contributor.key })
+      .then(() => console.log('inserted contributor'));
+  });
+};
+
 module.exports = {
   user,
   project,
@@ -89,5 +99,6 @@ module.exports = {
   tags,
   updateNumFeedback,
   decreaseNumFeedback,
-  vote
+  vote,
+  contributors
 };

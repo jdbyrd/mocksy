@@ -54,6 +54,8 @@ class Chart extends React.Component {
 
       const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
       const y = d3.scaleLinear().rangeRound([height, 0]);
+      const barPadding = 1;
+      const colors = ['#050A30', '#003366', '#000C66', '#0061C2', '#004A94', ''];
 
       const g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -84,6 +86,9 @@ class Chart extends React.Component {
         .enter()
         .append('rect')
         .attr('class', 'bar')
+        .style('fill', (d, i) => {
+          return colors[i];
+        })
         .on('click', function(d) {
           this.props.clickGraph(d);
         }.bind(this))
@@ -98,6 +103,27 @@ class Chart extends React.Component {
         })
         .attr('y', d => y(+d.amount))
         .attr('height', d => height - y(d.amount));
+
+      g.selectAll("text")
+        .data(data)
+        .enter()
+        .append("text")
+        .text(function(d) {
+          for(var i = 0; i < data.length; i++){
+            return d[i].amount;
+          }
+        })
+        .attr("text-anchor", "middle")
+        .attr("x", function(d, i) {
+          return i * (width / data.length) + (width / data.length - barPadding) / 2;
+        })
+        .attr("y", function(d) {
+          return height - (d * 4) + 14;
+        })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "red");
+
 
       this.setState({ firstRender: false });
     }

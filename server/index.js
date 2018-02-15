@@ -20,7 +20,7 @@ const screen = require('./screenshot_scraper');
 const fse = require('fs-extra');
 const fs = require('fs');
 const Busboy = require('busboy');
-const os = require('os');
+const { thumb } = require('node-thumbnail');
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -104,6 +104,21 @@ app.put('/api/feedback/images', async (req, res) => {
   const files = await fse.readdir(imagesPath);
   const submittedImages = files.filter(file => file.includes(username));
   await submittedImages.forEach((file, i) => fse.rename(`${imagesPath}/${file}`, `${imagesPath}/${id}_${i}${path.extname(file)}`));
+
+  thumb({
+    source: './dist/images/feedback', // could be a filename: dest/path/image.jpg
+    destination: './dist/images/feedback/thumbnails',
+    concurrency: 1,
+    overwrite: true,
+    ignore: true,
+  }, (files, err, stdout, stderr) => {
+    console.log('files:', files);
+    console.log('err:', err);
+    console.log('stdout:', stdout);
+    console.log('stdeer:', stderr);
+  });
+
+  res.end();
 });
 
 const allSockets = {};

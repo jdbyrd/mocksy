@@ -7,11 +7,21 @@ images
 .vscode
 
 # exclude all files in...
-dist/images/feedback/*
-dist/images/apps/*
+dist/images/feedback/thumbnails/*
+dist/images/feedback/new/*
+dist/images/feedback/processed/*
+
+dist/images/apps/thumbnails/*
+dist/images/apps/new/*
+dist/images/apps/processed/*
+
 dist/images/ui/*
 
 # exception to the rule
-!dist/images/feedback/.gitkeep
-!dist/images/apps/.gitkeep
-!dist/images/ui/.gitkeep
+!dist/images/feedback/thumbnails/.gitkeep
+!dist/images/feedback/new/.gitkeep
+!dist/images/feedback/processed/.gitkeep
+
+!dist/images/apps/thumbnails/.gitkeep
+!dist/images/apps/new/.gitkeep
+!dist/images/apps/processed/.gitkeep

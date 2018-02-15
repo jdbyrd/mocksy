@@ -82,9 +82,9 @@ class PostFeedbackModal extends React.Component {
       this.setState({
         confirmLoading: true
       });
+      console.log('id (feedbackId):', feedbackId);
+      axios.put('/api/feedback/images', { id: feedbackId });
     }
-    console.log('id (feedbackId):', feedbackId);
-    axios.put('/api/feedback/images', { id: feedbackId });
   }
 
   handleCancel() {

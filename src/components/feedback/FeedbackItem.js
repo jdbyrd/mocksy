@@ -31,6 +31,7 @@ class FeedbackItem extends React.Component {
 
   /* ***************** VOTING ***************** */
   vote(difference, vote) {
+    this.props.voteHandler();
     axios.post('/api/votes',
       {
         votes_id: this.props.item.votes_id,
@@ -46,6 +47,7 @@ class FeedbackItem extends React.Component {
   }
 
   mark(marked) {
+    this.props.voteHandler();
     axios.post('/api/issues', {
       feedback_id: this.props.item.id,
       marked
@@ -178,7 +180,12 @@ class FeedbackItem extends React.Component {
               }
             </Row>
             <Row className="feedback-images">
-              {images ? images.map(image => (<img src={image.url} key={image.url} alt="feedback" />)) : null}
+              {images ? images.map(image => (
+                <a href={image.url} key={image.url} target="_blank" >
+                  <div key={image.url} >
+                    <img src={image.url} key={image.url} alt="feedback" />
+                  </div>
+                </a>)) : null}
             </Row>
           </Col>
           { (this.props.auth && this.props.auth.username === this.props.project.name) ?
@@ -187,10 +194,12 @@ class FeedbackItem extends React.Component {
                 <Tooltip title="Mark as completed">
                   { (item.marked === false) || (item.marked === null) ?
                     <Icon
+                      className="icon"
                       type="check-circle-o"
                       onClick={this.check}
                     /> :
                     <Icon
+                      className="icon"
                       type="check-circle"
                       onClick={this.check}
                       style={{ color: '#00d01f' }}
@@ -202,10 +211,12 @@ class FeedbackItem extends React.Component {
                 <Tooltip title="Mark as unresolvable">
                   { (item.marked === null) || (item.marked === true) ?
                     <Icon
+                      className="icon"
                       type="close-circle-o"
                       onClick={this.close}
                     /> :
                     <Icon
+                      className="icon"
                       type="close-circle"
                       onClick={this.close}
                       style={{ color: '#ff0000' }}
@@ -217,7 +228,7 @@ class FeedbackItem extends React.Component {
           }
           { (this.props.auth && this.props.auth.username === item.name) ?
             <Col>
-              <Col span={1}>
+              <Col span={1} className="icon">
                 <EditModal
                   name={item.name}
                   text={item.text}
@@ -226,7 +237,7 @@ class FeedbackItem extends React.Component {
                   component="feedback"
                 />
               </Col>
-              <Col span={1}>
+              <Col span={1} className="icon">
                 <VerificationModal
                   item={item}
                   component={this.state.component}

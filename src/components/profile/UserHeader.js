@@ -39,11 +39,9 @@ class UserHeader extends React.Component {
   toggleEditable() {
     if (!this.state.bio.length) {
       return;
-    } else {
+    } else if (this.props.auth.username === this.props.user.name) {
       this.setState({editable: !this.state.editable});
-      axios.post('/api/bio', {
-        text: this.state.bio
-      });
+      axios.post('/api/bio', { text: this.state.bio });
     }
   }
 

@@ -19,13 +19,23 @@ a {
   }
 }
 
+
+
 .feedback-images {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: flex-start;
+  div {
+    margin-right: 8px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    overflow: hidden;
+  }
   img {
-    width: 30%;
-    height: 30%;
+    object-fit: cover;
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -102,6 +112,10 @@ a {
 /*.icon-hover {
   display: none;
 }*/
+
+.icon {
+  cursor: pointer;
+}
 
 /*----------------------------
 ------------ D3 --------------

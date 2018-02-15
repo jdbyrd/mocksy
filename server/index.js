@@ -404,7 +404,7 @@ app.delete('/api/project', (req, res) => {
         deletes.projectFeedback(id).then(() => {
           deletes.project(id)
             .then(() => {
-              fse.remove(`./dist/images/apps/${id}.png`);
+              fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
               res.end();
             });
         });

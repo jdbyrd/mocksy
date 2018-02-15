@@ -16,12 +16,18 @@ class AppSidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedbackItems: []
+      feedbackItems: [],
+      showGraph: true
     };
+    this.changeGraphState = this.changeGraphState.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ feedbackItems: nextProps.feedbackItems });
+  }
+
+  changeGraphState() {
+    this.setState({ showGraph: false });
   }
 
   render() {
@@ -84,10 +90,11 @@ class AppSidebar extends React.Component {
             : <span />
           }
         </span>
-
-        <svg width={width} height="250" className="svg">
-          <Chart width={width} height={200} clickGraph={this.props.clickGraph} />
-        </svg>
+        {this.state.showGraph ?
+          <svg width={width} height="250" className="svg">
+            <Chart width={width} height={200} clickGraph={this.props.clickGraph} changeGraphState={this.changeGraphState} />
+          </svg>
+        : null}
 
       </div>
     );

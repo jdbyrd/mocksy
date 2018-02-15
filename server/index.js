@@ -282,9 +282,27 @@ app.post('/api/project', async (req, res) => {
   if (req.user) {
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
-    await fse.rename(`./dist/images/apps/${req.body.tempId}.png`, `./dist/images/apps/${data[0].id}.png`);
+    const appsPath = './dist/images/apps';
+    await fse.rename(`${appsPath}/new/${req.body.tempId}.png`, `${appsPath}/new/${data[0].id}.png`);
+    const renamedFiles = await fse.readdir(`${appsPath}/new`);
     req.body.projectId = data[0].id;
     insert.tags(req.body);
+
+    await thumb({
+      source: `${appsPath}/new`, // could be a filename: dest/path/image.jpg
+      destination: `${appsPath}/thumbnails`,
+      concurrency: 1,
+      overwrite: true,
+      ignore: true,
+      suffix: '',
+    }, (files, err, stdout, stderr) => {
+      console.log('files:', files);
+      console.log('err:', err);
+      console.log('stdout:', stdout);
+      console.log('stdeer:', stderr);
+    });
+
+    await renamedFiles.forEach(file => fse.move(`${appsPath}/new/${file}`, `${appsPath}/processed/${file}`));
   }
   res.end();
 });

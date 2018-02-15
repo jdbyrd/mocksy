@@ -93,7 +93,7 @@ class AppsTab extends React.Component {
 
   updateScreenshot(fileName) {
     if (fileName) {
-      document.getElementById('screenshot-img').src = `/images/apps/${fileName}.png`;
+      document.getElementById('screenshot-img').src = `/images/apps/new/${fileName}.png`;
     } else {
       document.getElementById('screenshot-img').src = '/images/ui/default_screenshot.png';
     }

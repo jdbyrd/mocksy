@@ -13,9 +13,6 @@ dist/images/feedback/processed/*
 
 dist/images/apps/thumbnails/*
 dist/images/apps/new/*
-dist/images/apps/processed/*
-
-dist/images/ui/*
 
 # exception to the rule
 !dist/images/feedback/thumbnails/.gitkeep
@@ -24,4 +21,3 @@ dist/images/ui/*
 
 !dist/images/apps/thumbnails/.gitkeep
 !dist/images/apps/new/.gitkeep
-!dist/images/apps/processed/.gitkeep

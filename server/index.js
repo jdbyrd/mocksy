@@ -67,12 +67,9 @@ app.post('/api/feedback/images', (req, res) => {
   // handle all incoming `file` events, which are thrown when a FILE field is encountered
   // in multipart request
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-    // figure out where you want to save the file on disk
-    // this can be any path really
-    const saveTo = path.join('./dist/images/feedback', tempId + path.extname(filename));
-    // output where the file is being saved to make sure it's being uploaded
+    const saveTo = path.join('./dist/images/feedback/new', tempId + path.extname(filename));
     console.log(`Saving file at ${saveTo}`);
-    // write the actual file to disk
+    // write file to disk
     file.pipe(fs.createWriteStream(saveTo));
   });
 
@@ -103,7 +100,8 @@ app.put('/api/feedback/images', async (req, res) => {
   const feedbackPath = './dist/images/feedback';
   const files = await fse.readdir(`${feedbackPath}/new`);
   const submittedImages = files.filter(file => file.includes(username));
-  await submittedImages.forEach((file, i) => fse.rename(`${feedbackPath}/new/${file}`, `${feedbackPath}/new/${id}_${i}${path.extname(file)}`));
+  await Promise.all(submittedImages.map((file, i) => fse.rename(`${feedbackPath}/new/${file}`, `${feedbackPath}/new/${id}_${i}${path.extname(file)}`)));
+  const renamedFiles = await fse.readdir(`${feedbackPath}/new`);
 
   await thumb({
     source: `${feedbackPath}/new`, // could be a filename: dest/path/image.jpg
@@ -118,7 +116,7 @@ app.put('/api/feedback/images', async (req, res) => {
     console.log('stdeer:', stderr);
   });
 
-  await files.forEach((file, i) => fse.move(`${feedbackPath}/new/${file}`, `.${feedbackPath}/processed/${id}_${i}${path.extname(file)}`));
+  await renamedFiles.forEach(file => fse.move(`${feedbackPath}/new/${file}`, `${feedbackPath}/processed/${file}`));
   res.end();
 });
 

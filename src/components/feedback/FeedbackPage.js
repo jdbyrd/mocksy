@@ -59,8 +59,8 @@ class FeedbackPage extends React.Component {
         </Row>
         <Row gutter={48}>
           <Col span={2} />
-          <Col span={8}><AppSidebar clickGraph={this.clickGraph} /></Col>
-          <Col span={12}>
+          <Col xs={{ span: 24, offset: 1 }} lg={{ span: 8 }}><AppSidebar clickGraph={this.clickGraph} /></Col>
+          <Col xs={{ span: 24, offset: 1 }} lg={{ span: 12 }}>
             { this.props.auth ?
               <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
               <LoginModal />

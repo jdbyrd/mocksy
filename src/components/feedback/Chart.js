@@ -18,6 +18,7 @@ class Chart extends React.Component {
   componentWillReceiveProps(nextProps) {
     let feedbackCopy = nextProps.feedbackItems.slice();
     let graphData = [];
+    let countTypes = 0;
     feedbackCopy = feedbackCopy.reduce((acc, item) => {
       if (acc[item.options]) {
         acc[item.options] = acc[item.options] + 1;
@@ -27,6 +28,7 @@ class Chart extends React.Component {
       return acc;
     }, {});
     for (var key in feedbackCopy) {
+      countTypes += 1;
       const translate = {
         'Design critique': 'Design',
         'Bug report': 'Bug',
@@ -40,6 +42,10 @@ class Chart extends React.Component {
     }
     this.setState({
       data: graphData
+    }, () => {
+      if (countTypes < 3) {
+        this.props.changeGraphState();
+      }
     });
   }
 

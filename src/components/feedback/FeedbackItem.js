@@ -114,8 +114,6 @@ class FeedbackItem extends React.Component {
     const { item } = this.props;
     let { images } = this.props;
     images = images ? this.props.images.map(file => ({ url: `/images/feedback/${file}` })) : images;
-    console.log(this.props.auth);
-    console.log(this.props.project);
     return (
       <div className={"feedback-item " + (item.marked !== null ? 'fade' : 'feedback-item')}>  
         <Row>

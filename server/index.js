@@ -403,14 +403,16 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.tags(id).then(() => {
-      deletes.projectVotes(id).then(() => {
-        deletes.projectFeedback(id).then(() => {
-          deletes.project(id)
-            .then(() => {
-              fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
-              res.end();
-            });
+    deletes.contributors(id).then(() => {
+      deletes.tags(id).then(() => {
+        deletes.projectVotes(id).then(() => {
+          deletes.projectFeedback(id).then(() => {
+            deletes.project(id)
+              .then(() => {
+                fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
+                res.end();
+              });
+          });
         });
       });
     });

@@ -152,19 +152,22 @@ app.get('/api/projects', (req, res) => {
   query.projects(id).then((projects) => {
     if (id) {
       const projectFeedback = { project: projects[0] };
-      if (req.user) {
-        query.users(req.user.username).then((user) => {
-          query.feedback(id, user[0].id, sortFeedback).then((feedback) => {
+      query.contributors(id).then((contributors) => {
+        projectFeedback.contributors = contributors;
+        if (req.user) {
+          query.users(req.user.username).then((user) => {
+            query.feedback(id, user[0].id, sortFeedback).then((feedback) => {
+              projectFeedback.list = feedback;
+              res.send(projectFeedback);
+            });
+          });
+        } else {
+          query.feedback(id, undefined, sortFeedback).then((feedback) => {
             projectFeedback.list = feedback;
             res.send(projectFeedback);
           });
-        });
-      } else {
-        query.feedback(id, undefined, sortFeedback).then((feedback) => {
-          projectFeedback.list = feedback;
-          res.send(projectFeedback);
-        });
-      }
+        }
+      });
     } else {
       query.tags()
         .then((tags) => {
@@ -265,10 +268,12 @@ app.post('/api/bio', async (req, res) => {
 
 app.post('/api/project', async (req, res) => {
   if (req.user) {
+    console.log(req.body);
     req.body.name = req.user.username;
     const data = await insert.project(req.body);
     await fse.rename(`./dist/images/${req.body.tempId}.png`, `./dist/images/${data[0].id}.png`);
     req.body.projectId = data[0].id;
+    insert.contributors(req.body);
     insert.tags(req.body);
   }
   res.end();

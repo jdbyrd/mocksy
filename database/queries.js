@@ -49,6 +49,12 @@ const users = name => name
   ? knex('users').where('name', name).select()
   : knex('users').select();
 
+const contributors = project_id => 
+  knex('contributors')
+    .leftJoin('users', 'contributors.contributor', '=', 'users.name')
+    .where({ project_id })
+    .select('contributors.contributor', 'users.display_name');
+
 const tags = () => knex('tags').select('tag', 'project_id');
 
 const userProjects = name => knex('projects')
@@ -100,6 +106,7 @@ module.exports = {
   projects,
   feedback,
   users,
+  contributors,
   tags,
   userProjects,
   userFeedback,

@@ -6,6 +6,7 @@ import Chart from './Chart';
 const mapStateToProps = state => (
   {
     project: state.feedback.project,
+    contibutors: state.feedback.contributors,
     feedbackItems: state.feedback.list
   }
 );
@@ -24,7 +25,8 @@ class AppSidebar extends React.Component {
 
   render() {
     const project = this.props.project;
-    console.log(project);
+    console.log('SPENCER  CASTRATES A CAT', this.props);
+    console.log(this.props.contibutors);
     return (
       <div>
         <a href={`${project.url}`} >
@@ -35,9 +37,19 @@ class AppSidebar extends React.Component {
           />
           <br /><br />
         </a>
-        <a href={`/users/${project.name}`}>
-          <h3>{project.display_name}</h3>
+        <a href={`/users/${project.name}`} >
+          <h3 className="contributors">{project.display_name}</h3>
         </a>
+        <h4>{"Contributors: "}
+          {
+            this.props.contibutors ?
+            this.props.contibutors.map((data, index) => (
+              <a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? data.contributor :  `, ${data.contributor}`}</a>
+            ))
+            :
+            null
+          }
+        </h4>
         <p>
           {project.text}
         </p>

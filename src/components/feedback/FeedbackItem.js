@@ -113,7 +113,10 @@ class FeedbackItem extends React.Component {
   render() {
     const { item } = this.props;
     let { images } = this.props;
-    images = images ? this.props.images.map(file => ({ url: `/images/feedback/${file}` })) : images;
+    images = images ? this.props.images.map(file => ({
+      thumbnail: `/images/feedback/thumbnails/${file}`,
+      fullsize: `/images/feedback/processed/${file}`,
+    })) : images;
     console.log(this.props.auth);
     console.log(this.props.project);
     return (
@@ -181,9 +184,9 @@ class FeedbackItem extends React.Component {
             </Row>
             <Row className="feedback-images">
               {images ? images.map(image => (
-                <a href={image.url} key={image.url} target="_blank" >
-                  <div key={image.url} >
-                    <img src={image.url} key={image.url} alt="feedback" />
+                <a href={image.fullsize} key={image.thumbnail} target="_blank" >
+                  <div key={image.thumbnail} >
+                    <img src={image.thumbnail} key={image.thumbnail} alt="feedback" />
                   </div>
                 </a>)) : null}
             </Row>

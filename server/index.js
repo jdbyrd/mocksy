@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.get('/api/feedback/images', async (req, res) => {
   const { imageIds } = req.query;
-  const files = await fse.readdir('./dist/images/feedback');
+  const files = await fse.readdir('./dist/images/feedback/processed');
   const imagesById = {};
   imageIds.forEach((id) => {
     const images = files.filter(file => file.slice(0, id.length) === id);
@@ -109,6 +109,7 @@ app.put('/api/feedback/images', async (req, res) => {
     concurrency: 1,
     overwrite: true,
     ignore: true,
+    suffix: '',
   }, (files, err, stdout, stderr) => {
     console.log('files:', files);
     console.log('err:', err);

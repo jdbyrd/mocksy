@@ -302,7 +302,7 @@ app.post('/api/project', async (req, res) => {
       console.log('stdeer:', stderr);
     });
 
-    await renamedFiles.forEach(file => fse.move(`${appsPath}/new/${file}`, `${appsPath}/processed/${file}`));
+    await renamedFiles.forEach(file => fse.remove(`${appsPath}/new/${file}`));
   }
   res.end();
 });

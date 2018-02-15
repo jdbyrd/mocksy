@@ -25,6 +25,13 @@ class AppSidebar extends React.Component {
   render() {
     const project = this.props.project;
     console.log(project);
+    const browserWidth = window.innerWidth || document.body.clientWidth;
+    let width;
+    if (browserWidth > 1350) {
+      width = 400;
+    } else {
+      width = 300;
+    }
     return (
       <div>
         <a href={`${project.url}`} >
@@ -54,8 +61,8 @@ class AppSidebar extends React.Component {
           }
         </span>
 
-        <svg width="400" height="250" className="svg">
-          <Chart width={400} height={200} clickGraph={this.props.clickGraph} />
+        <svg width={width} height="250" className="svg">
+          <Chart width={width} height={200} clickGraph={this.props.clickGraph} />
         </svg>
 
       </div>

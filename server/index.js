@@ -413,18 +413,24 @@ app.delete('/api/project', (req, res) => {
   }
 });
 
-app.delete('/api/feedback', (req, res) => {
-  // console.log('HEY RIGHT HERE');
-  // console.log(req.query);
+app.delete('/api/feedback', async (req, res) => {
   if (req.user) {
     const { id } = req.query;
     const { projectid } = req.query;
-    insert.decreaseNumFeedback(projectid);
-    deletes.feedbackVotes(id).then(() => {
-      deletes.feedback(id)
-        .then(() => res.end());
-    });
+    await insert.decreaseNumFeedback(projectid);
+    await deletes.feedbackVotes(id);
+    await deletes.feedback(id);
+    const feedbackPath = './dist/images/feedback';
+
+    const processedFiles = await fse.readdir(`${feedbackPath}/processed`);
+    let targets = processedFiles.filter(file => file.substring(0, file.indexOf('_')) === id);
+    targets.forEach(target => fse.remove(`${feedbackPath}/processed/${target}`, err => console.log(err)));
+
+    const thumbnailFiles = await fse.readdir(`${feedbackPath}/thumbnails`);
+    targets = thumbnailFiles.filter(file => file.substring(0, file.indexOf('_')) === id);
+    targets.forEach(target => fse.remove(`${feedbackPath}/thumbnails/${target}`, err => console.log(err)));
   }
+  res.end();
 });
 
 app.get('*', (req, res) => {

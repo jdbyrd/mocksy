@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Chart from './Chart';
 
 const mapStateToProps = state => (
@@ -25,7 +26,6 @@ class AppSidebar extends React.Component {
 
   render() {
     const project = this.props.project;
-    console.log('SPENCER  CASTRATES A CAT', this.props);
     console.log(this.props.contibutors);
     return (
       <div>
@@ -37,15 +37,22 @@ class AppSidebar extends React.Component {
           />
           <br /><br />
         </a>
-        <a href={`/users/${project.name}`} >
+        <Link to={`/user/${project.name}`}>
           <h3 className="contributors">{project.display_name}</h3>
-        </a>
-        <h4>{"Contributors: "}
+        </Link>
+        <h4>{'Contributors: '}
           {
             this.props.contibutors ?
-            this.props.contibutors.map((data, index) => (
-              <a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? data.contributor :  `, ${data.contributor}`}</a>
-            ))
+            this.props.contibutors.map((data, index) => {
+              if (data.display_name) {
+                return (
+                  <Link to={`/user/${data.contributor}`}>
+                    <a className="contributors">{data.display_name}</a>
+                  </Link>
+                );
+              }
+              return (<a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? contName :  `, ${data.contributor}`}</a>)
+            })
             :
             null
           }

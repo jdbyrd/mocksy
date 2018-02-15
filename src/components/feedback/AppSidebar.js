@@ -52,23 +52,27 @@ class AppSidebar extends React.Component {
         <Link to={`/user/${project.name}`}>
           <h3 className="contributors">{project.display_name}</h3>
         </Link>
-        <h4>{'Contributors: '}
-          {
-            this.props.contibutors ?
-            this.props.contibutors.map((data, index) => {
-              if (data.display_name) {
-                return (
-                  <Link to={`/user/${data.contributor}`}>
-                    <span className="contributors">{data.display_name}</span>
-                  </Link>
-                );
+        {
+          this.props.contibutors && this.props.contibutors.length ?
+          (
+            <h4>{'Contributors: '}
+              {
+                this.props.contibutors.map((data, index) => {
+                  if (data.display_name) {
+                    return (
+                      <Link to={`/user/${data.contributor}`}>
+                        <span className="contributors">{index === 0 ? data.display_name : `, ${data.display_name}` }</span>
+                      </Link>
+                    );
+                  }
+                  return (<a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? data.contributor : `, ${data.contributor}`}</a>);
+                })
               }
-              return (<a className="contributors "href={`https://www.github.com/${data.contributor}`}>{index === 0 ? data.contributor : `, ${data.contributor}`}</a>);
-            })
-            :
-            null
-          }
-        </h4>
+            </h4>
+          )
+          :
+          null
+        }
         <p>
           {project.text}
         </p>
@@ -79,7 +83,9 @@ class AppSidebar extends React.Component {
               <Tag
                 color="blue"
                 key={`${tag.tag}_${tag.project_id}`}
-              >{tag.tag}</Tag>
+              >
+                {tag.tag}
+              </Tag>
             ))
             : <span />
           }

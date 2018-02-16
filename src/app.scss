@@ -205,7 +205,10 @@ a {
 
 .mocksy-header {
   height: 40px;
+  /*animation: spin 2s linear infinite;*/
 }
+
+
 
 .searchResults {
   width: 50%;
@@ -769,6 +772,10 @@ $dot-size: 14px;
   .right-container {
     padding-right: 0;
     width: 400px;
+  }
+
+  .profile {
+    width: 100%;
   }
 }
 

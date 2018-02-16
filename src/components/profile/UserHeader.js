@@ -63,7 +63,7 @@ class UserHeader extends React.Component {
                 onBlur={this.toggleEditable}
                 size="small"
               /> :
-              <h4 onClick={this.toggleEditable}>{this.state.bio}</h4>
+              <h4 className="user-profile-description" onClick={this.toggleEditable}>{this.state.bio}</h4>
             }
           </UserJob>
         </UserInfo>
@@ -98,7 +98,7 @@ const UserName = styled.div`
 
 const UserJob = styled.div`
   margin-top: -5px;
-  width: 500px;
+  width: 375px;
 `;
 
 const UserGithub = styled.img`

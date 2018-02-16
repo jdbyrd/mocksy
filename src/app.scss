@@ -615,6 +615,10 @@ $dot-size: 14px;
 ---------- PROFILE -----------
 ----------------------------*/
 
+.profile {
+  width: 100% !important;
+}
+
 .user-header-container {
   margin-top: 70px;
   display: grid;
@@ -630,6 +634,10 @@ $dot-size: 14px;
   position: relative;
   grid-column-start: 2;
   grid-column-end: 3;
+}
+
+.user-profile-description {
+  width: 375px !important;
 }
 
 /*.tabs-container {

@@ -59,36 +59,31 @@ class FeedbackPage extends React.Component {
     return (
       <div>
         <div id="feedback-padding"></div>
-        <Row>
-          <Col span={2} />
-          <Col span={22}>
-            <h1>Feedback for {project.title}</h1>
-          </Col>
-        </Row>
-        <Row gutter={48}>
-          <Col span={2} />
-          <Col xs={{ span: 24, offset: 2 }} lg={{ span: 8 }}><AppSidebar clickGraph={this.clickGraph} /></Col>
-          <Col xs={{ span: 22, offset: 1 }} lg={{ span: 12 }}>
-            { this.props.auth ?
-              <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
-              <LoginModal />
-            }
-            <Select
-              value={this.state.selectedValue}
-              style={{ width: 200 }}
-              placeholder="Sort by"
-              onChange={(e) => this.handleSort(e)}
-            >
-              <Select.Option value="newest">Newest</Select.Option>
-              <Select.Option value="upvoted">Most upvoted</Select.Option>
-              <Select.Option value="downvoted">Most downvoted</Select.Option>
-              <Select.Option value="controversial">Most controversial</Select.Option>
-            </Select>
-            <br /><br /><br />
-            <FeedbackList type={this.state.barClicked} voteHandler={this.voteHandler} />
-          </Col>
-          <Col span={2} />
-        </Row>
+        <div className="project-title-container">
+          <h1>Feedback for {project.title}</h1>
+        </div>
+        <div className="app-sidebar">
+          <AppSidebar clickGraph={this.clickGraph} />
+        </div>
+        <div className="feed-list">
+          { this.props.auth ?
+            <PostFeedbackModal id={this.props.match.params.id} title={this.props.project.title} userid={this.props.project['user_id']} /> :
+            <LoginModal />
+          }
+          <Select
+            value={this.state.selectedValue}
+            style={{ width: 150 }}
+            placeholder="Sort by"
+            onChange={(e) => this.handleSort(e)}
+          >
+            <Select.Option value="newest">Newest</Select.Option>
+            <Select.Option value="upvoted">Most upvoted</Select.Option>
+            <Select.Option value="downvoted">Most downvoted</Select.Option>
+            <Select.Option value="controversial">Most controversial</Select.Option>
+          </Select>
+          <br /><br /><br />
+          <FeedbackList type={this.state.barClicked} voteHandler={this.voteHandler} />
+        </div>
       </div>
     );
   }

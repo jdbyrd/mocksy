@@ -187,7 +187,7 @@ class Navbar extends React.Component {
 
             <div className="header-container">
               <Link to='/'>
-                <img src='./mocksy-nav.png' className="mocksy-header" />
+                <img src="images/ui/mocksy-nav.png" className="mocksy-header" />
               </Link>
             </div>
 

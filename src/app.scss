@@ -10,6 +10,7 @@ body {
   font-family: 'Nunito', sans-serif;
   background: $background;
 }
+/**/
 
 a {
   text-decoration: none !important;
@@ -18,6 +19,25 @@ a {
     color: inherit !important;
   }
 }
+
+/*. SPINNER */
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*. END OF SPINNER */
+
 
 .feedback-images {
   display: flex;
@@ -110,6 +130,10 @@ a {
 /*.icon-hover {
   display: none;
 }*/
+
+.icon {
+  cursor: pointer;
+}
 
 /*----------------------------
 ------------ D3 --------------
@@ -297,8 +321,8 @@ a {
     .search-results {
       position: fixed;
       top: 42px;
-      right: 104px;
-      width: 170px;
+      right: 114px;
+      width: 151px;
       list-style-type: none;
       border: 1px solid white;
       border-top: none;
@@ -556,6 +580,10 @@ $dot-size: 14px;
   }
 }
 
+.contributors {
+  font-weight: bold !important;
+}
+
 
 /*----------------------------
 ---------END OF FEED ---------
@@ -695,6 +723,10 @@ $dot-size: 14px;
 }
 
 @media only screen and (max-width:650px) {
+  .header-container {
+    left: 37%;
+  }
+
   .user-projects-container {
     width: 100%;
     height: 200px;
@@ -737,12 +769,39 @@ $dot-size: 14px;
   .buttons-wrapper {
     text-align: right;
     margin-right: 10px;
+    margin-left: -20px;
   }
 
   .right-container {
     padding-right: 0;
     width: 400px;
   }
+
+  .bell-icon {
+    padding: 0 10px !important;
+  }
+
+  .dot {
+    right: 59px;
+  }
+
+  .notifications-triangle {
+    right: 57px !important;
+  }
+
+  .notifications {
+    right: 33px !important;
+  }
+
+  .search-results {
+    right: 84px !important;
+  }
+
+  .logged-in {
+    right:  104px !important;
+  }
+
+  
 }
 
 /*----------------------------

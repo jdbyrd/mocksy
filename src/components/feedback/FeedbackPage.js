@@ -20,10 +20,12 @@ class FeedbackPage extends React.Component {
     super();
     this.state = {
       selectedValue: 'newest',
-      barClicked: 'all'
+      barClicked: 'all',
+      justVoted: false
     };
     this.handleSort = this.handleSort.bind(this);
     this.clickGraph = this.clickGraph.bind(this);
+    this.voteHandler = this.voteHandler.bind(this);
   }
   componentDidMount() {
     populateFeedback(this.props.match.params.id);
@@ -41,13 +43,19 @@ class FeedbackPage extends React.Component {
     }, () => populateFeedback(this.props.project.id, e));
   }
 
+  voteHandler() {
+    this.setState({ justVoted: true });
+  }
+
   clickGraph(e) {
     this.setState({ barClicked: e });
   }
 
   render() {
     const project = this.props.project;
-    window.scrollTo(0, 0);
+    if (!this.state.justVoted) {
+      window.scrollTo(0, 0);
+    }
     return (
       <div>
         <div id="feedback-padding"></div>
@@ -77,7 +85,7 @@ class FeedbackPage extends React.Component {
               <Select.Option value="controversial">Most controversial</Select.Option>
             </Select>
             <br /><br /><br />
-            <FeedbackList type={this.state.barClicked} />
+            <FeedbackList type={this.state.barClicked} voteHandler={this.voteHandler} />
           </Col>
           <Col span={2} />
         </Row>

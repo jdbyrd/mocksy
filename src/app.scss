@@ -225,7 +225,10 @@ a {
 
 .mocksy-header {
   height: 40px;
+  /*animation: spin 2s linear infinite;*/
 }
+
+
 
 .searchResults {
   width: 50%;
@@ -796,6 +799,10 @@ $dot-size: 14px;
     width: 400px;
   }
 
+  .profile {
+    width: 100%;
+  }
+
   .bell-icon {
     padding: 0 10px !important;
   }
@@ -836,9 +843,6 @@ $dot-size: 14px;
     width: 80%;
     margin: auto;
   }
-
-  
-}
 
 /*----------------------------
 ---- END OF MEDIA QUERIES ----

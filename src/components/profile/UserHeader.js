@@ -55,7 +55,7 @@ class UserHeader extends React.Component {
         <UserInfo>
           <UserName>{user.display_name}</UserName>
           <UserJob>
-            { this.state.editable && this.props.auth  && this.props.auth.username === user.name ? 
+            { this.state.editable && this.props.auth && this.props.auth.username === user.name ? 
               <Input 
                 placeholder="Tell us about yourself!"
                 onChange={this.handleBio}

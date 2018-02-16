@@ -25,7 +25,7 @@ class FeedbackTabCard extends React.Component {
           <Col span={2} />
           <Col span={8}>
             <Link to={`/project/${project.id}`}>
-              <img src={`/images/apps/${project.id}.png`} className="feedback-img" />
+              <img src={`/images/apps/thumbnails/${project.id}.png`} className="feedback-img" />
               <br /><br />
               <h3>{project.title}</h3>
               <p>{project.text}</p>

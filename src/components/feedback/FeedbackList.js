@@ -40,7 +40,7 @@ class FeedbackList extends React.Component {
     if (this.props.type.type === item.options || this.props.type === 'all') {
       const { imageFilesById } = this.state;
       const images = imageFilesById[item.id];
-      return <FeedbackItem key={item.id} item={item} images={images} />;
+      return <FeedbackItem key={item.id} item={item} images={images} voteHandler={this.props.voteHandler} />;
     }
     return null;
   }

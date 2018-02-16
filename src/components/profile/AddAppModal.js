@@ -93,9 +93,9 @@ class AppsTab extends React.Component {
 
   updateScreenshot(fileName) {
     if (fileName) {
-      document.getElementById('screenshot-img').src = `/images/${fileName}.png`;
+      document.getElementById('screenshot-img').src = `/images/apps/new/${fileName}.png`;
     } else {
-      document.getElementById('screenshot-img').src = '/default_screenshot.png';
+      document.getElementById('screenshot-img').src = '/images/ui/default_screenshot.png';
     }
   }
 
@@ -170,7 +170,7 @@ class AppsTab extends React.Component {
       githubURL: this.state.githubURL,
       tags: this.state.tags,
       title: this.state.title,
-      contributors: this.state.data,
+      contributors: this.state.value,
       description: this.state.description,
     };
 
@@ -273,7 +273,7 @@ class AppsTab extends React.Component {
                 <div id="screenshot-wrapper">
                   <img
                     id="screenshot-img"
-                    src="/default_screenshot.png"
+                    src="/images/ui/default_screenshot.png"
                     alt="app screenshot"
                   />
                 </div>

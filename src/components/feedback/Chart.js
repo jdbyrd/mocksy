@@ -53,12 +53,12 @@ class Chart extends React.Component {
     if (this.state.firstRender) {
       const svg = d3.select(this.refs.anchor);
       const margin = {
-        top: 20, right: 20, bottom: 30, left: 20
+        top: 20, right: 120, bottom: 30, left: 20
       };
       const width = this.props.width - margin.left - margin.right;
       const height = this.props.height - margin.top - margin.bottom;
 
-      const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+      const x = d3.scaleBand().rangeRound([0, width]).padding(0.5);
       const y = d3.scaleLinear().rangeRound([height, 0]);
       const barPadding = 1;
       const colors = ['#0e1b30', '#11284f', '#203e72', '#1b4a9b', '#2055b2', '#1657c9'];

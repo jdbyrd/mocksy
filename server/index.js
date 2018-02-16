@@ -48,6 +48,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.get('bundle.js', (req, res, next) => {
+  req.url = `${req.url}.gz`;
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 app.get('/api/feedback/images', async (req, res) => {
@@ -397,14 +403,16 @@ app.post('/api/project/update', (req, res) => {
 app.delete('/api/project', (req, res) => {
   if (req.user) {
     const { id } = req.query;
-    deletes.tags(id).then(() => {
-      deletes.projectVotes(id).then(() => {
-        deletes.projectFeedback(id).then(() => {
-          deletes.project(id)
-            .then(() => {
-              fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
-              res.end();
-            });
+    deletes.contributors(id).then(() => {
+      deletes.tags(id).then(() => {
+        deletes.projectVotes(id).then(() => {
+          deletes.projectFeedback(id).then(() => {
+            deletes.project(id)
+              .then(() => {
+                fse.remove(`./dist/images/apps/thumbnails/${id}.png`);
+                res.end();
+              });
+          });
         });
       });
     });

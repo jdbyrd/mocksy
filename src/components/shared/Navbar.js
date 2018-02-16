@@ -154,7 +154,7 @@ class Navbar extends React.Component {
           <div className="nav-inner-wrapper">
 
             {/*<img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />*/}
-            {/*<Icon type="ellipsis" style={{ fontSize: 40, color: '#3f3f3f' }} onClick={this.toggleMenu} />*/}
+            <Icon className="hamburger-icon" type="ellipsis" style={{ fontSize: 40, color: '#3f3f3f' }} onClick={this.toggleMenu} />
             {/*<div className="mobile-logo">
               <img src="./mocksylogo.png" className="mocksy-img" />ocksy
             </div>*/}

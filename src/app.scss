@@ -10,6 +10,7 @@ body {
   font-family: 'Nunito', sans-serif;
   background: $background;
 }
+/**/
 
 a {
   text-decoration: none !important;
@@ -725,6 +726,10 @@ $dot-size: 14px;
 }
 
 @media only screen and (max-width:650px) {
+  .header-container {
+    left: 37%;
+  }
+
   .user-projects-container {
     width: 100%;
     height: 200px;
@@ -767,6 +772,7 @@ $dot-size: 14px;
   .buttons-wrapper {
     text-align: right;
     margin-right: 10px;
+    margin-left: -20px;
   }
 
   .right-container {
@@ -777,7 +783,31 @@ $dot-size: 14px;
   .profile {
     width: 100%;
   }
-}
+
+  .bell-icon {
+    padding: 0 10px !important;
+  }
+
+  .dot {
+    right: 59px;
+  }
+
+  .notifications-triangle {
+    right: 57px !important;
+  }
+
+  .notifications {
+    right: 33px !important;
+  }
+
+  .search-results {
+    right: 84px !important;
+  }
+
+  .logged-in {
+    right:  104px !important;
+  }
+
 
 /*----------------------------
 ---- END OF MEDIA QUERIES ----

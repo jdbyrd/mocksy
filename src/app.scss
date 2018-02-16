@@ -109,6 +109,25 @@ a {
   display: none;
 }
 
+.project-title-container {
+  width: 80%;
+  margin-left: 8em;
+}
+
+.app-sidebar {
+  display: inline-block;
+  width: 30%;
+  margin-left: 8em;
+}
+
+.feed-list {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
+  margin-left: 4em;
+}
+
+
 #screenshot-wrapper {
   position: relative;
   display: block;
@@ -808,7 +827,24 @@ $dot-size: 14px;
     right:  104px !important;
   }
 
+  .project-title-container {
+    width: 80%;
+    margin-left: 2em;
+  }
+
+  .app-sidebar {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
+
+  .feed-list {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
 }
+
 /*----------------------------
 ---- END OF MEDIA QUERIES ----
 ----------------------------*/
@@ -831,7 +867,7 @@ $dot-size: 14px;
   padding-top: 300px;
 }
 
-.loginButton{
+.loginButton {
   width: 200px;
   padding-top: 50px;
   margin: auto;

@@ -46,7 +46,7 @@ class FeedPage extends React.Component {
     const projects = this.sortProjects(this.props.projects, sort);
     window.scrollTo(0, 0);
     return (
-      <div>
+      <div className="feed-container">
         {projects.map((project, index) => (
           this.filterByTag(project, index)
         ))}

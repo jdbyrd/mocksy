@@ -548,6 +548,10 @@ $dot-size: 14px;
 ------------ FEED ------------
 ----------------------------*/
 
+.feed-container {
+  margin-bottom: 100px;
+}
+
 .project-container {
   margin-top: 120px;
   display: grid;
@@ -615,6 +619,10 @@ $dot-size: 14px;
 ---------- PROFILE -----------
 ----------------------------*/
 
+.profile {
+  width: 100% !important;
+}
+
 .user-header-container {
   margin-top: 70px;
   display: grid;
@@ -630,6 +638,10 @@ $dot-size: 14px;
   position: relative;
   grid-column-start: 2;
   grid-column-end: 3;
+}
+
+.user-profile-description {
+  width: 100% !important;
 }
 
 /*.tabs-container {
@@ -842,6 +854,19 @@ $dot-size: 14px;
     display: block;
     width: 80%;
     margin: auto;
+  }
+
+  .user-projects-container {
+    margin-top: 70px !important;
+    margin-bottom: 80px;
+  }
+
+  .ant-icon {
+    margin-top: 25px !important;
+  }
+
+  .users-projects-image {
+    margin-top: 0;
   }
 }
 

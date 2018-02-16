@@ -55,7 +55,7 @@ class UserHeader extends React.Component {
         <UserInfo>
           <UserName>{user.display_name}</UserName>
           <UserJob>
-            { this.state.editable && this.props.auth  && this.props.auth.username === user.name ? 
+            { this.state.editable && this.props.auth && this.props.auth.username === user.name ? 
               <Input 
                 placeholder="Tell us about yourself!"
                 onChange={this.handleBio}
@@ -63,7 +63,7 @@ class UserHeader extends React.Component {
                 onBlur={this.toggleEditable}
                 size="small"
               /> :
-              <h4 onClick={this.toggleEditable}>{this.state.bio}</h4>
+              <h4 className="user-profile-description" onClick={this.toggleEditable}>{this.state.bio}</h4>
             }
           </UserJob>
         </UserInfo>
@@ -98,7 +98,7 @@ const UserName = styled.div`
 
 const UserJob = styled.div`
   margin-top: -5px;
-  width: 500px;
+  width: 375px;
 `;
 
 const UserGithub = styled.img`

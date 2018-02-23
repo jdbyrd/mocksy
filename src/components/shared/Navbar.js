@@ -128,7 +128,6 @@ class Navbar extends React.Component {
   triangleLeft() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(0px, 0px, 0px)';
-    // this.props.changeTriangle(false);
     Store.filterKey(null);
     Store.sortKey('chron');
   }
@@ -136,7 +135,6 @@ class Navbar extends React.Component {
   triangleRight() {
     const triangle = document.getElementById('triangle');
     triangle.style.transform = 'perspective(500px) translate3d(153px, 0px, 0px)';
-    // this.props.changeTriangle(true);
     Store.filterKey(null);
     Store.sortKey('feedback');
   }
@@ -152,12 +150,7 @@ class Navbar extends React.Component {
       <div>
         <div className="nav-wrapper">
           <div className="nav-inner-wrapper">
-
-            {/*<img className="hamburger-icon" onClick={this.toggleMenu} alt="hamburger-menu-icon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-productivity-4/128/menu-2-512.png" />*/}
             <Icon className="hamburger-icon" type="ellipsis" style={{ fontSize: 40, color: '#3f3f3f' }} onClick={this.toggleMenu} />
-            {/*<div className="mobile-logo">
-              <img src="./mocksylogo.png" className="mocksy-img" />ocksy
-            </div>*/}
 
             {this.state.menu &&
             <div className="menu-dropdown-container">
@@ -176,7 +169,6 @@ class Navbar extends React.Component {
             }
 
             <ul className="nav-links">
-              {/*<img src="./mocksylogo.png" className="mocksy-logo" />*/}
               <Link to='/'>
                 <li onClick={this.triangleLeft}>Feed</li>
               </Link>
@@ -192,11 +184,11 @@ class Navbar extends React.Component {
             </div>
 
             {this.state.showNotifications && this.state.notifications.length ?
-            <div className="notifications-container">
-              <div className="notifications-triangle"></div>
-              <div className="notifications">
-                {this.state.notifications.map((notification, index) => {              
-                  return  <div className="notification-entry-container" key={index}>
+              <div className="notifications-container">
+                <div className="notifications-triangle" />
+                <div className="notifications">
+                  {this.state.notifications.map((notification, index) => {
+                  return (<div className="notification-entry-container" key={index}>
                             <a href={`/project/${notification.project_id}`} onClick={() => this.deleteNotification(notification.id)}>
                               <p>{notification.name} has commented on {notification.title}</p>
                             </a>
@@ -205,10 +197,10 @@ class Navbar extends React.Component {
                               onClick={() => { this.deleteNotification(notification.id, true); }}
                               className="x-icon"
                             />
-                          </div>
+                          </div>);
                 })}
+                </div>
               </div>
-            </div>
             : null }
             {this.state.notifications.length && this.props.auth ? <div className="dot">{this.state.notifications.length}</div> : null}
 
@@ -258,48 +250,6 @@ class Navbar extends React.Component {
 }
 
 export default withRouter(connect(mapStateToProps)(Navbar));
-
-
-// Don't delete these yet
-// const Search = styled.input`
-//   padding-right: 10px;
-//   outline: none;
-//   width: 5px;
-//   height: 20px;
-//   border-radius: 5px;
-//   padding-left: 10px;
-//   -webkit-appearance: textfield;
-//   -webkit-box-sizing: content-box;
-//   font-family: inherit;
-//   font-size: 100%;
-//   color: transparent;
-//   cursor: pointer;
-//   background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 4px center;
-//   -webkit-transition: all .5s;
-//   -moz-transition: all .5s;
-//   transition: all .5s;
-//   &:focus {
-//     width: 130px;
-//     color: #000;
-//     cursor: auto;
-//     padding-left: 27px;
-//     border-color: white;
-//   }
-// `;
-
-
-
-// const ImgContainer = styled.div`
-//   background: white;
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 40px;
-//   display: inline-block;
-//   vertical-align: middle;
-//   border: 2px solid white;
-//   cursor: pointer;
-// `;
-
 
 
 const Login = styled.a`
